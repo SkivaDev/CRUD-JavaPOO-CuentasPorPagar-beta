@@ -6,6 +6,7 @@ package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
 import com.proyecto.entidades.Administrador;
+import com.proyecto.entidades.EncargadoCompras;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.interfaces.DAOAdministradorInterfaz;
 import java.sql.PreparedStatement;
@@ -105,7 +106,7 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
 
                 switch (rol) {
                     case "Encargado de Compras":
-                        usuario = new EncargadoCompras(idUsuario, nombre, username, password, rol);
+                        usuario = new EncargadoCompras(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     case "Administrador":
@@ -160,7 +161,7 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                 Usuario usuario;
                 switch (rol) {
                     case "Encargado de Compras":
-                        usuario = new EncargadoCompras(idUsuario, nombre, username, password, rol);
+                        usuario = new EncargadoCompras(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     case "Administrador":
@@ -213,7 +214,7 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                 // Construir y retornar el objeto Usuario correspondiente
                 switch (rol) {
                     case "Encargado de Compras":
-                        return new EncargadoCompras(idUsuario, nombre, username, password, rol);
+                        return new EncargadoCompras(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     case "Administrador":
                         return new Administrador(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     case "Almacenero":
