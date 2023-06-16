@@ -18,25 +18,31 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
+//import org.netbeans.lib.awtextra.AbsoluteConstraints;
 
 /**
  *
  * @author Antonio
  */
 public class VentanaDashboard extends javax.swing.JFrame {
-    private Usuario user;
-    
+
+    private Usuario currentUser;
+
     /**
      * Creates new form Dashboard
      */
-    public VentanaDashboard(Usuario user) {
+    public VentanaDashboard(Usuario currentUser) {
+        this.currentUser = currentUser;
+
+        setTitle("Dashboard");
+        setResizable(false);
+
         initComponents();
         InitStyles();
         SetDate();
         InitContent();
     }
-    
+
     private void InitStyles() {
         mensaje.putClientProperty("FlatLaf.style", "font: 14 $light.font");
         mensaje.setForeground(Color.black);
@@ -47,21 +53,21 @@ public class VentanaDashboard extends javax.swing.JFrame {
         appName.putClientProperty("FlatLaf.style", "font: bold $h1.regular.font");
         appName.setForeground(Color.white);
     }
-    
+
     private void SetDate() {
         LocalDate now = LocalDate.now();
         Locale spanishLocale = new Locale("es", "ES");
         dateText.setText(now.format(DateTimeFormatter.ofPattern("'Hoy es' EEEE dd 'de' MMMM 'de' yyyy", spanishLocale)));
     }
-    
+
     private void InitContent() {
-        ShowJPanel(new VentanaPrincipal());
+        ShowJPanel(new VentanaPrincipal(currentUser));
     }
-    
+
     public static void ShowJPanel(JPanel p) {
         p.setSize(750, 430);
-        p.setLocation(0,0);
-        
+        p.setLocation(0, 0);
+
         content.removeAll();
         content.add(p, BorderLayout.CENTER);
         content.revalidate();
@@ -321,7 +327,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_prinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_prinActionPerformed
-        ShowJPanel(new VentanaPrincipal());
+        ShowJPanel(new VentanaPrincipal(currentUser));
     }//GEN-LAST:event_btn_prinActionPerformed
 
     private void btn_lendsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lendsActionPerformed
@@ -333,7 +339,11 @@ public class VentanaDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_returnsActionPerformed
 
     private void btn_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_usersActionPerformed
-       // ShowJPanel(new Users());
+        // ShowJPanel(new Users());
+        if (currentUser.getRol().equals("Administrador")) {
+           // controladorPrincipal.abrirVentanaRegistroUsuario();
+          //  ShowJPanel(new Users());
+        }
     }//GEN-LAST:event_btn_usersActionPerformed
 
     private void btn_booksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_booksActionPerformed
@@ -341,7 +351,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_booksActionPerformed
 
     private void btn_reportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportsActionPerformed
-       // ShowJPanel(new Reports());
+        // ShowJPanel(new Reports());
     }//GEN-LAST:event_btn_reportsActionPerformed
 
     /**
@@ -354,7 +364,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaDashboard().setVisible(true);
+                new VentanaDashboard(null).setVisible(true);
             }
         });
     }

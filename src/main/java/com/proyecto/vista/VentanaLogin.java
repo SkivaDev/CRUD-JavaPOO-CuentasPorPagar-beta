@@ -6,6 +6,8 @@ package com.proyecto.vista;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import com.proyecto.entidades.controladores.ControladorLogin;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -120,7 +122,11 @@ public class VentanaLogin extends javax.swing.JFrame {
         }
         controladorLogin = new ControladorLogin();
         
-        controladorLogin.iniciarSesion(username, password);
+        try {
+            controladorLogin.iniciarSesion(username, password);
+        } catch (Exception ex) {
+            Logger.getLogger(VentanaLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }//GEN-LAST:event_btnSignUpActionPerformed

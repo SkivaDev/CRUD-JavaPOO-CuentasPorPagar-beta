@@ -11,6 +11,7 @@ import com.proyecto.entidades.EncargadoCompras;
 import com.proyecto.entidades.JefeFinanzas;
 import com.proyecto.entidades.Tesorero;
 import com.proyecto.entidades.Usuario;
+import com.proyecto.vista.VentanaDashboard;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -38,32 +39,32 @@ public class ControladorLogin {
             // Realiza las acciones necesarias, como mostrar el menú principal, redireccionar a otra ventana, etc.
             if (user instanceof EncargadoCompras) {
                 JOptionPane.showMessageDialog(null, "Rol es ENCARGADOCOMPRAS");
-                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(user);
-                ventanaPrincipal.setVisible(true);
+                VentanaDashboard ventanaDashboard = new VentanaDashboard(user);
+                ventanaDashboard.setVisible(true);
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);
                 //ventanaLogin.cerrar();
             } else if (user instanceof Administrador) {
                 JOptionPane.showMessageDialog(null, "Rol es Admin pro");
-                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(user);
-                ventanaPrincipal.setVisible(true);
+                VentanaDashboard ventanaDashboard = new VentanaDashboard(user);
+                ventanaDashboard.setVisible(true);
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);
                 //ventanaLogin.cerrar();
             } else if (user instanceof Almacenero) {
                 JOptionPane.showMessageDialog(null, "Rol es Almacenero");
-                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(user);
-                ventanaPrincipal.setVisible(true);
+                VentanaDashboard ventanaDashboard = new VentanaDashboard(user);
+                ventanaDashboard.setVisible(true);
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);
                 //ventanaLogin.cerrar();
             } else if (user instanceof Tesorero) {
                 JOptionPane.showMessageDialog(null, "Rol es Tesorero");
-                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(user);
-                ventanaPrincipal.setVisible(true);
+                VentanaDashboard ventanaDashboard = new VentanaDashboard(user);
+                ventanaDashboard.setVisible(true);
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);
                 //ventanaLogin.cerrar();
             } else if (user instanceof JefeFinanzas) {
                 JOptionPane.showMessageDialog(null, "Rol es JefeFinanzas");
-                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(user);
-                ventanaPrincipal.setVisible(true);
+                VentanaDashboard ventanaDashboard = new VentanaDashboard(user);
+                ventanaDashboard.setVisible(true);
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);
                 // ventanaLogin.cerrar();
             } else {

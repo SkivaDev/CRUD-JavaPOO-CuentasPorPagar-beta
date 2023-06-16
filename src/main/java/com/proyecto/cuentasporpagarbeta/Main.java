@@ -5,13 +5,15 @@
 
 package com.proyecto.cuentasporpagarbeta;
 
+import com.proyecto.vista.VentanaLogin;
+
 /**
  *
  * @author skiva
  */
-public class CuentasPorPagarBeta {
-
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        VentanaLogin ventanaLogin = new VentanaLogin();
+        ventanaLogin.setVisible(true);
     }
 }
