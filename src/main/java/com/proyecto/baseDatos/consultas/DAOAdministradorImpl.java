@@ -6,7 +6,10 @@ package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
 import com.proyecto.entidades.Administrador;
+import com.proyecto.entidades.Almacenero;
 import com.proyecto.entidades.EncargadoCompras;
+import com.proyecto.entidades.JefeFinanzas;
+import com.proyecto.entidades.Tesorero;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.interfaces.DAOAdministradorInterfaz;
 import java.sql.PreparedStatement;
@@ -114,15 +117,15 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                         usuarios.add(usuario);
                         break;
                     case "Almacenero":
-                        usuario = new Almacenero(idUsuario, nombre, username, password, rol);
+                        usuario = new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     case "Tesorero":
-                        usuario = new Tesorero(idUsuario, nombre, username, password, rol);
+                        usuario = new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     case "JefeFinanzas":
-                        usuario = new JefeFinanzas(idUsuario, nombre, username, password, rol);
+                        usuario = new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     default:
@@ -169,15 +172,15 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                         usuarios.add(usuario);
                         break;
                     case "Almacenero":
-                        usuario = new Almacenero(idUsuario, nombre, username, password, rol);
+                        usuario = new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     case "Tesorero":
-                        usuario = new Tesorero(idUsuario, nombre, username, password, rol);
+                        usuario = new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     case "JefeFinanzas":
-                        usuario = new JefeFinanzas(idUsuario, nombre, username, password, rol);
+                        usuario = new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
                     default:
@@ -218,11 +221,11 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                     case "Administrador":
                         return new Administrador(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     case "Almacenero":
-                        return new Almacenero(idUsuario, nombre, username, password, rol);
+                        return new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     case "Tesorero":
-                        return new Tesorero(idUsuario, nombre, username, password, rol);
+                        return new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     case "JefeFinanzas":
-                        return new JefeFinanzas(idUsuario, nombre, username, password, rol);
+                        return new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     default:
                         break;
                 }
