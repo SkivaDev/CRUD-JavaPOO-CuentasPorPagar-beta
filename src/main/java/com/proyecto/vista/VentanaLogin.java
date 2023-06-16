@@ -5,9 +5,10 @@
 package com.proyecto.vista;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
-import com.proyecto.entidades.controladores.ControladorLogin;
+import com.proyecto.controladores.ControladorLogin;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -114,20 +115,23 @@ public class VentanaLogin extends javax.swing.JFrame {
         String username = usernameField.getText();
         String password = passwordField.getText();
         
+        JOptionPane.showMessageDialog(null, "DATOS: " + username + " " + password);
+        
         // Validaciones para los campos
         if (username.isEmpty() || password.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             usernameField.requestFocus();
-            return;
+            //return;
+        } else {
+            JOptionPane.showMessageDialog(null, "Si hay datos wtf");
+            controladorLogin = new ControladorLogin();
+            try {
+                controladorLogin.iniciarSesion(username, password);
+                this.setVisible(false);
+            } catch (Exception ex) {
+                Logger.getLogger(VentanaLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        controladorLogin = new ControladorLogin();
-        
-        try {
-            controladorLogin.iniciarSesion(username, password);
-        } catch (Exception ex) {
-            Logger.getLogger(VentanaLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         
     }//GEN-LAST:event_btnSignUpActionPerformed
 

@@ -25,6 +25,7 @@ public class DAOLoginImpl extends GestorBaseDatos implements DAOLoginInterfaz{
     @Override
     public Usuario obtenerUsuarioPorCredenciales(String username, String password) throws Exception {
             try {
+            this.Conectar();
             String consulta = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
             PreparedStatement statement = conexion.prepareStatement(consulta);
             statement.setString(1, username);

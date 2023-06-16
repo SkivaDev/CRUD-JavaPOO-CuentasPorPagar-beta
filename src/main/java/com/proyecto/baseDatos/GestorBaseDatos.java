@@ -14,21 +14,22 @@ import javax.swing.JOptionPane;
  * @author skiva
  */
 public class GestorBaseDatos {
+
     private static final String URL = "jdbc:mysql://localhost:3306/BDPruebaBeta001";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "123456789";
-    
+
     protected Connection conexion;
 
-        public void Conectar() throws ClassNotFoundException {
+    public void Conectar() throws SQLException {
         try {
             conexion = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos: " + ex.getMessage());
         }
     }
-    
-    public void Cerrar() throws SQLException{
+
+    public void Cerrar() throws SQLException {
         try {
             if (conexion != null) {
                 if (!conexion.isClosed()) {
@@ -38,8 +39,7 @@ public class GestorBaseDatos {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.getMessage());
         }
-        
+
     }
-    
-    
+
 }
