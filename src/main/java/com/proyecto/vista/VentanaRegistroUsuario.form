@@ -26,7 +26,10 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="bg" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="bg" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -42,41 +45,60 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="nameLbl" max="32767" attributes="0"/>
-                                  <EmptySpace min="223" pref="223" max="-2" attributes="0"/>
+                                  <Component id="dniLabel" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="186" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="nameTxt" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="apPLbl" max="32767" attributes="0"/>
-                                  <EmptySpace min="182" pref="182" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="dniField" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="nameLabel" max="32767" attributes="0"/>
+                                          <EmptySpace min="223" pref="223" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="nameField" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="lastnamePLabel" max="32767" attributes="0"/>
+                                          <EmptySpace min="182" pref="182" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="lastnamePField" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="lastnameMLabel" max="32767" attributes="0"/>
+                                          <EmptySpace min="180" pref="180" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="lastnameMField" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="apPTxt" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="apMLbl" max="32767" attributes="0"/>
-                                  <EmptySpace min="180" pref="180" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="apMTxt" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                           <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="domTxt" max="32767" attributes="0"/>
+                              <Component id="phoneField" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="domLbl" max="32767" attributes="0"/>
+                                  <Component id="phoneLabel" max="32767" attributes="0"/>
                                   <EmptySpace min="220" pref="220" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="phoneTxt" alignment="0" max="32767" attributes="0"/>
+                              <Component id="usernameField" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="phoneLbl" max="32767" attributes="0"/>
+                                  <Component id="usernameLabel" max="32767" attributes="0"/>
                                   <EmptySpace min="218" pref="218" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="button" alignment="0" max="32767" attributes="0"/>
+                              <Component id="signUpButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="passwordField" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="passwordLabel" max="32767" attributes="0"/>
+                                  <EmptySpace min="218" pref="218" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="rolLabel" max="32767" attributes="0"/>
+                                  <EmptySpace min="218" pref="218" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="rolCBox" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                       </Group>
@@ -92,44 +114,60 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="title" max="32767" attributes="0"/>
+                  <Component id="title" pref="21" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="nameLbl" max="32767" attributes="0"/>
+                                  <Component id="nameLabel" pref="17" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="nameTxt" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="nameField" min="-2" pref="40" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                  <Component id="apPLbl" max="32767" attributes="0"/>
+                                  <Component id="lastnamePLabel" pref="17" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="apPTxt" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="lastnamePField" min="-2" pref="40" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                  <Component id="apMLbl" pref="17" max="32767" attributes="0"/>
+                                  <Component id="lastnameMLabel" pref="17" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="apMTxt" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                  <Component id="lastnameMField" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="domLbl" max="32767" attributes="0"/>
+                                  <Component id="phoneLabel" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="domTxt" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="phoneField" min="-2" pref="40" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                  <Component id="phoneLbl" max="32767" attributes="0"/>
+                                  <Component id="usernameLabel" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="phoneTxt" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                  <Component id="button" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="usernameField" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="passwordLabel" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Component id="passwordField" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="164" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="dniLabel" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Component id="dniField" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                  <Component id="rolLabel" pref="18" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Component id="rolCBox" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                  <Component id="signUpButton" min="-2" pref="50" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="jSeparator1" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jSeparator1" max="32767" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -140,26 +178,26 @@
             <Property name="text" type="java.lang.String" value="Registrar nuevo Usuario"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="nameLbl">
+        <Component class="javax.swing.JLabel" name="nameLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Nombre"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="nameTxt">
+        <Component class="javax.swing.JTextField" name="nameField">
         </Component>
-        <Component class="javax.swing.JLabel" name="apPLbl">
+        <Component class="javax.swing.JLabel" name="lastnamePLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apellido Paterno"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="apPTxt">
+        <Component class="javax.swing.JTextField" name="lastnamePField">
         </Component>
-        <Component class="javax.swing.JLabel" name="apMLbl">
+        <Component class="javax.swing.JLabel" name="lastnameMLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apellido Materno"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="apMTxt">
+        <Component class="javax.swing.JTextField" name="lastnameMField">
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
           <Properties>
@@ -172,17 +210,17 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="domLbl">
+        <Component class="javax.swing.JLabel" name="phoneLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Domicilio"/>
+            <Property name="text" type="java.lang.String" value="Tel&#xe9;fono"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="domTxt">
+        <Component class="javax.swing.JTextField" name="phoneField">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="button">
+        <Component class="javax.swing.JButton" name="signUpButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ad" green="5a" red="12" type="rgb"/>
@@ -200,18 +238,56 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="signUpButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="phoneLbl">
+        <Component class="javax.swing.JLabel" name="usernameLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tel&#xe9;fono"/>
+            <Property name="text" type="java.lang.String" value="Username"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="phoneTxt">
+        <Component class="javax.swing.JTextField" name="usernameField">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="dniLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="DNI"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="dniField">
+        </Component>
+        <Component class="javax.swing.JLabel" name="passwordLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Password"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="passwordField">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="rolLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Rol"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="rolCBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="5">
+                <StringItem index="0" value="Administrador"/>
+                <StringItem index="1" value="Encargado de Compras"/>
+                <StringItem index="2" value="Tesorero"/>
+                <StringItem index="3" value="Jefe de Finanzas"/>
+                <StringItem index="4" value="Almacenero"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

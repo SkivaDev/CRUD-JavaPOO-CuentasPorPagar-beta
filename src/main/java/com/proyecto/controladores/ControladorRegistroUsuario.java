@@ -5,6 +5,11 @@
 package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOAdministradorImpl;
+import com.proyecto.entidades.Administrador;
+import com.proyecto.entidades.Almacenero;
+import com.proyecto.entidades.EncargadoCompras;
+import com.proyecto.entidades.JefeFinanzas;
+import com.proyecto.entidades.Tesorero;
 import static com.proyecto.utils.Utils.generarNumeroRandom;
 
 /**
@@ -19,8 +24,32 @@ public class ControladorRegistroUsuario {
         this.dao = new DAOAdministradorImpl();
     }
 
-    public void registrarUsuario() {
-
+    public void registrarUsuario(String ) {
+        switch (rol) {
+            case "Encargado de Compras":
+                usuario = new EncargadoCompras(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
+                usuarios.add(usuario);
+                break;
+            case "Administrador":
+                usuario = new Administrador(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
+                usuarios.add(usuario);
+                break;
+            case "Almacenero":
+                usuario = new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
+                usuarios.add(usuario);
+                break;
+            case "Tesorero":
+                usuario = new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
+                usuarios.add(usuario);
+                break;
+            case "JefeFinanzas":
+                usuario = new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
+                usuarios.add(usuario);
+                break;
+            default:
+                break;
+        }
+        dao.registrarUsuario(user);
     }
 
     public String generarUsernameUsuario(String nombre, String apellidoPaterno, String apellidoMaterno, String dni) throws Exception {
