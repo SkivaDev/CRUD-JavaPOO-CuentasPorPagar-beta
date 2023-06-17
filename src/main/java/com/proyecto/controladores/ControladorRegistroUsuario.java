@@ -10,6 +10,7 @@ import com.proyecto.entidades.Almacenero;
 import com.proyecto.entidades.EncargadoCompras;
 import com.proyecto.entidades.JefeFinanzas;
 import com.proyecto.entidades.Tesorero;
+import com.proyecto.entidades.Usuario;
 import static com.proyecto.utils.Utils.generarNumeroRandom;
 
 /**
@@ -19,37 +20,37 @@ import static com.proyecto.utils.Utils.generarNumeroRandom;
 public class ControladorRegistroUsuario {
 
     private DAOAdministradorImpl dao;
+    private Usuario user;
 
     public ControladorRegistroUsuario() {
         this.dao = new DAOAdministradorImpl();
     }
 
-    public void registrarUsuario(String ) {
+    public void registrarUsuario(String nombre, String apP, String apM, String dni, String telefono, String username, String password, String rol) throws Exception {
         switch (rol) {
             case "Encargado de Compras":
-                usuario = new EncargadoCompras(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                usuarios.add(usuario);
+                user = new EncargadoCompras(0, nombre, apP, apM, dni, telefono, username, password, rol);
                 break;
             case "Administrador":
-                usuario = new Administrador(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                usuarios.add(usuario);
+                user = new Administrador(0, nombre, apP, apM, dni, telefono, username, password, rol);
                 break;
             case "Almacenero":
-                usuario = new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                usuarios.add(usuario);
+                user = new Almacenero(0, nombre, apP, apM, dni, telefono, username, password, rol);
                 break;
             case "Tesorero":
-                usuario = new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                usuarios.add(usuario);
+                user = new Tesorero(0, nombre, apP, apM, dni, telefono, username, password, rol);
                 break;
             case "JefeFinanzas":
-                usuario = new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                usuarios.add(usuario);
+                user = new JefeFinanzas(0, nombre, apP, apM, dni, telefono, username, password, rol);
                 break;
             default:
                 break;
         }
         dao.registrarUsuario(user);
+    }
+
+    public void editarUsuario(Usuario userEdition) throws Exception {
+        dao.modificarUsuario(userEdition);
     }
 
     public String generarUsernameUsuario(String nombre, String apellidoPaterno, String apellidoMaterno, String dni) throws Exception {

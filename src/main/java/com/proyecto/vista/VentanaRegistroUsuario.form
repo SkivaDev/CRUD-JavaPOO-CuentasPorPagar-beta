@@ -88,7 +88,7 @@
                                   <Component id="usernameLabel" max="32767" attributes="0"/>
                                   <EmptySpace min="218" pref="218" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="signUpButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="registerButton" alignment="0" max="32767" attributes="0"/>
                               <Component id="passwordField" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="passwordLabel" max="32767" attributes="0"/>
@@ -161,7 +161,7 @@
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="rolCBox" min="-2" pref="40" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                                  <Component id="signUpButton" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="registerButton" min="-2" pref="50" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -220,7 +220,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="signUpButton">
+        <Component class="javax.swing.JButton" name="registerButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ad" green="5a" red="12" type="rgb"/>
@@ -238,7 +238,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="signUpButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="usernameLabel">

@@ -1,21 +1,30 @@
 package com.proyecto.vista;
 
-import com.mycompany.ilib.DAOUsersImpl;
-import com.mycompany.interfaces.DAOUsers;
+//import com.mycompany.ilib.DAOUsersImpl;
+//import com.mycompany.interfaces.DAOUsers;
+import com.proyecto.controladores.ControladorRegistroUsuario;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VentanaRegistroUsuario extends javax.swing.JPanel {
 
+    private ControladorRegistroUsuario controladorRegistroUsuario;
     boolean isEdition = false;
     private Usuario userEdition;
 
     public VentanaRegistroUsuario() {
+        this.controladorRegistroUsuario = new ControladorRegistroUsuario();
+
         initComponents();
         InitStyles();
+
     }
 
     public VentanaRegistroUsuario(Usuario user) {
+        this.controladorRegistroUsuario = new ControladorRegistroUsuario();
+
         initComponents();
         isEdition = true;
         userEdition = user;
@@ -28,19 +37,28 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
         nameField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del usuario.");
         lastnamePField.putClientProperty("JTextField.placeholderText", "Ingrese el apellido paterno del usuario.");
         lastnameMField.putClientProperty("JTextField.placeholderText", "Ingrese el apellido materno del usuario.");
-        phoneField.putClientProperty("JTextField.placeholderText", "Ingrese el domicilio del usuario.");
-        usernameField.putClientProperty("JTextField.placeholderText", "Ingrese el teléfono del usuario.");
+        dniField.putClientProperty("JTextField.placeholderText", "Ingrese el apellido materno del usuario.");
+        phoneField.putClientProperty("JTextField.placeholderText", "Ingrese el teléfono del usuario.");
+        usernameField.putClientProperty("JTextField.placeholderText", "El username del usuario se autogenerará.");
+        passwordField.putClientProperty("JTextField.placeholderText", "El password del usuario se autogenerará.");
+
+        usernameField.setEditable(false);
+        passwordField.setEditable(false);
 
         if (isEdition) {
             title.setText("Editar Usuario");
-            signUpButton.setText("Guardar");
+            registerButton.setText("Guardar");
+            usernameField.setEditable(true);
+            passwordField.setEditable(true);
 
             if (userEdition != null) {
                 nameField.setText(userEdition.getNombre());
                 lastnamePField.setText(userEdition.getApellido_p());
                 lastnameMField.setText(userEdition.getApellido_m());
-                phoneField.setText(userEdition.getDni());
-                usernameField.setText(userEdition.getTelefono());
+                dniField.setText(userEdition.getDni());
+                phoneField.setText(userEdition.getTelefono());
+                usernameField.setText(userEdition.getUsername());
+                passwordField.setText(userEdition.getPassword());
             }
         }
     }
@@ -65,7 +83,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         phoneLabel = new javax.swing.JLabel();
         phoneField = new javax.swing.JTextField();
-        signUpButton = new javax.swing.JButton();
+        registerButton = new javax.swing.JButton();
         usernameLabel = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
         dniLabel = new javax.swing.JLabel();
@@ -95,15 +113,15 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
 
         phoneField.setToolTipText("");
 
-        signUpButton.setBackground(new java.awt.Color(18, 90, 173));
-        signUpButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        signUpButton.setForeground(new java.awt.Color(255, 255, 255));
-        signUpButton.setText("Registrar");
-        signUpButton.setBorderPainted(false);
-        signUpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        signUpButton.addActionListener(new java.awt.event.ActionListener() {
+        registerButton.setBackground(new java.awt.Color(18, 90, 173));
+        registerButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        registerButton.setForeground(new java.awt.Color(255, 255, 255));
+        registerButton.setText("Registrar");
+        registerButton.setBorderPainted(false);
+        registerButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signUpButtonActionPerformed(evt);
+                registerButtonActionPerformed(evt);
             }
         });
 
@@ -160,7 +178,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(218, 218, 218))
-                            .addComponent(signUpButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(registerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(passwordField)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addComponent(passwordLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -221,7 +239,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rolCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(15, 15, 15)
-                                .addComponent(signUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
         );
@@ -240,21 +258,52 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         String nombre = nameField.getText();
         String apP = lastnamePField.getText();
         String apM = lastnameMField.getText();
-        String dni;
-        //String dom = domTxt.getText();
-        String tel = usernameField.getText();
+        String dni = dniField.getText();
+        String telefono = phoneField.getText();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        String rol = (String) rolCBox.getSelectedItem();
 
+        String successMsg = isEdition ? "modificado" : "registrado";
+        String errorMsg = isEdition ? "modificar" : "registrar";
+
+        
         // Validaciones para los campos
-        if (nombre.isEmpty() || apP.isEmpty() || apM.isEmpty() || dni.isEmpty() || tel.isEmpty()) {
+        if (nombre.isEmpty() || apP.isEmpty() || apM.isEmpty() || dni.isEmpty() || telefono.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             nameField.requestFocus();
             return;
-        }
+        } else if (!isEdition) {
+            try {
+                String usernameGenerated;
+                usernameGenerated = controladorRegistroUsuario.generarUsernameUsuario(nombre, apP, apM, dni);
+                String passwordGenerated = controladorRegistroUsuario.generarPassword(usernameGenerated);
+                usernameField.setText(usernameGenerated);
+                passwordField.setText(passwordGenerated);
+                controladorRegistroUsuario.registrarUsuario(nombre, apP, apM, dni, telefono, usernameGenerated, passwordGenerated, rol);
+                
+                javax.swing.JOptionPane.showMessageDialog(this, "Usuario " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el usuario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
 
+        } else {
+            try {
+                controladorRegistroUsuario.editarUsuario(userEdition);
+                
+                javax.swing.JOptionPane.showMessageDialog(this, "Usuario " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el usuario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+
+        /*
         Usuario user = isEdition ? userEdition : new com.mycompany.models.Users();
         user.setNombre(nombre);
         user.setLast_name_p(apP);
@@ -287,7 +336,8 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
             javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el usuario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             System.out.println(e.getMessage());
         }
-    }//GEN-LAST:event_signUpButtonActionPerformed
+        */
+    }//GEN-LAST:event_registerButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -305,9 +355,9 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField phoneField;
     private javax.swing.JLabel phoneLabel;
+    private javax.swing.JButton registerButton;
     private javax.swing.JComboBox<String> rolCBox;
     private javax.swing.JLabel rolLabel;
-    private javax.swing.JButton signUpButton;
     private javax.swing.JLabel title;
     private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel;

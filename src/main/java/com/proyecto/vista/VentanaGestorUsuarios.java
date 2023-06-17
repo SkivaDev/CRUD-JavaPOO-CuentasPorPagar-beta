@@ -11,11 +11,13 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaGestorUsuarios extends javax.swing.JPanel {
 
     private Usuario currentUser;
-    private ControladorGestorUsuarios controladorRegistroUsuario;
+    private ControladorGestorUsuarios controladorGestorUsuarios;
+    private DefaultTableModel modeloTabla;
 
     public VentanaGestorUsuarios(Usuario currentUser) {
-        this.controladorRegistroUsuario = new ControladorGestorUsuarios();
+        this.controladorGestorUsuarios = new ControladorGestorUsuarios();
         this.currentUser = currentUser;
+        this.modeloTabla = new DefaultTableModel();
 
         initComponents();
         InitStyles();
@@ -29,7 +31,9 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }
 
     private void LoadUsers() {
-        controladorRegistroUsuario.listarUsuarios(jTable1);
+        modeloTabla = controladorGestorUsuarios.listarUsuarios(jTable1);
+        jTable1.setModel(modeloTabla);
+        
         /*
         try {
             DAOUsers dao = new DAOUsersImpl();
@@ -38,7 +42,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        */
+         */
     }
 
     /**
@@ -212,6 +216,10 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+
+        controladorGestorUsuarios.eliminarUsuarios(jTable1);
+
+        /*
         DAOUsers dao = new DAOUsersImpl();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         if (jTable1.getSelectedRows().length < 1) {
@@ -225,7 +233,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
                     System.out.println(e.getMessage());
                 }
             }
-        }
+        }*/
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
