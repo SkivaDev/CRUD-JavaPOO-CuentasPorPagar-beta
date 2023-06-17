@@ -4,11 +4,20 @@
  */
 package com.proyecto.utils;
 
+import java.util.Random;
+
 /**
  *
  * @author skiva
  */
 public class Utils {
+
+    public static String generarNumeroRandom() {
+        // Generar un número aleatorio entre 0 y 999 (ajústalo según tus necesidades)
+        Random random = new Random();
+        int randomNumber = random.nextInt(1000);
+        return String.format("%03d", randomNumber); // Formatear el número con tres dígitos
+    }
 
     public static String generateUsername(String nombre, String apellidoPaterno, String apellidoMaterno, String dni) {
         // Obtener las iniciales del nombre y apellido

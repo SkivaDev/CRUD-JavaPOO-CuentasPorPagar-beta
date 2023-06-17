@@ -18,4 +18,5 @@ public interface DAOAdministradorInterfaz {
     public List<Usuario> obtenerListaUsuarios(String name) throws Exception;
     public Usuario obtenerUsuarioPorId(int userId) throws Exception;
    // public Users getUserById(int userId) throws Exception;
+    public boolean usernameEnUso(String username) throws Exception;
 }

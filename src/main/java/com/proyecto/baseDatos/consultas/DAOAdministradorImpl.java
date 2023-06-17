@@ -182,4 +182,30 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
             throw new SQLException("Error al consultar la base de datos", e);
         }
     }
+
+    @Override
+    public boolean usernameEnUso(String username) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT COUNT(*) FROM usuarios WHERE id_usuario = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0;
+            }
+
+            // Cerrar la conexión y liberar recursos
+            resultSet.close();
+            statement.close();
+            this.Cerrar();
+        } catch (Exception e) {
+            throw new SQLException("Error al consultar si existe un usuario con el username la base de datos", e);
+        }
+
+        // Si ocurre algún error, se asume que el nombre de usuario no está tomado
+        return false;
+    }
 }
