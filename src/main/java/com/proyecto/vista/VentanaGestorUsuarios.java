@@ -1,8 +1,8 @@
 package com.proyecto.vista;
 
-import com.mycompany.ilib.DAOUsersImpl;
-import com.proyecto.vista.VentanaDashboard;
-import com.mycompany.interfaces.DAOUsers;
+//import com.mycompany.ilib.DAOUsersImpl;
+//import com.proyecto.vista.VentanaDashboard;
+//import com.mycompany.interfaces.DAOUsers;
 import com.proyecto.controladores.ControladorGestorUsuarios;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
@@ -31,6 +31,11 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }
 
     private void LoadUsers() {
+        
+        // Limpiar el modelo de la tabla
+        modeloTabla.setRowCount(0);
+        jTable1.setModel(modeloTabla);
+
         modeloTabla = controladorGestorUsuarios.listarUsuarios(jTable1);
         jTable1.setModel(modeloTabla);
         
@@ -237,6 +242,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        /*
         if (jTable1.getSelectedRow() > -1) {
             try {
                 int userId = (int) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
@@ -247,10 +253,11 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Debes seleccionar el usuario a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        /*
         try {
             DAOUsers dao = new DAOUsersImpl();
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -258,7 +265,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
             dao.listar(userSearch.getText()).forEach((u) -> model.addRow(new Object[]{u.getId(), u.getName(), u.getLast_name_p(), u.getLast_name_m(), u.getDomicilio(), u.getTel()}));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
+        }*/
     }//GEN-LAST:event_searchButtonActionPerformed
 
 

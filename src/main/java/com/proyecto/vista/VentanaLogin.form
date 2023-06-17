@@ -39,7 +39,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="66" red="33" type="rgb"/>
+          <Color blue="33" green="0" red="99" type="rgb"/>
         </Property>
       </Properties>
 
@@ -96,7 +96,7 @@
         <Component class="javax.swing.JButton" name="btnSignUp">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="99" red="33" type="rgb"/>
+              <Color blue="33" green="33" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="INICIAR SESION"/>
           </Properties>

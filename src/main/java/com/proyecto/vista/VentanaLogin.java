@@ -47,13 +47,13 @@ public class VentanaLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(500, 600));
 
-        jPanel1.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 0, 51));
 
         textLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         textLogin.setText("LOGIN");
         textLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        btnSignUp.setBackground(new java.awt.Color(51, 153, 255));
+        btnSignUp.setBackground(new java.awt.Color(255, 51, 51));
         btnSignUp.setText("INICIAR SESION");
         btnSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

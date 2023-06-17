@@ -16,6 +16,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 //import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -109,15 +110,15 @@ public class VentanaDashboard extends javax.swing.JFrame {
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
-        menu.setBackground(new java.awt.Color(13, 71, 161));
+        menu.setBackground(new java.awt.Color(153, 0, 51));
         menu.setPreferredSize(new java.awt.Dimension(270, 640));
 
         appName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        appName.setText("iLib");
+        appName.setText("Cuentas por Pagar");
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(50, 5));
 
-        btn_prin.setBackground(new java.awt.Color(21, 101, 192));
+        btn_prin.setBackground(new java.awt.Color(255, 0, 51));
         btn_prin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_prin.setForeground(new java.awt.Color(255, 255, 255));
         btn_prin.setText("Principal");
@@ -133,7 +134,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_lends.setBackground(new java.awt.Color(21, 101, 192));
+        btn_lends.setBackground(new java.awt.Color(255, 0, 51));
         btn_lends.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_lends.setForeground(new java.awt.Color(255, 255, 255));
         btn_lends.setText("Préstamos");
@@ -149,7 +150,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_returns.setBackground(new java.awt.Color(21, 101, 192));
+        btn_returns.setBackground(new java.awt.Color(255, 0, 51));
         btn_returns.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_returns.setForeground(new java.awt.Color(255, 255, 255));
         btn_returns.setText("Devoluciones");
@@ -165,7 +166,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_users.setBackground(new java.awt.Color(21, 101, 192));
+        btn_users.setBackground(new java.awt.Color(255, 0, 51));
         btn_users.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_users.setForeground(new java.awt.Color(255, 255, 255));
         btn_users.setText("Usuarios");
@@ -181,7 +182,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_books.setBackground(new java.awt.Color(21, 101, 192));
+        btn_books.setBackground(new java.awt.Color(255, 0, 51));
         btn_books.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_books.setForeground(new java.awt.Color(255, 255, 255));
         btn_books.setText("Libros");
@@ -197,7 +198,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_reports.setBackground(new java.awt.Color(21, 101, 192));
+        btn_reports.setBackground(new java.awt.Color(255, 0, 51));
         btn_reports.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_reports.setForeground(new java.awt.Color(255, 255, 255));
         btn_reports.setText("Reportes");
@@ -257,7 +258,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
                         .addComponent(btn_reports, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
-        header.setBackground(new java.awt.Color(25, 118, 210));
+        header.setBackground(new java.awt.Color(255, 51, 51));
         header.setPreferredSize(new java.awt.Dimension(744, 150));
 
         navText.setText("Administración/Control/Biblioteca");
@@ -288,7 +289,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
         content.setBackground(new java.awt.Color(255, 255, 255));
         content.setLayout(new java.awt.BorderLayout());
 
-        mensaje.setText("We ♥  the reading!");
+        mensaje.setText("We love paying for!");
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -345,9 +346,10 @@ public class VentanaDashboard extends javax.swing.JFrame {
 
     private void btn_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_usersActionPerformed
         // ShowJPanel(new Users());
+        JOptionPane.showMessageDialog(null, "Se hizo click lol");
         if (currentUser.getRol().equals("Administrador")) {
            // controladorPrincipal.abrirVentanaRegistroUsuario();
-          // ShowJPanel(new Users());
+          ShowJPanel(new VentanaGestorUsuarios(currentUser));
         }
     }//GEN-LAST:event_btn_usersActionPerformed
 

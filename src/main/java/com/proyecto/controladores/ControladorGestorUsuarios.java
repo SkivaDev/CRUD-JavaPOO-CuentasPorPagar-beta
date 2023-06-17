@@ -17,7 +17,6 @@ public class ControladorGestorUsuarios {
     private DAOAdministradorImpl dao;
 
     //private Usuario user;
-
     public ControladorGestorUsuarios() {
         this.dao = new DAOAdministradorImpl();
     }
@@ -25,18 +24,32 @@ public class ControladorGestorUsuarios {
     public DefaultTableModel listarUsuarios(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
+        // Limpiar el modelo de la tabla
+        model.setRowCount(0);
+        table.setModel(model);
+
+        model.addColumn("ID");
+        model.addColumn("Nombre");
+        model.addColumn("Apellido P");
+        model.addColumn("Apellido M");
+        model.addColumn("DNI");
+        model.addColumn("Telefono");
+        model.addColumn("Usarname");
+        model.addColumn("Password");
+        model.addColumn("Rol");
+
         try {
             //DAOUsers dao = new DAOUsersImpl();
-            dao.obtenerListaUsuarios("").forEach((u) -> model.addRow(new Object[]{u.getIdUsuario(), u.getNombre(), u.getApellido_p(), u.getApellido_m(), u.getDni(), u.getTelefono(), u.getUsername(), u.getPassword()}));
+            dao.obtenerListaUsuarios("").forEach((u) -> model.addRow(new Object[]{u.getIdUsuario(), u.getNombre(), u.getApellido_p(), u.getApellido_m(), u.getDni(), u.getTelefono(), u.getUsername(), u.getPassword(), u.getRol()}));
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
-    
+
     public DefaultTableModel eliminarUsuarios(JTable table) {
-        
+
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         if (table.getSelectedRows().length < 1) {
@@ -55,7 +68,5 @@ public class ControladorGestorUsuarios {
         }
         return null;
     }
-    
-    
-    
+
 }
