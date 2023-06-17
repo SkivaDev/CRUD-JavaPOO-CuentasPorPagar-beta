@@ -87,10 +87,10 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
     }
 
     @Override
-    public List<Usuario> obtenerListaUsuarios() throws Exception {
+    public List<Usuario> obtenerListaUsuarios(String name) throws Exception {
         try {
             this.Conectar();
-            String consulta = "SELECT * FROM usuarios";
+            String consulta = name.isEmpty() ? "SELECT * FROM usuarios" : "SELECT * FROM usuarios WHERE nombre LIKE '%" + name + "%';";
             Statement statement = conexion.createStatement();
             ResultSet resultSet = statement.executeQuery(consulta);
 
@@ -107,61 +107,6 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                 String rol = resultSet.getString("rol");
                 Usuario usuario;
 
-                switch (rol) {
-                    case "Encargado de Compras":
-                        usuario = new EncargadoCompras(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                        usuarios.add(usuario);
-                        break;
-                    case "Administrador":
-                        usuario = new Administrador(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                        usuarios.add(usuario);
-                        break;
-                    case "Almacenero":
-                        usuario = new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                        usuarios.add(usuario);
-                        break;
-                    case "Tesorero":
-                        usuario = new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                        usuarios.add(usuario);
-                        break;
-                    case "JefeFinanzas":
-                        usuario = new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                        usuarios.add(usuario);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return usuarios;
-        } catch (SQLException e) {
-            throw new SQLException("Error al consultar la base de datos", e);
-        }
-    }
-
-    @Override
-    public List<Usuario> listarUsuariosPorNombre(String name) throws Exception {
-        try {
-            this.Conectar();
-            String consulta = "SELECT * FROM usuarios WHERE nombre LIKE ?";
-            PreparedStatement statement = conexion.prepareStatement(consulta);
-            statement.setString(1, "%" + name + "%");
-            ResultSet resultSet = statement.executeQuery();
-
-            List<Usuario> usuarios = new ArrayList<>();
-            while (resultSet.next()) {
-                int idUsuario = resultSet.getInt("id_usuario");
-                String nombre = resultSet.getString("nombre");
-                String apellido_p = resultSet.getString("apellido_p");
-                String apellido_m = resultSet.getString("apellido_m");
-                String dni = resultSet.getString("dni");
-                String telefono = resultSet.getString("telefono");
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                String rol = resultSet.getString("rol");
-
-                // Construir el objeto Usuario correspondiente y agregarlo a la lista
-                Usuario usuario;
                 switch (rol) {
                     case "Encargado de Compras":
                         usuario = new EncargadoCompras(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);

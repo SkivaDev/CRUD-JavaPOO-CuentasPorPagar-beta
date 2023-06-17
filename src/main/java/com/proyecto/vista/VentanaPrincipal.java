@@ -8,13 +8,14 @@ package com.proyecto.vista;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
 
-
 /**
  *
  * @author Antonio
  */
 public class VentanaPrincipal extends javax.swing.JPanel {
+    
     private Usuario currentUser;
+
     /**
      * Creates new form Principal
      */
@@ -24,7 +25,7 @@ public class VentanaPrincipal extends javax.swing.JPanel {
         InitStyles();
         SetCustomizedTitle();
     }
-    
+
     private void InitStyles() {
         titleText.putClientProperty("FlatLaf.style", "font: light $h1.regular.font");
         titleText.setForeground(Color.black);
@@ -49,11 +50,11 @@ public class VentanaPrincipal extends javax.swing.JPanel {
         jLabel11.putClientProperty("FlatLaf.styleClass", "large");
         jLabel11.setForeground(Color.black);
     }
-   
+
     private void SetCustomizedTitle() {
         titleText.setText("Bienvenido " + currentUser.getNombre() + " " + currentUser.getApellido_p() + " " + "/Tú tienes el rol de: " + currentUser.getRol());
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

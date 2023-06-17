@@ -74,6 +74,10 @@ public class VentanaDashboard extends javax.swing.JFrame {
         content.repaint();
     }
 
+    public static void ShowJPanelButtons (JPanel p) {
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,6 +104,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
         mensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1050, 660));
         setMinimumSize(new java.awt.Dimension(1050, 660));
 
         background.setBackground(new java.awt.Color(255, 255, 255));
@@ -342,7 +347,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
         // ShowJPanel(new Users());
         if (currentUser.getRol().equals("Administrador")) {
            // controladorPrincipal.abrirVentanaRegistroUsuario();
-          //  ShowJPanel(new Users());
+          // ShowJPanel(new Users());
         }
     }//GEN-LAST:event_btn_usersActionPerformed
 
