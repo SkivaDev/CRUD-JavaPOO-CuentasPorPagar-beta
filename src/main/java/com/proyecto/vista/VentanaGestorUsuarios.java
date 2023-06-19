@@ -242,6 +242,8 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        controladorGestorUsuarios.editarUsuarios(jTable1);
+        
         /*
         if (jTable1.getSelectedRow() > -1) {
             try {

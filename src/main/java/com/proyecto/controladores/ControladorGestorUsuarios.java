@@ -5,6 +5,8 @@
 package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOAdministradorImpl;
+import com.proyecto.vista.VentanaDashboard;
+import com.proyecto.vista.VentanaRegistroUsuario;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -67,6 +69,22 @@ public class ControladorGestorUsuarios {
             }
         }
         return null;
+    }
+
+    
+    public void editarUsuarios(JTable table) {
+        if (table.getSelectedRow() > -1) {
+            try {
+                int userId = (int) table.getValueAt(table.getSelectedRow(), 0);
+                //DAOUsers dao = new DAOUsersImpl();
+                
+                VentanaDashboard.ShowJPanel(new VentanaRegistroUsuario(dao.obtenerUsuarioPorId(userId)));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el usuario a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

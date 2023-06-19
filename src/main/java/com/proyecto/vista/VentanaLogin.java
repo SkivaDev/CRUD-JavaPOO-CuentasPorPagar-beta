@@ -22,6 +22,7 @@ public class VentanaLogin extends javax.swing.JFrame {
     public VentanaLogin() {
         initComponents();
         InitStyles();
+        this.setLocationRelativeTo(this);
     }
 
     private void InitStyles() {

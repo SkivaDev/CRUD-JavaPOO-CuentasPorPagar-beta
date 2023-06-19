@@ -261,7 +261,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
         header.setBackground(new java.awt.Color(255, 51, 51));
         header.setPreferredSize(new java.awt.Dimension(744, 150));
 
-        navText.setText("Administración/Control/Biblioteca");
+        navText.setText("Administración/Control de cuentas por pagar,");
 
         dateText.setText("Hoy es {dayname} {day} de {month} de {year}");
 

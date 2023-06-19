@@ -370,7 +370,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="navText">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Administraci&#xf3;n/Control/Biblioteca"/>
+                <Property name="text" type="java.lang.String" value="Administraci&#xf3;n/Control de cuentas por pagar,"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="dateText">
