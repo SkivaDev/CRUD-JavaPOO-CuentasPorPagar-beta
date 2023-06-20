@@ -67,6 +67,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
         String rol = currentUser.getRol();
         switch (rol) {
             case "Encargado de Compras":
+                ShowJPanelButtons(new VentanaMenuEncargadoCompras(currentUser));
                 break;
             case "Administrador":
                 ShowJPanelButtons(new VentanaMenuAdministrador(currentUser));
@@ -132,7 +133,6 @@ public class VentanaDashboard extends javax.swing.JFrame {
         mensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1050, 660));
         setMinimumSize(new java.awt.Dimension(1050, 660));
 
         background.setBackground(new java.awt.Color(255, 255, 255));
