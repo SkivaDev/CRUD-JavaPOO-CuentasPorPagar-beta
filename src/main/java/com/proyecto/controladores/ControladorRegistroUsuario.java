@@ -12,6 +12,8 @@ import com.proyecto.entidades.JefeFinanzas;
 import com.proyecto.entidades.Tesorero;
 import com.proyecto.entidades.Usuario;
 import static com.proyecto.utils.Utils.generarNumeroRandom;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -40,7 +42,7 @@ public class ControladorRegistroUsuario {
             case "Tesorero":
                 user = new Tesorero(0, nombre, apP, apM, dni, telefono, username, password, rol);
                 break;
-            case "JefeFinanzas":
+            case "Jefe de Finanzas":
                 user = new JefeFinanzas(0, nombre, apP, apM, dni, telefono, username, password, rol);
                 break;
             default:
@@ -49,8 +51,27 @@ public class ControladorRegistroUsuario {
         dao.registrarUsuario(user);
     }
 
-    public void editarUsuario(Usuario userEdition) throws Exception {
-        dao.modificarUsuario(userEdition);
+    public void editarUsuario(int idUsuario, String nombre, String apP, String apM, String dni, String telefono, String username, String password, String rol) throws Exception {
+        switch (rol) {
+            case "Encargado de Compras":
+                user = new EncargadoCompras(idUsuario, nombre, apP, apM, dni, telefono, username, password, rol);
+                break;
+            case "Administrador":
+                user = new Administrador(idUsuario, nombre, apP, apM, dni, telefono, username, password, rol);
+                break;
+            case "Almacenero":
+                user = new Almacenero(idUsuario, nombre, apP, apM, dni, telefono, username, password, rol);
+                break;
+            case "Tesorero":
+                user = new Tesorero(idUsuario, nombre, apP, apM, dni, telefono, username, password, rol);
+                break;
+            case "JefeFinanzas":
+                user = new JefeFinanzas(idUsuario, nombre, apP, apM, dni, telefono, username, password, rol);
+                break;
+            default:
+                break;
+        }
+        dao.modificarUsuario(user);
     }
 
     public String generarUsernameUsuario(String nombre, String apellidoPaterno, String apellidoMaterno, String dni) throws Exception {
@@ -91,4 +112,38 @@ public class ControladorRegistroUsuario {
         return password;
     }
 
+    public boolean confirmarDatosUsuario(String nombre, String apP, String apM, String dni, String telefono, String username, String password, String rol) {
+        String message;
+        String title = "Confirmación";
+        int optionType = JOptionPane.YES_NO_OPTION;
+
+        message = "***** Datos del Usuario *****";
+        message += "\nNombre: " + nombre;
+        message += "\nApellido Paterno: " + apP;
+        message += "\nApellido Materno: " + apM;
+        message += "\nDNI: " + dni;
+        message += "\nTelefono: " + telefono;
+        message += "\nUsername: " + username;
+        message += "\nPassword: " + password;
+        message += "\nRol: " + rol;
+        message += "\n";
+        message += "\nLos datos son correctos?";
+
+        UIManager.put("Button.yesButtonText", "Aceptar");
+        UIManager.put("Button.noButtonText", "Cancelar");
+
+        int result = JOptionPane.showConfirmDialog(null, message, title, optionType);
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                return true;
+            case JOptionPane.NO_OPTION:
+                return false;
+
+            case JOptionPane.CLOSED_OPTION:
+                return false;
+            default:
+                break;
+        }
+        return false;
+    }
 }

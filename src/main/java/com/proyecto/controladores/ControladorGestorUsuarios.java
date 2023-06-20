@@ -71,13 +71,12 @@ public class ControladorGestorUsuarios {
         return null;
     }
 
-    
     public void editarUsuarios(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
                 int userId = (int) table.getValueAt(table.getSelectedRow(), 0);
                 //DAOUsers dao = new DAOUsersImpl();
-                
+
                 VentanaDashboard.ShowJPanel(new VentanaRegistroUsuario(dao.obtenerUsuarioPorId(userId)));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -85,6 +84,21 @@ public class ControladorGestorUsuarios {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el usuario a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public DefaultTableModel buscarUsuarios(JTable table, String name) {
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            dao.obtenerListaUsuarios(name).forEach((u) -> model.addRow(new Object[]{u.getIdUsuario(), u.getNombre(), u.getApellido_p(), u.getApellido_m(), u.getDni(), u.getTelefono(), u.getUsername(), u.getPassword(), u.getRol()}));
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
 }

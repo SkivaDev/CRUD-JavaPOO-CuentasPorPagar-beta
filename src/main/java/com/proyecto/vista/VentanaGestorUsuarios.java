@@ -27,7 +27,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
-        userSearch.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
+        userSearchField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
 
     private void LoadUsers() {
@@ -61,7 +61,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
 
         bg = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
-        userSearch = new javax.swing.JTextField();
+        userSearchField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -176,7 +176,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
                                 .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(userSearch)
+                                .addComponent(userSearchField)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(searchButton)))
                         .addGap(50, 50, 50))))
@@ -188,7 +188,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
                 .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
@@ -222,7 +222,8 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-        controladorGestorUsuarios.eliminarUsuarios(jTable1);
+        modeloTabla = controladorGestorUsuarios.eliminarUsuarios(jTable1);
+        jTable1.setModel(modeloTabla);
 
         /*
         DAOUsers dao = new DAOUsersImpl();
@@ -242,6 +243,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        
         controladorGestorUsuarios.editarUsuarios(jTable1);
         
         /*
@@ -259,6 +261,10 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        
+        modeloTabla = controladorGestorUsuarios.buscarUsuarios(jTable1, userSearchField.getText());
+        jTable1.setModel(modeloTabla);
+
         /*
         try {
             DAOUsers dao = new DAOUsersImpl();
@@ -280,6 +286,6 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel title;
-    private javax.swing.JTextField userSearch;
+    private javax.swing.JTextField userSearchField;
     // End of variables declaration//GEN-END:variables
 }

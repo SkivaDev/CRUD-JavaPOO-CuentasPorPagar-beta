@@ -59,6 +59,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
                 phoneField.setText(userEdition.getTelefono());
                 usernameField.setText(userEdition.getUsername());
                 passwordField.setText(userEdition.getPassword());
+                rolCBox.setSelectedItem(userEdition.getRol());
             }
         }
     }
@@ -259,6 +260,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+
         String nombre = nameField.getText();
         String apP = lastnamePField.getText();
         String apM = lastnameMField.getText();
@@ -271,37 +273,47 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
         String successMsg = isEdition ? "modificado" : "registrado";
         String errorMsg = isEdition ? "modificar" : "registrar";
 
-        
         // Validaciones para los campos
         if (nombre.isEmpty() || apP.isEmpty() || apM.isEmpty() || dni.isEmpty() || telefono.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             nameField.requestFocus();
             return;
-        } else if (!isEdition) {
+        } else if (!isEdition) { // codigo donde se agrega
             try {
                 String usernameGenerated;
                 usernameGenerated = controladorRegistroUsuario.generarUsernameUsuario(nombre, apP, apM, dni);
                 String passwordGenerated = controladorRegistroUsuario.generarPassword(usernameGenerated);
                 usernameField.setText(usernameGenerated);
                 passwordField.setText(passwordGenerated);
-                controladorRegistroUsuario.registrarUsuario(nombre, apP, apM, dni, telefono, usernameGenerated, passwordGenerated, rol);
-                
+                boolean confirmarDatosUsuarios = controladorRegistroUsuario.confirmarDatosUsuario(nombre, apP, apM, dni, telefono, usernameGenerated, passwordGenerated, rol);
+                if (confirmarDatosUsuarios) {
+                    controladorRegistroUsuario.registrarUsuario(nombre, apP, apM, dni, telefono, usernameGenerated, passwordGenerated, rol);
+                    //controladorRegistroUsuario.registrarUsuario("Carlos", "Sánchez", "Vargas", "56789013", "912345682", usernameGenerated, passwordGenerated, rol);
+                } else {
+                    return;
+                }
                 javax.swing.JOptionPane.showMessageDialog(this, "Usuario " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el usuario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
 
-        } else {
+        } else { // codigo donde se edita
             try {
-                controladorRegistroUsuario.editarUsuario(userEdition);
-                
+                int idUsuario = userEdition.getIdUsuario();
+                boolean confirmarDatosUsuarios = controladorRegistroUsuario.confirmarDatosUsuario(nombre, apP, apM, dni, telefono, username, password, rol);
+                if (confirmarDatosUsuarios) {
+                    controladorRegistroUsuario.editarUsuario(idUsuario, nombre, apP, apM, dni, telefono, username, password, rol);
+                } else {
+                    return;
+                }
+
                 javax.swing.JOptionPane.showMessageDialog(this, "Usuario " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el usuario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
 
         /*
         Usuario user = isEdition ? userEdition : new com.mycompany.models.Users();
@@ -336,7 +348,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
             javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el usuario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             System.out.println(e.getMessage());
         }
-        */
+         */
     }//GEN-LAST:event_registerButtonActionPerformed
 
 

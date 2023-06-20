@@ -60,7 +60,7 @@
                               </Group>
                               <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="userSearch" max="32767" attributes="0"/>
+                                  <Component id="userSearchField" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="searchButton" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -78,7 +78,7 @@
                   <Component id="title" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="userSearch" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="userSearchField" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="searchButton" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
@@ -100,7 +100,7 @@
             <Property name="text" type="java.lang.String" value="Usuarios"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="userSearch">
+        <Component class="javax.swing.JTextField" name="userSearchField">
         </Component>
         <Component class="javax.swing.JButton" name="searchButton">
           <Properties>

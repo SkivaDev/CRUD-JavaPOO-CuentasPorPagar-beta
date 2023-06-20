@@ -46,7 +46,7 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                 int idUsuario = generatedKeys.getInt(1);
                 user.setIdUsuario(idUsuario);
             } else {
-                throw new SQLException("Error al obtener el ID generado para la factura");
+                throw new SQLException("Error al obtener el ID generado para el Usuario");
             }
         } catch (SQLException e) {
             throw new SQLException("Error al registrar el usuario en la base de datos", e);
@@ -67,6 +67,7 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
             statement.setString(6, user.getUsername());
             statement.setString(7, user.getPassword());
             statement.setString(8, user.getRol());
+            statement.setInt(9, user.getIdUsuario());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error al editar el usuario en la base de datos", e);
