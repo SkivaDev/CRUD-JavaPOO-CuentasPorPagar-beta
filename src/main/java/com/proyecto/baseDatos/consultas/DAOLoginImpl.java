@@ -50,7 +50,7 @@ public class DAOLoginImpl extends GestorBaseDatos implements DAOLoginInterfaz{
                         return new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     case "Tesorero":
                         return new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                    case "JefeFinanzas":
+                    case "Jefe de Finanzas":
                         return new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     default:
                         break;

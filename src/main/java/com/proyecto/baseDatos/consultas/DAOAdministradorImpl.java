@@ -125,7 +125,7 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                         usuario = new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
-                    case "JefeFinanzas":
+                    case "Jefe de Finanzas":
                         usuario = new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                         usuarios.add(usuario);
                         break;
@@ -170,7 +170,7 @@ public class DAOAdministradorImpl extends GestorBaseDatos implements DAOAdminist
                         return new Almacenero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     case "Tesorero":
                         return new Tesorero(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
-                    case "JefeFinanzas":
+                    case "Jefe de Finanzas":
                         return new JefeFinanzas(idUsuario, nombre, apellido_p, apellido_m, dni, telefono, username, password, rol);
                     default:
                         break;
