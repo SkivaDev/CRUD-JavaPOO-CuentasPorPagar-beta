@@ -4,6 +4,11 @@
  */
 package com.proyecto.utils;
 
+import com.proyecto.cuentasporpagarbeta.Main;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -55,7 +60,7 @@ public class Utils {
 
         return password;
     }
-
+/*
     public static void main(String[] args) {
         // Ejemplo de uso
         String nombre = "Fabrizio";
@@ -68,5 +73,30 @@ public class Utils {
 
         String password = generatePassword(nombre);
         System.out.println("Contraseña: " + password);
+    }
+*/
+    public static void reiniciarPrograma() {
+        try {
+            String javaHome = System.getProperty("java.home");
+            String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
+            String classPath = System.getProperty("java.class.path");
+            String className = Main.class.getName();
+
+            // Crea el comando para reiniciar el programa
+            List<String> command = new ArrayList<>();
+            command.add(javaBin);
+            command.add("-cp");
+            command.add(classPath);
+            command.add(className);
+
+            // Ejecuta el comando para reiniciar el programa
+            ProcessBuilder builder = new ProcessBuilder(command);
+            builder.start();
+
+            // Cierra el programa actual
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -77,7 +77,7 @@ public class ControladorGestorUsuarios {
                 int userId = (int) table.getValueAt(table.getSelectedRow(), 0);
                 //DAOUsers dao = new DAOUsersImpl();
 
-                VentanaDashboard.ShowJPanel(new VentanaRegistroUsuario(dao.obtenerUsuarioPorId(userId)));
+                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroUsuario(dao.obtenerUsuarioPorId(userId)));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

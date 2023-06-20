@@ -62,23 +62,53 @@ public class VentanaDashboard extends javax.swing.JFrame {
     }
 
     private void InitContent() {
-        ShowJPanel(new VentanaPrincipal(currentUser));
+        ShowJPanelWindows(new VentanaPrincipal(currentUser));
+
+        String rol = currentUser.getRol();
+        switch (rol) {
+            case "Encargado de Compras":
+                break;
+            case "Administrador":
+                ShowJPanelButtons(new VentanaMenuAdministrador(currentUser));
+                break;
+            case "Almacenero":
+
+                break;
+            case "Tesorero":
+
+                break;
+            case "Jefe de Finanzas":
+
+                break;
+            default:
+                break;
+        }
     }
 
-    public static void ShowJPanel(JPanel p) {
+    public static void ShowJPanelWindows(JPanel p) {
         p.setSize(750, 430);
         p.setLocation(0, 0);
 
-        content.removeAll();
-        content.add(p, BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
+        windowsContent.removeAll();
+        windowsContent.add(p, BorderLayout.CENTER);
+        windowsContent.revalidate();
+        windowsContent.repaint();
     }
 
-    public static void ShowJPanelButtons (JPanel p) {
-        
+    public static void ShowJPanelButtons(JPanel p) {
+        p.setSize(270, 370);
+        p.setLocation(0, 0);
+
+        buttonsContent.removeAll();
+        buttonsContent.add(p, BorderLayout.CENTER);
+        buttonsContent.revalidate();
+        buttonsContent.repaint();
     }
     
+   public void cerrarVentana() {
+       this.dispose(); // Cierra la ventana
+   }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,15 +123,12 @@ public class VentanaDashboard extends javax.swing.JFrame {
         appName = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btn_prin = new javax.swing.JButton();
-        btn_lends = new javax.swing.JButton();
-        btn_returns = new javax.swing.JButton();
         btn_users = new javax.swing.JButton();
-        btn_books = new javax.swing.JButton();
-        btn_reports = new javax.swing.JButton();
+        buttonsContent = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         navText = new javax.swing.JLabel();
         dateText = new javax.swing.JLabel();
-        content = new javax.swing.JPanel();
+        windowsContent = new javax.swing.JPanel();
         mensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -134,38 +161,6 @@ public class VentanaDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_lends.setBackground(new java.awt.Color(255, 0, 51));
-        btn_lends.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_lends.setForeground(new java.awt.Color(255, 255, 255));
-        btn_lends.setText("Préstamos");
-        btn_lends.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        btn_lends.setBorderPainted(false);
-        btn_lends.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btn_lends.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn_lends.setIconTextGap(13);
-        btn_lends.setInheritsPopupMenu(true);
-        btn_lends.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_lendsActionPerformed(evt);
-            }
-        });
-
-        btn_returns.setBackground(new java.awt.Color(255, 0, 51));
-        btn_returns.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_returns.setForeground(new java.awt.Color(255, 255, 255));
-        btn_returns.setText("Devoluciones");
-        btn_returns.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        btn_returns.setBorderPainted(false);
-        btn_returns.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btn_returns.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn_returns.setIconTextGap(13);
-        btn_returns.setInheritsPopupMenu(true);
-        btn_returns.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_returnsActionPerformed(evt);
-            }
-        });
-
         btn_users.setBackground(new java.awt.Color(255, 0, 51));
         btn_users.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_users.setForeground(new java.awt.Color(255, 255, 255));
@@ -182,54 +177,25 @@ public class VentanaDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_books.setBackground(new java.awt.Color(255, 0, 51));
-        btn_books.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_books.setForeground(new java.awt.Color(255, 255, 255));
-        btn_books.setText("Libros");
-        btn_books.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        btn_books.setBorderPainted(false);
-        btn_books.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btn_books.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn_books.setIconTextGap(13);
-        btn_books.setInheritsPopupMenu(true);
-        btn_books.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_booksActionPerformed(evt);
-            }
-        });
-
-        btn_reports.setBackground(new java.awt.Color(255, 0, 51));
-        btn_reports.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_reports.setForeground(new java.awt.Color(255, 255, 255));
-        btn_reports.setText("Reportes");
-        btn_reports.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        btn_reports.setBorderPainted(false);
-        btn_reports.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btn_reports.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn_reports.setIconTextGap(13);
-        btn_reports.setInheritsPopupMenu(true);
-        btn_reports.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_reportsActionPerformed(evt);
-            }
-        });
+        buttonsContent.setBackground(new java.awt.Color(0, 204, 0));
+        buttonsContent.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(menuLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(appName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(menuLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(btn_lends, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btn_users, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btn_prin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btn_returns, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-            .addComponent(btn_books, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btn_reports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(appName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(btn_users, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+            .addComponent(buttonsContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,25 +204,16 @@ public class VentanaDashboard extends javax.swing.JFrame {
                 .addComponent(appName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(btn_lends, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(btn_users, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_prin, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(btn_returns, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(200, 200, 200)
-                        .addComponent(btn_books, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(250, 250, 250)
-                        .addComponent(btn_reports, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(buttonsContent, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(btn_prin, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_users, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        buttonsContent.getAccessibleContext().setAccessibleParent(background);
 
         header.setBackground(new java.awt.Color(255, 51, 51));
         header.setPreferredSize(new java.awt.Dimension(744, 150));
@@ -286,8 +243,8 @@ public class VentanaDashboard extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        content.setBackground(new java.awt.Color(255, 255, 255));
-        content.setLayout(new java.awt.BorderLayout());
+        windowsContent.setBackground(new java.awt.Color(255, 255, 255));
+        windowsContent.setLayout(new java.awt.BorderLayout());
 
         mensaje.setText("We love paying for!");
 
@@ -302,7 +259,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
-                    .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(windowsContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +270,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(windowsContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
         );
 
@@ -333,33 +290,17 @@ public class VentanaDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_prinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_prinActionPerformed
-        ShowJPanel(new VentanaPrincipal(currentUser));
+        ShowJPanelWindows(new VentanaPrincipal(currentUser));
     }//GEN-LAST:event_btn_prinActionPerformed
-
-    private void btn_lendsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lendsActionPerformed
-        //ShowJPanel(new Lendings());
-    }//GEN-LAST:event_btn_lendsActionPerformed
-
-    private void btn_returnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_returnsActionPerformed
-        //ShowJPanel(new Returns());
-    }//GEN-LAST:event_btn_returnsActionPerformed
 
     private void btn_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_usersActionPerformed
         // ShowJPanel(new Users());
         JOptionPane.showMessageDialog(null, "Se hizo click lol");
         if (currentUser.getRol().equals("Administrador")) {
-           // controladorPrincipal.abrirVentanaRegistroUsuario();
-          ShowJPanel(new VentanaGestorUsuarios(currentUser));
+            // controladorPrincipal.abrirVentanaRegistroUsuario();
+            ShowJPanelWindows(new VentanaGestorUsuarios(currentUser));
         }
     }//GEN-LAST:event_btn_usersActionPerformed
-
-    private void btn_booksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_booksActionPerformed
-        //ShowJPanel(new Books());
-    }//GEN-LAST:event_btn_booksActionPerformed
-
-    private void btn_reportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportsActionPerformed
-        // ShowJPanel(new Reports());
-    }//GEN-LAST:event_btn_reportsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,18 +320,15 @@ public class VentanaDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel appName;
     private javax.swing.JPanel background;
-    private javax.swing.JButton btn_books;
-    private javax.swing.JButton btn_lends;
     private javax.swing.JButton btn_prin;
-    private javax.swing.JButton btn_reports;
-    private javax.swing.JButton btn_returns;
     private javax.swing.JButton btn_users;
-    private static javax.swing.JPanel content;
+    private static javax.swing.JPanel buttonsContent;
     private javax.swing.JLabel dateText;
     private javax.swing.JPanel header;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel mensaje;
     private javax.swing.JPanel menu;
     private javax.swing.JLabel navText;
+    private static javax.swing.JPanel windowsContent;
     // End of variables declaration//GEN-END:variables
 }

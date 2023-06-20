@@ -217,7 +217,7 @@ public class VentanaGestorUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MousePressed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        VentanaDashboard.ShowJPanel(new VentanaRegistroUsuario());
+        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroUsuario());
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
