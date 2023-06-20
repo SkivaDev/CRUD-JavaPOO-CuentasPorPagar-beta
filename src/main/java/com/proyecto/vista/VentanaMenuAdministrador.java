@@ -105,6 +105,7 @@ public class VentanaMenuAdministrador extends javax.swing.JPanel {
     private void cerrarSesionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarSesionBtnActionPerformed
         // TODO add your handling code here:
         //System.exit(0);
+        
         reiniciarPrograma();
     }//GEN-LAST:event_cerrarSesionBtnActionPerformed
 
