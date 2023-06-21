@@ -42,6 +42,7 @@ public class VentanaMenuEncargadoCompras extends javax.swing.JPanel {
         principalBtn = new javax.swing.JButton();
         cerrarSesionBtn = new javax.swing.JButton();
         gentionarProveedoresBtn = new javax.swing.JButton();
+        gentionarFacturasBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -78,7 +79,7 @@ public class VentanaMenuEncargadoCompras extends javax.swing.JPanel {
                 cerrarSesionBtnActionPerformed(evt);
             }
         });
-        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
+        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
 
         gentionarProveedoresBtn.setBackground(new java.awt.Color(255, 0, 51));
         gentionarProveedoresBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -96,6 +97,23 @@ public class VentanaMenuEncargadoCompras extends javax.swing.JPanel {
             }
         });
         add(gentionarProveedoresBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 60));
+
+        gentionarFacturasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        gentionarFacturasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        gentionarFacturasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        gentionarFacturasBtn.setText("Gestionar Facturas");
+        gentionarFacturasBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        gentionarFacturasBtn.setBorderPainted(false);
+        gentionarFacturasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        gentionarFacturasBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        gentionarFacturasBtn.setIconTextGap(13);
+        gentionarFacturasBtn.setInheritsPopupMenu(true);
+        gentionarFacturasBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gentionarFacturasBtnActionPerformed(evt);
+            }
+        });
+        add(gentionarFacturasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -114,9 +132,14 @@ public class VentanaMenuEncargadoCompras extends javax.swing.JPanel {
         VentanaDashboard.ShowJPanelWindows(new VentanaGestorProveedores(currentUser));
     }//GEN-LAST:event_gentionarProveedoresBtnActionPerformed
 
+    private void gentionarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gentionarFacturasBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cerrarSesionBtn;
+    private javax.swing.JButton gentionarFacturasBtn;
     private javax.swing.JButton gentionarProveedoresBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables

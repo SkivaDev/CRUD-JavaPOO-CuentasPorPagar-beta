@@ -4,6 +4,7 @@
  */
 package com.proyecto.interfaces;
 
+import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Proveedor;
 
 import java.util.List;
@@ -20,4 +21,12 @@ public interface DAOEncargadoComprasInterfaz {
     public Proveedor obtenerProveedorPorId(int supplierId) throws Exception;
    // public Users getUserById(int userId) throws Exception;
     public boolean supplierNameEnUso(String supplierName) throws Exception;
+    //
+    public void registrarFactura(Factura invoice) throws Exception;
+    public void modificarFactura(Factura invoice) throws Exception;
+    public void eliminarFactura(int invoiceId) throws Exception;
+    public List<Factura> obtenerListaFacturas(String name) throws Exception;
+    public Factura obtenerFacturaPorId(int invoiceId) throws Exception;
+   // public Users getUserById(int userId) throws Exception;
+    //public boolean supplierNameEnUso(String supplierName) throws Exception;
 }

@@ -12,15 +12,15 @@ import java.util.Date;
  */
 public class Factura {
     private int idFactura;
-    private Proveedor proveedor;
+    private int idproveedor;
     private Date fecha;
     private double montoTotal;
     private double pagado;
     private double saldo;
 
-    public Factura(int idFactura, Proveedor proveedor, Date fecha, double montoTotal, double pagado, double saldo) {
+    public Factura(int idFactura, int idproveedor, Date fecha, double montoTotal, double pagado, double saldo) {
         this.idFactura = idFactura;
-        this.proveedor = proveedor;
+        this.idproveedor = idproveedor;
         this.fecha = fecha;
         this.montoTotal = montoTotal;
         this.pagado = pagado;
@@ -35,12 +35,12 @@ public class Factura {
         this.idFactura = idFactura;
     }
 
-    public Proveedor getProveedor() {
-        return proveedor;
+    public int getIdproveedor() {
+        return idproveedor;
     }
 
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
     }
 
     public Date getFecha() {
@@ -74,7 +74,7 @@ public class Factura {
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
-    
-    
+
+
     
 }
