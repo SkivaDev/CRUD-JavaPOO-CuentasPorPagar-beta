@@ -37,7 +37,7 @@ public class ControladorLogin {
             // El usuario ha sido autenticado correctamente.
             // Realiza las acciones necesarias, como mostrar el menú principal, redireccionar a otra ventana, etc.
             if (user instanceof EncargadoCompras) {
-                JOptionPane.showMessageDialog(null, "Rol es ENCARGADOCOMPRAS");
+                JOptionPane.showMessageDialog(null, "Rol es ENCARGADO de COMPRAS");
                 VentanaDashboard ventanaDashboard = new VentanaDashboard(user);
                 ventanaDashboard.setVisible(true);
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);
@@ -61,7 +61,7 @@ public class ControladorLogin {
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);
                 //ventanaLogin.cerrar();
             } else if (user instanceof JefeFinanzas) {
-                JOptionPane.showMessageDialog(null, "Rol es JefeFinanzas");
+                JOptionPane.showMessageDialog(null, "Rol es Jefe de Finanzas");
                 VentanaDashboard ventanaDashboard = new VentanaDashboard(user);
                 ventanaDashboard.setVisible(true);
                 //ControladorPrincipal controladorPrincipal = new ControladorPrincipal(usuario);

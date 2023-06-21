@@ -123,8 +123,6 @@ public class VentanaDashboard extends javax.swing.JFrame {
         menu = new javax.swing.JPanel();
         appName = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        btn_prin = new javax.swing.JButton();
-        btn_users = new javax.swing.JButton();
         buttonsContent = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         navText = new javax.swing.JLabel();
@@ -145,38 +143,6 @@ public class VentanaDashboard extends javax.swing.JFrame {
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(50, 5));
 
-        btn_prin.setBackground(new java.awt.Color(255, 0, 51));
-        btn_prin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_prin.setForeground(new java.awt.Color(255, 255, 255));
-        btn_prin.setText("Principal");
-        btn_prin.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        btn_prin.setBorderPainted(false);
-        btn_prin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btn_prin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn_prin.setIconTextGap(13);
-        btn_prin.setInheritsPopupMenu(true);
-        btn_prin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_prinActionPerformed(evt);
-            }
-        });
-
-        btn_users.setBackground(new java.awt.Color(255, 0, 51));
-        btn_users.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_users.setForeground(new java.awt.Color(255, 255, 255));
-        btn_users.setText("Usuarios");
-        btn_users.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        btn_users.setBorderPainted(false);
-        btn_users.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btn_users.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn_users.setIconTextGap(13);
-        btn_users.setInheritsPopupMenu(true);
-        btn_users.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_usersActionPerformed(evt);
-            }
-        });
-
         buttonsContent.setBackground(new java.awt.Color(0, 204, 0));
         buttonsContent.setLayout(new java.awt.BorderLayout());
 
@@ -184,7 +150,6 @@ public class VentanaDashboard extends javax.swing.JFrame {
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btn_prin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(menuLayout.createSequentialGroup()
                 .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuLayout.createSequentialGroup()
@@ -193,8 +158,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
                     .addGroup(menuLayout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(btn_users, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addGap(0, 10, Short.MAX_VALUE))
             .addComponent(buttonsContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         menuLayout.setVerticalGroup(
@@ -206,11 +170,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonsContent, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(btn_prin, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_users, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         buttonsContent.getAccessibleContext().setAccessibleParent(background);
@@ -289,19 +249,6 @@ public class VentanaDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_prinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_prinActionPerformed
-        ShowJPanelWindows(new VentanaPrincipal(currentUser));
-    }//GEN-LAST:event_btn_prinActionPerformed
-
-    private void btn_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_usersActionPerformed
-        // ShowJPanel(new Users());
-        JOptionPane.showMessageDialog(null, "Se hizo click lol");
-        if (currentUser.getRol().equals("Administrador")) {
-            // controladorPrincipal.abrirVentanaRegistroUsuario();
-            ShowJPanelWindows(new VentanaGestorUsuarios(currentUser));
-        }
-    }//GEN-LAST:event_btn_usersActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -320,8 +267,6 @@ public class VentanaDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel appName;
     private javax.swing.JPanel background;
-    private javax.swing.JButton btn_prin;
-    private javax.swing.JButton btn_users;
     private static javax.swing.JPanel buttonsContent;
     private javax.swing.JLabel dateText;
     private javax.swing.JPanel header;
