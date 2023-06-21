@@ -37,18 +37,10 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
         modeloTabla.setRowCount(0);
         jTable1.setModel(modeloTabla);
 
-        modeloTabla = controladorGestorProveedores.listarUsuarios(jTable1);
+        modeloTabla = controladorGestorProveedores.listarProveedores(jTable1);
         jTable1.setModel(modeloTabla);
         
-        /*
-        try {
-            DAOUsers dao = new DAOUsersImpl();
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            dao.listar("").forEach((u) -> model.addRow(new Object[]{u.getId(), u.getName(), u.getLast_name_p(), u.getLast_name_m(), u.getDomicilio(), u.getTel()}));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-         */
+
     }
 
     /**
@@ -218,63 +210,30 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MousePressed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroUsuario());
+        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor());
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-        modeloTabla = controladorGestorProveedores.eliminarUsuarios(jTable1);
+        modeloTabla = controladorGestorProveedores.eliminarProveedores(jTable1);
         jTable1.setModel(modeloTabla);
 
-        /*
-        DAOUsers dao = new DAOUsersImpl();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        if (jTable1.getSelectedRows().length < 1) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Debes seleccionar uno o más usuarios a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-        } else {
-            for (int i : jTable1.getSelectedRows()) {
-                try {
-                    dao.eliminar((int) jTable1.getValueAt(i, 0));
-                    model.removeRow(i);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-        }*/
+ 
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         
-        controladorGestorProveedores.editarUsuarios(jTable1);
+        controladorGestorProveedores.editarProveedores(jTable1);
         
-        /*
-        if (jTable1.getSelectedRow() > -1) {
-            try {
-                int userId = (int) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-                DAOUsers dao = new DAOUsersImpl();
-                Dashboard.ShowJPanel(new UpUsers(dao.getUserById(userId)));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Debes seleccionar el usuario a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }*/
+
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         
-        modeloTabla = controladorGestorProveedores.buscarUsuarios(jTable1, userSearchField.getText());
+        modeloTabla = controladorGestorProveedores.buscarProveedores(jTable1, userSearchField.getText());
         jTable1.setModel(modeloTabla);
 
-        /*
-        try {
-            DAOUsers dao = new DAOUsersImpl();
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
-            dao.listar(userSearch.getText()).forEach((u) -> model.addRow(new Object[]{u.getId(), u.getName(), u.getLast_name_p(), u.getLast_name_m(), u.getDomicilio(), u.getTel()}));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }*/
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
 

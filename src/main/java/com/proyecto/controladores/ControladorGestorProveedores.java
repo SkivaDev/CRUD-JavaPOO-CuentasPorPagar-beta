@@ -6,6 +6,7 @@ package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.vista.VentanaDashboard;
+import com.proyecto.vista.VentanaRegistroProveedor;
 import com.proyecto.vista.VentanaRegistroUsuario;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +24,7 @@ public class ControladorGestorProveedores {
         this.dao = new DAOEncargadoComprasImpl();
     }
 
-    public DefaultTableModel listarUsuarios(JTable table) {
+    public DefaultTableModel listarProveedores(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         // Limpiar el modelo de la tabla
@@ -46,17 +47,17 @@ public class ControladorGestorProveedores {
         return null;
     }
 
-    public DefaultTableModel eliminarUsuarios(JTable table) {
+    public DefaultTableModel eliminarProveedores(JTable table) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         if (table.getSelectedRows().length < 1) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más usuarios a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más proveedores a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         } else {
             for (int i : table.getSelectedRows()) {
                 try {
                     //dao.eliminar((int) jTable1.getValueAt(i, 0));
-                    dao.eliminarUsuario((int) table.getValueAt(i, 0));
+                    dao.eliminarProveedor((int) table.getValueAt(i, 0));
                     model.removeRow(i);
                     return model;
                 } catch (Exception e) {
@@ -67,22 +68,21 @@ public class ControladorGestorProveedores {
         return null;
     }
 
-    public void editarUsuarios(JTable table) {
+    public void editarProveedores(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
-                int userId = (int) table.getValueAt(table.getSelectedRow(), 0);
-                //DAOUsers dao = new DAOUsersImpl();
+                int supplierId = (int) table.getValueAt(table.getSelectedRow(), 0);
 
-                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroUsuario(dao.obtenerUsuarioPorId(userId)));
+                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor(dao.obtenerProveedorPorId(supplierId)));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el usuario a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public DefaultTableModel buscarUsuarios(JTable table, String name) {
+    public DefaultTableModel buscarProveedores(JTable table, String name) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
