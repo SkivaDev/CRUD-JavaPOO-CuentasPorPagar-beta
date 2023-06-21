@@ -5,6 +5,7 @@
 package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
+import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.interfaces.DAOEncargadoComprasInterfaz;
 import java.sql.PreparedStatement;
@@ -151,6 +152,31 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
 
         // Si ocurre algún error, se asume que el nombre de usuario no está tomado
         return false;
+    }
+
+    @Override
+    public void registrarFactura(Factura invoice) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarFactura(Factura invoice) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarFactura(int invoiceId) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Factura> obtenerListaFacturas(String name) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Factura obtenerFacturaPorId(int invoiceId) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
