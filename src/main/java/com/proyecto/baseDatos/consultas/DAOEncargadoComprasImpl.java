@@ -8,6 +8,7 @@ import com.proyecto.baseDatos.GestorBaseDatos;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.interfaces.DAOEncargadoComprasInterfaz;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -156,7 +157,27 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
 
     @Override
     public void registrarFactura(Factura invoice) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO proveedores (id_proveedor, fecha_registro, fecha_vencimiento, descripcion, monto_total) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, invoice.getIdproveedor());
+            statement.setDate(2, (Date) invoice.getFechaRegistro());
+            statement.setDate(2, (Date) invoice.getFechaVencimiento());
+            statement.setString(3, invoice.getDescripcion());
+            statement.setDouble(4, invoice.getMontoTotal());
+            statement.executeUpdate();
+/*
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idProveedor = generatedKeys.getInt(1);
+                supplier.setIdProveedor(idProveedor);
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el Proveedor");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el Proveedor en la base de datos", e);
+        }*/
     }
 
     @Override

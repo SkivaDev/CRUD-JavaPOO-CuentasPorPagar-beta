@@ -24,7 +24,7 @@ public interface DAOEncargadoComprasInterfaz {
     //
     public void registrarFactura(Factura invoice) throws Exception;
     public void modificarFactura(Factura invoice) throws Exception;
-    public void eliminarFactura(int invoiceId) throws Exception;
+    public void eliminarFactura(int invoiceId) throws Exception; //ya no se podria eliminar las facturas que ya han sido pagadas.
     public List<Factura> obtenerListaFacturas(String name) throws Exception;
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception;
    // public Users getUserById(int userId) throws Exception;

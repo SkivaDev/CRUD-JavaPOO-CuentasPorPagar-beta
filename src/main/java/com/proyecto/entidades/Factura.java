@@ -13,18 +13,22 @@ import java.util.Date;
 public class Factura {
     private int idFactura;
     private int idproveedor;
-    private Date fecha;
+    private Date fechaRegistro;
+    private Date fechaVencimiento;
+    private String descripcion;
     private double montoTotal;
-    private double pagado;
-    private double saldo;
+    private double montoPagado; // 
+    private double montoPendiente; // saldo
 
-    public Factura(int idFactura, int idproveedor, Date fecha, double montoTotal, double pagado, double saldo) {
+    public Factura(int idFactura, int idproveedor, Date fechaRegistro, Date fechaVencimiento, String descripcion, double montoTotal, double montoPagado, double montoPendiente) {
         this.idFactura = idFactura;
         this.idproveedor = idproveedor;
-        this.fecha = fecha;
+        this.fechaRegistro = fechaRegistro;
+        this.fechaVencimiento = fechaVencimiento;
+        this.descripcion = descripcion;
         this.montoTotal = montoTotal;
-        this.pagado = pagado;
-        this.saldo = saldo;
+        this.montoPagado = montoPagado;
+        this.montoPendiente = montoPendiente;
     }
 
     public int getIdFactura() {
@@ -43,12 +47,28 @@ public class Factura {
         this.idproveedor = idproveedor;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public double getMontoTotal() {
@@ -59,22 +79,21 @@ public class Factura {
         this.montoTotal = montoTotal;
     }
 
-    public double getPagado() {
-        return pagado;
+    public double getMontoPagado() {
+        return montoPagado;
     }
 
-    public void setPagado(double pagado) {
-        this.pagado = pagado;
+    public void setMontoPagado(double montoPagado) {
+        this.montoPagado = montoPagado;
     }
 
-    public double getSaldo() {
-        return saldo;
+    public double getMontoPendiente() {
+        return montoPendiente;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public void setMontoPendiente(double montoPendiente) {
+        this.montoPendiente = montoPendiente;
     }
-
 
     
 }
