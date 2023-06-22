@@ -5,7 +5,9 @@
 package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
+import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
+import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.interfaces.DAOEncargadoComprasInterfaz;
 import java.sql.Date;
@@ -167,22 +169,35 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             statement.setString(3, invoice.getDescripcion());
             statement.setDouble(4, invoice.getMontoTotal());
             statement.executeUpdate();
-/*
+
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                int idProveedor = generatedKeys.getInt(1);
-                supplier.setIdProveedor(idProveedor);
+                int idFactura = generatedKeys.getInt(1);
+                invoice.setIdFactura(idFactura);
             } else {
-                throw new SQLException("Error al obtener el ID generado para el Proveedor");
+                throw new SQLException("Error al obtener el ID generado para la factura");
             }
         } catch (SQLException e) {
-            throw new SQLException("Error al registrar el Proveedor en la base de datos", e);
-        }*/
+            throw new SQLException("Error al registrar la factura en la base de datos", e);
+        }
     }
 
     @Override
     public void modificarFactura(Factura invoice) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            this.Conectar();
+            String consulta = "UPDATE facturas SET id_proveedor = ?, fecha_registro = ?, fecha_vencimiento = ?, descripcion = ?, monto_total = ? WHERE id_factura = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, invoice.getIdProveedor());
+            statement.setDate(2, invoice.getFechaRegistro());
+            statement.setDate(3, invoice.getFechaVencimiento());
+            statement.setString(4, invoice.getDescripcion());
+            statement.setDouble(5, invoice.getMontoTotal());
+            statement.setInt(6, invoice.getIdFactura());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar la factura en la base de datos", e);
+        }
     }
 
     @Override
@@ -198,6 +213,44 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     @Override
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void registrarProducto(Producto product) throws Exception { // cuando el encargado de compras registra la factura se crea el producto por ende ya es existente
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO proveedores (id_factura, nombre, descripcion, cantidad, precio_unitario) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, product.getIdFactura());
+            statement.setString(2, product.getNombre());
+            statement.setString(3, product.getDescripcion());
+            statement.setInt(4, product.getCantidad());
+            statement.setDouble(5, product.getPrecioUnitario());
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idProducto = generatedKeys.getInt(1);
+                product.setIdProducto(idProducto);
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el producto");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el producto en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void eliminarProductosPorIdFactura(int idFactura) throws Exception { // este metodo se utiliza al momento que el encargado compras elimina una factura, automaticamente se debe eliminar los productos registrados en ella.
+        try {
+            this.Conectar();
+            String consulta = "DELETE FROM productos WHERE id_factura = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, idFactura);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al eliminar los productos de la factura en la base de datos", e);
+        }
     }
 
 }

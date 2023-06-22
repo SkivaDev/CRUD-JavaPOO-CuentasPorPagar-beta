@@ -4,7 +4,9 @@
  */
 package com.proyecto.interfaces;
 
+import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
+import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 
 import java.util.List;
@@ -27,6 +29,9 @@ public interface DAOEncargadoComprasInterfaz {
     public void eliminarFactura(int invoiceId) throws Exception; //ya no se podria eliminar las facturas que ya han sido pagadas.
     public List<Factura> obtenerListaFacturas(String name) throws Exception;
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception;
+    //
+    public void registrarProducto(Producto product) throws Exception;
+    public void eliminarProductosPorIdFactura(int idFactura) throws Exception;
    // public Users getUserById(int userId) throws Exception;
     //public boolean supplierNameEnUso(String supplierName) throws Exception;
 }
