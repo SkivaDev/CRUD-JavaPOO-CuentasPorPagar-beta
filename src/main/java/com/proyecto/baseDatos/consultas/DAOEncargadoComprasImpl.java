@@ -163,7 +163,7 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             this.Conectar();
             String consulta = "INSERT INTO proveedores (id_proveedor, fecha_registro, fecha_vencimiento, descripcion, monto_total) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, invoice.getIdproveedor());
+            statement.setInt(1, invoice.getIdProveedor());
             statement.setDate(2, (Date) invoice.getFechaRegistro());
             statement.setDate(2, (Date) invoice.getFechaVencimiento());
             statement.setString(3, invoice.getDescripcion());
@@ -189,8 +189,8 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             String consulta = "UPDATE facturas SET id_proveedor = ?, fecha_registro = ?, fecha_vencimiento = ?, descripcion = ?, monto_total = ? WHERE id_factura = ?";
             PreparedStatement statement = this.conexion.prepareStatement(consulta);
             statement.setInt(1, invoice.getIdProveedor());
-            statement.setDate(2, invoice.getFechaRegistro());
-            statement.setDate(3, invoice.getFechaVencimiento());
+            statement.setDate(2, (Date) invoice.getFechaRegistro());
+            statement.setDate(3, (Date) invoice.getFechaVencimiento());
             statement.setString(4, invoice.getDescripcion());
             statement.setDouble(5, invoice.getMontoTotal());
             statement.setInt(6, invoice.getIdFactura());
