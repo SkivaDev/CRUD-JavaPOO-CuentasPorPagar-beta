@@ -3,6 +3,7 @@ package com.proyecto.vista;
 //import com.mycompany.ilib.DAOUsersImpl;
 //import com.proyecto.vista.VentanaDashboard;
 //import com.mycompany.interfaces.DAOUsers;
+import com.proyecto.controladores.ControladorGestorFacturas;
 import com.proyecto.controladores.ControladorGestorProveedores;
 import com.proyecto.controladores.ControladorGestorUsuarios;
 import com.proyecto.entidades.Usuario;
@@ -12,11 +13,11 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaGestorFacturas extends javax.swing.JPanel {
 
     private Usuario currentUser;
-    private ControladorGestorProveedores controladorGestorProveedores;
+    private ControladorGestorFacturas controladorGestorFacturas;
     private DefaultTableModel modeloTabla;
 
     public VentanaGestorFacturas(Usuario currentUser) {
-        this.controladorGestorProveedores = new ControladorGestorProveedores();
+        this.controladorGestorFacturas = new ControladorGestorFacturas();
         this.currentUser = currentUser;
         this.modeloTabla = new DefaultTableModel();
 
@@ -37,7 +38,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
         modeloTabla.setRowCount(0);
         jTable1.setModel(modeloTabla);
 
-        modeloTabla = controladorGestorProveedores.listarProveedores(jTable1);
+        modeloTabla = controladorGestorFacturas.listarProveedores(jTable1);
         jTable1.setModel(modeloTabla);
         
 
@@ -66,7 +67,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("Proveedores");
+        title.setText("Facturas");
 
         searchButton.setBackground(new java.awt.Color(18, 90, 173));
         searchButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -215,7 +216,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-        modeloTabla = controladorGestorProveedores.eliminarProveedores(jTable1);
+        modeloTabla = controladorGestorFacturas.eliminarProveedores(jTable1);
         jTable1.setModel(modeloTabla);
 
  

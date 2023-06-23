@@ -20,9 +20,9 @@ public class Factura {
     private double montoPagado; // 
     private double montoPendiente; // saldo
 
-    public Factura(int idFactura, int idproveedor, Date fechaRegistro, Date fechaVencimiento, String descripcion, double montoTotal, double montoPagado, double montoPendiente) {
+    public Factura(int idFactura, int idProveedor, Date fechaRegistro, Date fechaVencimiento, String descripcion, double montoTotal, double montoPagado, double montoPendiente) {
         this.idFactura = idFactura;
-        this.idProveedor = idproveedor;
+        this.idProveedor = idProveedor;
         this.fechaRegistro = fechaRegistro;
         this.fechaVencimiento = fechaVencimiento;
         this.descripcion = descripcion;

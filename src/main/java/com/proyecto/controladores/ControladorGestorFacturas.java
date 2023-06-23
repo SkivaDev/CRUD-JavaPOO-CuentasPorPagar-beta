@@ -24,7 +24,7 @@ public class ControladorGestorFacturas {
         this.dao = new DAOEncargadoComprasImpl();
     }
 
-    public DefaultTableModel listarProveedores(JTable table) {
+    public DefaultTableModel listarFacturas(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         // Limpiar el modelo de la tabla
@@ -32,14 +32,18 @@ public class ControladorGestorFacturas {
         table.setModel(model);
 
         model.addColumn("ID");
-        model.addColumn("Nombre");
-        model.addColumn("Dirección");
-        model.addColumn("Teléfono");
-        model.addColumn("Linea de Credito");
+        model.addColumn("IDProveedor");
+        model.addColumn("Fecha Registro");
+        model.addColumn("Fecha Vencimiento");
+        model.addColumn("Descripcion");
+        model.addColumn("Monto Total");
+        model.addColumn("Monto Pagado");
+        model.addColumn("Monto Pendiente");
 
         try {
             //DAOUsers dao = new DAOUsersImpl();
-            dao.obtenerListaProveedores("").forEach((u) -> model.addRow(new Object[]{u.getIdProveedor(), u.getNombre(), u.getDireccion(), u.getTelefono(), u.getLineaCredito()}));
+            dao.obtenerListaFacturas("").forEach((u) -> model.addRow(new Object[]{u.getIdFactura(), u.getIdProveedor(), u.getFechaRegistro(),
+                u.getFechaVencimiento(), u.getDescripcion(), u.getMontoTotal(), u.getMontoPagado(), u.getMontoPendiente()}));
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -47,33 +51,37 @@ public class ControladorGestorFacturas {
         return null;
     }
 
-    public DefaultTableModel eliminarProveedores(JTable table) {
-
+    public DefaultTableModel eliminarFacturas(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         if (table.getSelectedRows().length < 1) {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más proveedores a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         } else {
             for (int i : table.getSelectedRows()) {
+                int idFactura = (int) table.getValueAt(i, 0);
                 try {
-                    //dao.eliminar((int) jTable1.getValueAt(i, 0));
-                    dao.eliminarProveedor((int) table.getValueAt(i, 0));
-                    model.removeRow(i);
-                    return model;
+                    if (dao.existeRegistroPago(idFactura)) {
+                        javax.swing.JOptionPane.showMessageDialog(null, "No se puede eliminar la factura debido a que existen registros de pago asociados.", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        dao.eliminarFactura(idFactura);
+                        model.removeRow(i);
+                        return model;
+                    }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
         }
+
         return null;
     }
 
-    public void editarProveedores(JTable table) {
+    public void editarFacturas(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
-                int supplierId = (int) table.getValueAt(table.getSelectedRow(), 0);
+                int invoiceId = (int) table.getValueAt(table.getSelectedRow(), 0);
 
-                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor(dao.obtenerProveedorPorId(supplierId)));
+                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroFactura(dao.obtenerFacturaPorId(invoiceId)));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -82,13 +90,13 @@ public class ControladorGestorFacturas {
         }
     }
 
-    public DefaultTableModel buscarProveedores(JTable table, String name) {
+    public DefaultTableModel buscarFacturas(JTable table, String name) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
         try {
-            dao.obtenerListaProveedores(name).forEach((u) -> model.addRow(new Object[]{u.getIdProveedor(), u.getNombre(), u.getDireccion(), u.getTelefono(), u.getLineaCredito()}));
+            dao.obtenerListaFacturas(name).forEach((u) -> model.addRow(new Object[]{u.getIdProveedor(), u.getNombre(), u.getDireccion(), u.getTelefono(), u.getLineaCredito()}));
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -15,14 +15,16 @@ public class Producto {
     private String descripcion;
     private int cantidad;
     private double precioUnitario;
+    private double subtotal;
 
-    public Producto(int idProducto, int idFactura, String nombre, String descripcion, int cantidad, double precioUnitario) {
+    public Producto(int idProducto, int idFactura, String nombre, String descripcion, int cantidad, double precioUnitario, double subtotal) {
         this.idProducto = idProducto;
         this.idFactura = idFactura;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
+        this.subtotal = subtotal;
     }
 
     public int getIdProducto() {
@@ -72,6 +74,14 @@ public class Producto {
     public void setPrecioUnitario(double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
-    
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
     
 }

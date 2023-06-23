@@ -157,17 +157,22 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
         return false;
     }
 
+    /*METODOS FACTURA---------------------------------------------------------------------------------------------------------------*/
+    //al momento de registrar la factura este se debe registrar el monto pagado en 0, monto pendiente en 0, 
+    //y el monto total se calcula automaticamente de los productos registrados montouni x cantidad
     @Override
     public void registrarFactura(Factura invoice) throws Exception {
         try {
             this.Conectar();
-            String consulta = "INSERT INTO proveedores (id_proveedor, fecha_registro, fecha_vencimiento, descripcion, monto_total) VALUES (?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO proveedores (id_proveedor, fecha_registro, fecha_vencimiento, descripcion, monto_total, monto_pagado, monto_pendiente) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, invoice.getIdProveedor());
             statement.setDate(2, (Date) invoice.getFechaRegistro());
-            statement.setDate(2, (Date) invoice.getFechaVencimiento());
-            statement.setString(3, invoice.getDescripcion());
-            statement.setDouble(4, invoice.getMontoTotal());
+            statement.setDate(3, (Date) invoice.getFechaVencimiento());
+            statement.setString(4, invoice.getDescripcion());
+            statement.setDouble(5, invoice.getMontoTotal());
+            statement.setDouble(6, invoice.getMontoPagado());
+            statement.setDouble(7, invoice.getMontoPendiente());
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -182,6 +187,8 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
         }
     }
 
+    //al momento en que se edite la factura, este editara al proveedor que pertenece y eso solo afectara a la linea de credito del proveedor
+    //al momento de 
     @Override
     public void modificarFactura(Factura invoice) throws Exception {
         try {
@@ -202,30 +209,87 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
 
     @Override
     public void eliminarFactura(int invoiceId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            this.Conectar();
+            String consulta = "DELETE FROM facturas WHERE id_factura = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, invoiceId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al eliminar la factura de la base de datos", e);
+        }
     }
 
     @Override
     public List<Factura> obtenerListaFacturas(String name) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM facturas";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<Factura> facturas = new ArrayList<>(); // idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente
+            while (resultSet.next()) {
+                int idFactura = resultSet.getInt("id_factura");
+                int idProveedor = resultSet.getInt("id_proveedor");
+                Date fechaRegistro = resultSet.getDate("fecha_registro");
+                Date fechaVencimiento = resultSet.getDate("fecha_vencimiento");
+                String descripcion = resultSet.getString("descripcion");
+                Double montoTotal = resultSet.getDouble("monto_total");
+                Double montoPagado = resultSet.getDouble("monto_pagado");
+                Double montoPendiente = resultSet.getDouble("monto_pendiente");
+
+                Factura factura = new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
+                facturas.add(factura);
+            }
+
+            return facturas;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de facturas de la base de datos", e);
+        }
     }
 
     @Override
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM facturas WHERE id_factura = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, invoiceId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int idFactura = resultSet.getInt("id_factura");
+                int idProveedor = resultSet.getInt("id_proveedor");
+                Date fechaRegistro = resultSet.getDate("fecha_registro");
+                Date fechaVencimiento = resultSet.getDate("fecha_vencimiento");
+                String descripcion = resultSet.getString("descripcion");
+                Double montoTotal = resultSet.getDouble("monto_total");
+                Double montoPagado = resultSet.getDouble("monto_pagado");
+                Double saldoPendiente = resultSet.getDouble("saldo_pendiente");
+
+                return new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, saldoPendiente);
+            }
+
+            // Si no se encuentra el usuario, puedes lanzar una excepción o retornar null, según tu necesidad
+            throw new SQLException("No se encontró ninguna factura con el ID proporcionado");
+        } catch (SQLException e) {
+            throw new SQLException("Error al consultar obtenerFacturaPorId la base de datos", e);
+        }
     }
 
     @Override
     public void registrarProducto(Producto product) throws Exception { // cuando el encargado de compras registra la factura se crea el producto por ende ya es existente
         try {
             this.Conectar();
-            String consulta = "INSERT INTO proveedores (id_factura, nombre, descripcion, cantidad, precio_unitario) VALUES (?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO proveedores (id_factura, nombre, descripcion, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, product.getIdFactura());
             statement.setString(2, product.getNombre());
             statement.setString(3, product.getDescripcion());
             statement.setInt(4, product.getCantidad());
             statement.setDouble(5, product.getPrecioUnitario());
+            statement.setDouble(6, product.getSubtotal());
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -250,6 +314,27 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error al eliminar los productos de la factura en la base de datos", e);
+        }
+    }
+
+    /*VERIFICACIONES-------------------------------------------------------------*/
+    @Override
+    public boolean existeRegistroPago(int idFactura) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT COUNT(*) AS total FROM movimientos_facturas WHERE id_factura = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, idFactura);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int totalRegistros = resultSet.getInt("total");
+                return totalRegistros > 0;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            throw new SQLException("Error al verificar los registros de pago en la base de datos", e);
         }
     }
 

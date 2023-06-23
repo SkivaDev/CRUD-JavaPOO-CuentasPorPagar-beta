@@ -97,7 +97,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="title">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Proveedores"/>
+            <Property name="text" type="java.lang.String" value="Facturas"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="userSearchField">
