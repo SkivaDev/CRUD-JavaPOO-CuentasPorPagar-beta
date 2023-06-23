@@ -132,6 +132,28 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     }
 
     @Override
+    public int buscarIdProveedorPorNombre(String nombreProveedor) throws Exception {
+        int idProveedor = 0;
+        try {
+            this.Conectar();
+            String consulta = "SELECT id_proveedor FROM proveedores WHERE nombre = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setString(1, nombreProveedor);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                idProveedor = resultSet.getInt("id_proveedor");
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new SQLException("Error al buscar el ID del proveedor por nombre en la base de datos", e);
+        }
+
+        return idProveedor;
+    }
+
+    @Override
     public boolean supplierNameEnUso(String supplierName) throws Exception {
         try {
             this.Conectar();
@@ -278,6 +300,7 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
         }
     }
 
+    /*PRODUCTOS--------------------------------------------------*/
     @Override
     public void registrarProducto(Producto product) throws Exception { // cuando el encargado de compras registra la factura se crea el producto por ende ya es existente
         try {
@@ -305,6 +328,25 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     }
 
     @Override
+    public void modificarProducto(Producto product) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE productos SET id_factura = ?, nombre = ?, descripcion = ?, cantidad = ?, precio_unitario = ?, subtotal = ? WHERE id_producto = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, product.getIdFactura());
+            statement.setString(2, product.getNombre());
+            statement.setString(3, product.getDescripcion());
+            statement.setInt(4, product.getCantidad());
+            statement.setDouble(5, product.getPrecioUnitario());
+            statement.setDouble(6, product.getSubtotal());
+            statement.setInt(7, product.getIdProducto());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar la factura en la base de datos", e);
+        }
+    }
+
+    @Override
     public void eliminarProductosPorIdFactura(int idFactura) throws Exception { // este metodo se utiliza al momento que el encargado compras elimina una factura, automaticamente se debe eliminar los productos registrados en ella.
         try {
             this.Conectar();
@@ -316,6 +358,56 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             throw new SQLException("Error al eliminar los productos de la factura en la base de datos", e);
         }
     }
+
+    @Override
+    public List<Producto> obtenerListaProductosporFacturaId(int facturaId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM productos WHERE id_factura = " + facturaId;
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<Producto> productos = new ArrayList<>(); // idProducto, idFactura, nombre, descripcion, cantidad, precioUnitario, subtotal
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                int idFactura = resultSet.getInt("id_factura");
+                String nombre = resultSet.getString("nombre");
+                String descripcion = resultSet.getString("descripcion");
+                int cantidad = resultSet.getInt("cantidad");
+                double precioUnitario = resultSet.getDouble("precio_unitario");
+                double subtotal = resultSet.getDouble("subtotal");
+
+                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, cantidad, precioUnitario, subtotal);
+                productos.add(producto);
+            }
+
+            return productos;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de productos por factura en la base de datos", e);
+        }
+    }
+
+    @Override
+    public int obtenerUltimaFacturaRegistrada() throws Exception {
+        int idFactura = 0;
+        try {
+            this.Conectar();
+            String consulta = "SELECT MAX(id_factura) AS max_id FROM facturas";
+            Statement statement = this.conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            if (resultSet.next()) {
+                idFactura = resultSet.getInt("max_id");
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el ID de la última factura registrada", e);
+        }
+
+        return idFactura;
+    }
+
 
     /*VERIFICACIONES-------------------------------------------------------------*/
     @Override
@@ -335,6 +427,27 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             return false;
         } catch (SQLException e) {
             throw new SQLException("Error al verificar los registros de pago en la base de datos", e);
+        }
+    }
+
+    @Override
+    public String buscarNombreProveedorPorFactura(int idFactura) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT proveedores.nombre AS nombre_proveedor FROM proveedores "
+                    + "INNER JOIN facturas ON proveedores.id_proveedor = facturas.id_proveedor "
+                    + "WHERE facturas.id_factura = " + idFactura;
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            if (resultSet.next()) {
+                String nombreProveedor = resultSet.getString("nombre_proveedor");
+                return nombreProveedor;
+            }
+
+            return null;
+        } catch (SQLException e) {
+            throw new SQLException("Error al buscar el nombre del proveedor por factura en la base de datos", e);
         }
     }
 

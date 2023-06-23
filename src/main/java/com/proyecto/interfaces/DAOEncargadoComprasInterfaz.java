@@ -21,6 +21,7 @@ public interface DAOEncargadoComprasInterfaz {
     public void eliminarProveedor(int supplierId) throws Exception;
     public List<Proveedor> obtenerListaProveedores(String name) throws Exception;
     public Proveedor obtenerProveedorPorId(int supplierId) throws Exception;
+    public int buscarIdProveedorPorNombre(String nombreProveedor) throws Exception;
    // public Users getUserById(int userId) throws Exception;
     public boolean supplierNameEnUso(String supplierName) throws Exception;
     //
@@ -31,10 +32,15 @@ public interface DAOEncargadoComprasInterfaz {
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception;
     //
     public void registrarProducto(Producto product) throws Exception;
+    public void modificarProducto(Producto product) throws Exception;
     public void eliminarProductosPorIdFactura(int idFactura) throws Exception;
-   // public Users getUserById(int userId) throws Exception;
+    public List<Producto> obtenerListaProductosporFacturaId(int facturaId) throws Exception;
+    public int obtenerUltimaFacturaRegistrada() throws Exception;
+   // public Users getUserById(int userId) throws Exception; 
     //public boolean supplierNameEnUso(String supplierName) throws Exception;
     
+    //EXTRAS
+    public String buscarNombreProveedorPorFactura(int idFactura) throws Exception;
     
     //VERIFICACIONES
     public boolean existeRegistroPago(int idFactura) throws Exception;

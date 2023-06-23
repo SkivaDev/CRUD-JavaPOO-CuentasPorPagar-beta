@@ -6,6 +6,7 @@ package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.vista.VentanaDashboard;
+import com.proyecto.vista.VentanaRegistroFactura;
 import com.proyecto.vista.VentanaRegistroProveedor;
 import com.proyecto.vista.VentanaRegistroUsuario;
 import javax.swing.JTable;
@@ -96,7 +97,9 @@ public class ControladorGestorFacturas {
         model.setRowCount(0);
 
         try {
-            dao.obtenerListaFacturas(name).forEach((u) -> model.addRow(new Object[]{u.getIdProveedor(), u.getNombre(), u.getDireccion(), u.getTelefono(), u.getLineaCredito()}));
+            dao.obtenerListaFacturas("").forEach((u) -> model.addRow(new Object[]{u.getIdFactura(), u.getIdProveedor(), u.getFechaRegistro(),
+                u.getFechaVencimiento(), u.getDescripcion(), u.getMontoTotal(), u.getMontoPagado(), u.getMontoPendiente()}));
+
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());

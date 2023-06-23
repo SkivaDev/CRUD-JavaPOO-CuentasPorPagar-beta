@@ -6,53 +6,120 @@ import com.proyecto.controladores.ControladorRegistroFactura;
 import com.proyecto.controladores.ControladorRegistroProveedor;
 import com.proyecto.controladores.ControladorRegistroUsuario;
 import com.proyecto.entidades.Factura;
+import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class VentanaRegistroFactura extends javax.swing.JPanel {
 
     private ControladorRegistroFactura controladorRegistroFactura;
     boolean isEdition = false;
+    boolean isProducEdition = false;
     private Factura invoiceEdition;
+    private List<Producto> productosTemporales;
+    private DefaultTableModel modeloTabla;
 
-    public VentanaRegistroFactura() {
+    private int currentProductId;
+    private int currentFacturaId;
+
+    public VentanaRegistroFactura() throws Exception {
         this.controladorRegistroFactura = new ControladorRegistroFactura();
+        this.productosTemporales = new ArrayList<>();
+        this.modeloTabla = new DefaultTableModel();
 
         initComponents();
         InitStyles();
 
+        currentFacturaId = 0; // es el id que se pone en 0 porque significa que es una nueva factura para agregar
+        currentProductId = 0; // es el id que se utiliza al momento de agregar productos o editarlos
+        LoadProducts();
     }
 
-    public VentanaRegistroFactura(Factura invoice) {
+    public VentanaRegistroFactura(Factura invoice) throws Exception {
         this.controladorRegistroFactura = new ControladorRegistroFactura();
+        this.productosTemporales = new ArrayList<>();
+        this.modeloTabla = new DefaultTableModel();
 
         initComponents();
         isEdition = true;
         invoiceEdition = invoice;
         InitStyles();
+
+        currentFacturaId = invoice.getIdFactura(); // es el id que se pone su respectiva idFactura registrada al ventanaGestorFactura envia.
+        currentProductId = 0;
+        LoadProducts();
     }
 
-    private void InitStyles() {
+    private void InitStyles() throws Exception {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
-        nameField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del proveedor.");
-        addressField.putClientProperty("JTextField.placeholderText", "Ingrese la dirección del proveedor.");
-        phoneField.putClientProperty("JTextField.placeholderText", "Ingrese teléfono del proveedor.");
-        creditLineField.putClientProperty("JTextField.placeholderText", "Ingrese la linea de credito del proveedor.");
 
+        //agrega todos los proveedores al combo box de la ventana
+        controladorRegistroFactura.llenarComboBoxProveedores(proveedorCBox);
+        //
+
+        //El monto total, monto pagado, y monto pendiente se ponen en 0 porque pordefecto es para registrar nuevas facturas
+        montoTotalLabel.setText("0");
+        montoPagadoLabel.setText("0");
+        montoPendienteLabel.setText("0");
+
+        //
+        //nameField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del proveedor.");
+        //addressField.putClientProperty("JTextField.placeholderText", "Ingrese la dirección del proveedor.");
+        //phoneField.putClientProperty("JTextField.placeholderText", "Ingrese teléfono del proveedor.");
+        // creditLineField.putClientProperty("JTextField.placeholderText", "Ingrese la linea de credito del proveedor.");
         if (isEdition) {
-            title.setText("Editar Proveedor");
-            registerButton.setText("Guardar");
+            title.setText("Editar Factura");
+            registrarFacturaBtn.setText("Guardar");
+            controladorRegistroFactura.agregarProductosArrayProductos(productosTemporales, invoiceEdition.getIdFactura());
 
-            if (supplierEdition != null) {
-                nameField.setText(supplierEdition.getNombre());
-                addressField.setText(supplierEdition.getDireccion());
-                phoneField.setText(supplierEdition.getTelefono());
-                creditLineField.setText((String.valueOf(supplierEdition.getLineaCredito())));
+            if (invoiceEdition != null) {
+                String proveedorDeFactura = controladorRegistroFactura.buscarNombreProveedorPorFactura(invoiceEdition.getIdFactura());
+                proveedorCBox.setSelectedItem(proveedorDeFactura);
+
+                // Crea el formato deseado para la fecha
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+                // Convierte la fecha a String
+                String fechaRegistroString = formato.format(invoiceEdition.getFechaRegistro());
+                fechaRegistroField.setText(fechaRegistroString);
+
+                String fechaVencimientoString = formato.format(invoiceEdition.getFechaRegistro());
+                fechaVencimientoField.setText(fechaVencimientoString);
+
+                descripcionField.setText(invoiceEdition.getDescripcion());
+
+                montoTotalLabel.setText(Double.toString(invoiceEdition.getMontoTotal()));
+                montoPagadoLabel.setText(Double.toString(invoiceEdition.getMontoPagado()));
+                montoPendienteLabel.setText(Double.toString(invoiceEdition.getMontoPendiente()));
+
             }
         }
+    }
+
+    private void LoadProducts() {
+
+        // Limpiar el modelo de la tabla
+        modeloTabla.setRowCount(0);
+        productosTable.setModel(modeloTabla);
+
+        modeloTabla = controladorRegistroFactura.agregarProductosTabla(productosTable, productosTemporales);
+        productosTable.setModel(modeloTabla);
+
+    }
+
+    public void limpiarCamposProducto() {
+        nombreProdField.setText("");
+        descripcionProdField.setText("");
+        cantidadProdField.setText("");
+        precioUniProdField.setText("");
     }
 
     /**
@@ -67,45 +134,137 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         bg = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
-        nameField = new javax.swing.JTextField();
-        addressLabel = new javax.swing.JLabel();
-        addressField = new javax.swing.JTextField();
-        lastnameMLabel = new javax.swing.JLabel();
-        phoneField = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         phoneLabel = new javax.swing.JLabel();
-        creditLineField = new javax.swing.JTextField();
-        registerButton = new javax.swing.JButton();
+        registrarFacturaBtn = new javax.swing.JButton();
+        proveedorCBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        fechaRegistroField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        fechaVencimientoField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        descripcionField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        montoTotalLabel = new javax.swing.JLabel();
+        montoPagadoLabel = new javax.swing.JLabel();
+        montoPendienteLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        productosTable = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        nombreProdField = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        descripcionProdField = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        cantidadProdField = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        precioUniProdField = new javax.swing.JTextField();
+        agregarProdBtn = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        editarProdBtn = new javax.swing.JButton();
+        borrarProdBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("Registrar nuevo Proveedor");
+        title.setText("Registrar nueva Factura");
 
-        nameLabel.setText("Nombre");
-
-        addressLabel.setText("Dirección");
-
-        lastnameMLabel.setText("Teléfono");
+        nameLabel.setText("Proveedor");
 
         jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator1.setPreferredSize(new java.awt.Dimension(200, 10));
 
-        phoneLabel.setText("Linea de Credito");
+        phoneLabel.setText("Detalles de la factura");
 
-        creditLineField.setToolTipText("");
-
-        registerButton.setBackground(new java.awt.Color(18, 90, 173));
-        registerButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        registerButton.setForeground(new java.awt.Color(255, 255, 255));
-        registerButton.setText("Registrar");
-        registerButton.setBorderPainted(false);
-        registerButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
+        registrarFacturaBtn.setBackground(new java.awt.Color(18, 90, 173));
+        registrarFacturaBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        registrarFacturaBtn.setForeground(new java.awt.Color(255, 255, 255));
+        registrarFacturaBtn.setText("Registrar");
+        registrarFacturaBtn.setBorderPainted(false);
+        registrarFacturaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        registrarFacturaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
+                registrarFacturaBtnActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Fecha de Registro:");
+
+        fechaRegistroField.setText("jTextField1");
+
+        jLabel2.setText("Fecha de Vencimiento:");
+
+        fechaVencimientoField.setText("jTextField1");
+
+        jLabel3.setText("Descripción:");
+
+        descripcionField.setText("jTextField1");
+
+        jLabel4.setText("Monto Total:");
+
+        jLabel5.setText("Monto Pagado:");
+
+        jLabel6.setText("Monto Pendiente:");
+
+        montoTotalLabel.setText("jLabel7");
+
+        montoPagadoLabel.setText("jLabel7");
+
+        montoPendienteLabel.setText("jLabel7");
+
+        productosTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(productosTable);
+
+        jLabel10.setText("PRODUCTO");
+
+        jLabel11.setText("Nombre:");
+
+        nombreProdField.setText("jTextField4");
+
+        jLabel12.setText("Descripción:");
+
+        descripcionProdField.setText("jTextField4");
+
+        jLabel13.setText("Cantidad:");
+
+        cantidadProdField.setText("jTextField4");
+
+        jLabel14.setText("Precio unitario:");
+
+        precioUniProdField.setText("jTextField4");
+
+        agregarProdBtn.setText("AGREGAR PRODUCTO");
+        agregarProdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarProdBtnActionPerformed(evt);
+            }
+        });
+
+        editarProdBtn.setText("EDITAR");
+        editarProdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarProdBtnActionPerformed(evt);
+            }
+        });
+
+        borrarProdBtn.setText("BORRAR");
+        borrarProdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarProdBtnActionPerformed(evt);
             }
         });
 
@@ -117,103 +276,197 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 .addGap(40, 40, 40)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
-                                .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                                .addGap(223, 223, 223))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
-                                .addComponent(addressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(182, 182, 182))
-                            .addComponent(addressField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
-                                .addComponent(lastnameMLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(180, 180, 180))
-                            .addComponent(phoneField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameField, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(68, 68, 68)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(fechaRegistroField, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(fechaVencimientoField)
+                            .addComponent(descripcionField))
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(phoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                                .addGap(292, 292, 292))
+                                .addGap(18, 18, 18)
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(montoTotalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(montoPagadoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(registerButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(creditLineField, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(19, 19, 19)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(montoPendienteLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane1)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(553, 553, 553))))
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(proveedorCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(phoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(51, 51, 51)
+                                .addComponent(nombreProdField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addGap(33, 33, 33)
+                                .addComponent(descripcionProdField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(agregarProdBtn)
+                            .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
+                                    .addComponent(jLabel14)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(precioUniProdField))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
+                                    .addComponent(jLabel13)
+                                    .addGap(47, 47, 47)
+                                    .addComponent(cantidadProdField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(registrarFacturaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(editarProdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(borrarProdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phoneLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(phoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameLabel)
+                            .addComponent(proveedorCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(montoTotalLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(fechaRegistroField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel4)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(creditLineField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(190, 190, 190)
-                        .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fechaVencimientoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(montoPagadoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(descripcionField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(montoPendienteLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(nombreProdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(addressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(descripcionProdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(lastnameMLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(cantidadProdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(phoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)))
-                .addGap(26, 26, 26))
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(precioUniProdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(agregarProdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(editarProdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(borrarProdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(registrarFacturaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+    private void registrarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarFacturaBtnActionPerformed
 
-        String nombre = nameField.getText();
-        String direccion = addressField.getText();
-        String telefono = phoneField.getText();
-        String lineaCredito = creditLineField.getText();
+        String proveedor = (String) proveedorCBox.getSelectedItem();
+        String fechaRegistro = fechaRegistroField.getText();
+        String fechaVencimiento = fechaVencimientoField.getText();
+        String descripcion = descripcionField.getText();
+        String montoTotal = montoTotalLabel.getText();
+        String montoPagado = montoPagadoLabel.getText();
+        String montoPendiente = montoPendienteLabel.getText();
 
         String successMsg = isEdition ? "modificado" : "registrado";
         String errorMsg = isEdition ? "modificar" : "registrar";
 
         // Validaciones para los campos
-        if (nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || lineaCredito.isEmpty()) {
-            
-            javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            nameField.requestFocus();
-            
-        } else if (!isEdition) { // codigo donde se agrega
-            
-            try {
+        if (fechaRegistro.isEmpty() || fechaVencimiento.isEmpty() || descripcion.isEmpty()) {
 
-                boolean confirmarDatosProveedores = controladorRegistroProveedor.confirmarDatosProveedor(nombre, direccion, telefono, Double.valueOf(lineaCredito));
+            javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            fechaRegistroField.requestFocus();
+
+        } else if (!isEdition) { // codigo donde se agrega
+
+            try {
+                //CONDICIONAL fechaRegistro < fechaVencimiento"yyyy-MM-dd"
+
+                // Convierte el String a LocalDate
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                Date fechaRegistroDate = formato.parse(fechaRegistro);
+                Date fechaVencimientoDate = formato.parse(fechaVencimiento);
+
+                // valida que la fecha registro sea menor a la fecha vencimiento
+                if (!controladorRegistroFactura.validarFechas(fechaRegistroDate, fechaVencimientoDate)) {
+                    fechaRegistroField.requestFocus();
+                    return;
+                }
+
+                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosProveedores(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
                 if (confirmarDatosProveedores) {
-                    controladorRegistroProveedor.registrarProveedor(nombre, direccion, telefono, Double.valueOf(lineaCredito));
+                    int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
+                    controladorRegistroFactura.registrarFacturaConProductos(productosTemporales, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
+                            descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
                 } else {
                     return;
                 }
@@ -223,41 +476,215 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
             }
 
         } else { // codigo donde se edita
-            
+
             try {
-                int idProveedor = supplierEdition.getIdProveedor();
-                
-                boolean confirmarDatosProveedores = controladorRegistroProveedor.confirmarDatosProveedor(nombre, direccion, telefono, Double.valueOf(lineaCredito));
+                //CONDICIONAL fechaRegistro < fechaVencimiento"yyyy-MM-dd"
+
+                // Convierte el String a LocalDate
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                Date fechaRegistroDate = formato.parse(fechaRegistro);
+                Date fechaVencimientoDate = formato.parse(fechaVencimiento);
+
+                // valida que la fecha registro sea menor a la fecha vencimiento
+                if (!controladorRegistroFactura.validarFechas(fechaRegistroDate, fechaVencimientoDate)) {
+                    fechaRegistroField.requestFocus();
+                    return;
+                }
+
+
+                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosProveedores(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
 
                 if (confirmarDatosProveedores) {
-                    controladorRegistroProveedor.editarProveedor(idProveedor, nombre, direccion, telefono, Double.valueOf(lineaCredito));
+                    int idFactura = invoiceEdition.getIdFactura();
+                    int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
+                    controladorRegistroFactura.editarFacturaConProductos(productosTemporales, idFactura, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
+                            descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
                 } else {
                     return;
                 }
+
 
                 javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
-            
+
         }
 
-    }//GEN-LAST:event_registerButtonActionPerformed
+    }//GEN-LAST:event_registrarFacturaBtnActionPerformed
+
+    private void agregarProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarProdBtnActionPerformed
+
+        // TODO add your handling code here:
+        String nombreProd = nombreProdField.getText();
+        String descripcionProd = descripcionProdField.getText();
+        String cantidadProd = cantidadProdField.getText();
+        String precioUnitarioProd = precioUniProdField.getText();
+
+        String successMsg = isProducEdition ? "editado" : "agregado";
+        String errorMsg = isProducEdition ? "editar" : "agregar";
+
+        // Validaciones para los campos
+        if (nombreProd.isEmpty() || descripcionProd.isEmpty() || cantidadProd.isEmpty() || precioUnitarioProd.isEmpty()) {
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos del producto. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            nombreProdField.requestFocus();
+
+        } else if (!isProducEdition) { // codigo donde se agrega
+            try {
+
+                boolean confirmarDatosProducto = controladorRegistroFactura.confirmarDatosProducto(nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
+                if (confirmarDatosProducto) {
+                    controladorRegistroFactura.agregarNuevosProductosArrayProductos(productosTemporales, 0, currentFacturaId,
+                            nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
+
+                    //
+                    double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales); // se calcula el monto total cada vez que se agrega un producto
+                    montoTotalLabel.setText(Double.toString(montoTotalCalculado));
+
+                    /*double montoPagadoCalculado*/ //el monto pagado no se puede editar porque afectaria a los registros
+                    double montoPendienteCalculado = montoTotalCalculado - (Double.parseDouble(montoPagadoLabel.getText()));
+                    montoPendienteLabel.setText(Double.toString(montoPendienteCalculado));
+
+                    //
+                    limpiarCamposProducto(); // limpia los campos cada vez que se registra un producto
+                    LoadProducts(); // actualiza la tabla cada vez que se registra un producto
+                } else {
+                    return;
+                }
+
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el producto. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else { // codigo donde se edita
+
+            try {
+
+                boolean confirmarDatosProducto = controladorRegistroFactura.confirmarDatosProducto(nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
+                if (confirmarDatosProducto) {
+                    controladorRegistroFactura.agregarNuevosProductosArrayProductos(productosTemporales, currentProductId, currentFacturaId,
+                            nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
+                    //
+                    double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales); // se calcula el monto total cada vez que se agrega un producto
+                    montoTotalLabel.setText(Double.toString(montoTotalCalculado));
+
+                    /*double montoPagadoCalculado*/ //el monto pagado no se puede editar porque afectaria a los registros
+                    double montoPendienteCalculado = montoTotalCalculado - (Double.parseDouble(montoPagadoLabel.getText()));
+                    montoPendienteLabel.setText(Double.toString(montoPendienteCalculado));
+
+                    //
+                    limpiarCamposProducto(); // limpia los campos cada vez que se registra un producto
+                    LoadProducts(); // actualiza la tabla cada vez que se registra un producto
+
+                    //Volviento las cosas a por defecto (de Editar producto -> Agregar producto)
+                    currentProductId = 0; // cuando se termina de editar. el currentProductId vuelve a su estado default de 0 
+                    isProducEdition = false;
+                    agregarProdBtn.setText("AGREGAR PRODUCTO");
+                } else {
+                    return;
+                }
+
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el producto. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_agregarProdBtnActionPerformed
+
+    private void editarProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdBtnActionPerformed
+        // TODO add your handling code here:
+        isProducEdition = true;
+        agregarProdBtn.setText("EDITAR PRODUCTO");
+
+        if (productosTable.getSelectedRow() > -1) {
+            try {
+
+                int productId = (int) productosTable.getValueAt(productosTable.getSelectedRow(), 0);
+                currentProductId = productId;
+
+                Producto productoEdiccion = controladorRegistroFactura.buscarProductoPorId(productosTemporales, productId);
+                currentProductId = productoEdiccion.getIdProducto();
+
+                nombreProdField.setText(productoEdiccion.getNombre());
+                descripcionProdField.setText(productoEdiccion.getDescripcion());
+                cantidadProdField.setText(Integer.toString(productoEdiccion.getCantidad()));
+                precioUniProdField.setText(Double.toString(productoEdiccion.getPrecioUnitario()));
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el producto a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_editarProdBtnActionPerformed
+
+    private void borrarProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarProdBtnActionPerformed
+        // TODO add your handling code here:
+
+        //DefaultTableModel model = (DefaultTableModel) productosTable.getModel();
+        if (productosTable.getSelectedRows().length < 1) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más productos a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        } else {
+            for (int i : productosTable.getSelectedRows()) {
+                try {
+                    //dao.eliminar((int) jTable1.getValueAt(i, 0));
+                    int productId = (int) productosTable.getValueAt(i, 0);
+                    controladorRegistroFactura.eliminarProductoPorId(productosTemporales, productId);
+
+                    //
+                    double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales); // se calcula el monto total cada vez que se agrega un producto
+                    montoTotalLabel.setText(Double.toString(montoTotalCalculado));
+
+                    /*double montoPagadoCalculado*/ //el monto pagado no se puede editar porque afectaria a los registros
+                    double montoPendienteCalculado = montoTotalCalculado - (Double.parseDouble(montoPagadoLabel.getText()));
+                    montoPendienteLabel.setText(Double.toString(montoPendienteCalculado));
+
+                    LoadProducts();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_borrarProdBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField addressField;
-    private javax.swing.JLabel addressLabel;
+    private javax.swing.JButton agregarProdBtn;
     private javax.swing.JPanel bg;
-    private javax.swing.JTextField creditLineField;
+    private javax.swing.JButton borrarProdBtn;
+    private javax.swing.JTextField cantidadProdField;
+    private javax.swing.JTextField descripcionField;
+    private javax.swing.JTextField descripcionProdField;
+    private javax.swing.JButton editarProdBtn;
+    private javax.swing.JTextField fechaRegistroField;
+    private javax.swing.JTextField fechaVencimientoField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lastnameMLabel;
-    private javax.swing.JTextField nameField;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel montoPagadoLabel;
+    private javax.swing.JLabel montoPendienteLabel;
+    private javax.swing.JLabel montoTotalLabel;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField phoneField;
+    private javax.swing.JTextField nombreProdField;
     private javax.swing.JLabel phoneLabel;
-    private javax.swing.JButton registerButton;
+    private javax.swing.JTextField precioUniProdField;
+    private javax.swing.JTable productosTable;
+    private javax.swing.JComboBox<String> proveedorCBox;
+    private javax.swing.JButton registrarFacturaBtn;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

@@ -38,7 +38,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
         modeloTabla.setRowCount(0);
         jTable1.setModel(modeloTabla);
 
-        modeloTabla = controladorGestorFacturas.listarProveedores(jTable1);
+        modeloTabla = controladorGestorFacturas.listarFacturas(jTable1);
         jTable1.setModel(modeloTabla);
         
 
@@ -216,7 +216,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-        modeloTabla = controladorGestorFacturas.eliminarProveedores(jTable1);
+        modeloTabla = controladorGestorFacturas.eliminarFacturas(jTable1);
         jTable1.setModel(modeloTabla);
 
  
@@ -224,14 +224,14 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         
-        controladorGestorProveedores.editarProveedores(jTable1);
+        controladorGestorFacturas.editarFacturas(jTable1);
         
 
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         
-        modeloTabla = controladorGestorProveedores.buscarProveedores(jTable1, userSearchField.getText());
+        modeloTabla = controladorGestorFacturas.buscarFacturas(jTable1, userSearchField.getText());
         jTable1.setModel(modeloTabla);
 
 
