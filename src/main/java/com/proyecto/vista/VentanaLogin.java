@@ -61,6 +61,8 @@ public class VentanaLogin extends javax.swing.JFrame {
         passwordField.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         btnSignUp.setBackground(new java.awt.Color(255, 51, 51));
+        btnSignUp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnSignUp.setForeground(new java.awt.Color(255, 255, 255));
         btnSignUp.setText("INICIAR SESION");
         btnSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,7 +81,7 @@ public class VentanaLogin extends javax.swing.JFrame {
                 .addComponent(textLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
+                .addGap(55, 55, 55)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton2)
                     .addComponent(usernameField)
@@ -92,9 +94,9 @@ public class VentanaLogin extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(textLogin)
-                .addGap(40, 40, 40)
+                .addGap(63, 63, 63)
                 .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)

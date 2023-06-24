@@ -114,7 +114,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
 
         phoneField.setToolTipText("");
 
-        registerButton.setBackground(new java.awt.Color(18, 90, 173));
+        registerButton.setBackground(new java.awt.Color(255, 0, 51));
         registerButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         registerButton.setForeground(new java.awt.Color(255, 255, 255));
         registerButton.setText("Registrar");

@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class GestorBaseDatos {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/BDPruebaBetaVIP";
+    private static final String URL = "jdbc:mysql://localhost:3306/bdpruebabetavip";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "123456789";
 

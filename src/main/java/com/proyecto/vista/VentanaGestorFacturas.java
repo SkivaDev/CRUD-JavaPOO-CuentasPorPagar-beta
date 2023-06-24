@@ -8,6 +8,8 @@ import com.proyecto.controladores.ControladorGestorProveedores;
 import com.proyecto.controladores.ControladorGestorUsuarios;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaGestorFacturas extends javax.swing.JPanel {
@@ -23,7 +25,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
 
         initComponents();
         InitStyles();
-        LoadSuppliers();
+        LoadInvoices();
     }
 
     private void InitStyles() {
@@ -32,7 +34,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
         userSearchField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
 
-    private void LoadSuppliers() {
+    private void LoadInvoices() {
         
         // Limpiar el modelo de la tabla
         modeloTabla.setRowCount(0);
@@ -211,7 +213,11 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MousePressed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor());
+        try {
+            VentanaDashboard.ShowJPanelWindows(new VentanaRegistroFactura());
+        } catch (Exception ex) {
+            Logger.getLogger(VentanaGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed

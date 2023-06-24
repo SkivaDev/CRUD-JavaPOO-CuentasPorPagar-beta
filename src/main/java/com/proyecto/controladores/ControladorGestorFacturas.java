@@ -9,6 +9,8 @@ import com.proyecto.vista.VentanaDashboard;
 import com.proyecto.vista.VentanaRegistroFactura;
 import com.proyecto.vista.VentanaRegistroProveedor;
 import com.proyecto.vista.VentanaRegistroUsuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,8 +34,8 @@ public class ControladorGestorFacturas {
         model.setRowCount(0);
         table.setModel(model);
 
-        model.addColumn("ID");
-        model.addColumn("IDProveedor");
+        model.addColumn("IDFactura");
+        model.addColumn("Proveedor");
         model.addColumn("Fecha Registro");
         model.addColumn("Fecha Vencimiento");
         model.addColumn("Descripcion");
@@ -43,8 +45,14 @@ public class ControladorGestorFacturas {
 
         try {
             //DAOUsers dao = new DAOUsersImpl();
-            dao.obtenerListaFacturas("").forEach((u) -> model.addRow(new Object[]{u.getIdFactura(), u.getIdProveedor(), u.getFechaRegistro(),
-                u.getFechaVencimiento(), u.getDescripcion(), u.getMontoTotal(), u.getMontoPagado(), u.getMontoPendiente()}));
+            dao.obtenerListaFacturas("").forEach((u) -> {
+                try {
+                    model.addRow(new Object[]{u.getIdFactura(), dao.buscarNombreProveedorPorFactura(u.getIdFactura()), u.getFechaRegistro(),
+                        u.getFechaVencimiento(), u.getDescripcion(), u.getMontoTotal(), u.getMontoPagado(), u.getMontoPendiente()});
+                } catch (Exception ex) {
+                    Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());

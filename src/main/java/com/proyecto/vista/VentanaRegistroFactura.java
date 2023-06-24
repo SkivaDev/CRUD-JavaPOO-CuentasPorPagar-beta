@@ -105,14 +105,19 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
     }
 
     private void LoadProducts() {
-
+        
         // Limpiar el modelo de la tabla
         modeloTabla.setRowCount(0);
-        productosTable.setModel(modeloTabla);
 
+        // Limpia la tabla antes de asignar el nuevo modelo
+        productosTable.setModel(new DefaultTableModel());
+
+        // Agrega el nuevo modelo al controlador y obtén el modelo actualizado
         modeloTabla = controladorRegistroFactura.agregarProductosTabla(productosTable, productosTemporales);
-        productosTable.setModel(modeloTabla);
 
+        // Asigna el nuevo modelo a la tabla
+        productosTable.setModel(modeloTabla);
+        
     }
 
     public void limpiarCamposProducto() {
@@ -180,7 +185,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
 
         phoneLabel.setText("Detalles de la factura");
 
-        registrarFacturaBtn.setBackground(new java.awt.Color(18, 90, 173));
+        registrarFacturaBtn.setBackground(new java.awt.Color(255, 0, 51));
         registrarFacturaBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         registrarFacturaBtn.setForeground(new java.awt.Color(255, 255, 255));
         registrarFacturaBtn.setText("Registrar");
@@ -194,15 +199,9 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
 
         jLabel1.setText("Fecha de Registro:");
 
-        fechaRegistroField.setText("jTextField1");
-
         jLabel2.setText("Fecha de Vencimiento:");
 
-        fechaVencimientoField.setText("jTextField1");
-
         jLabel3.setText("Descripción:");
-
-        descripcionField.setText("jTextField1");
 
         jLabel4.setText("Monto Total:");
 
@@ -233,19 +232,11 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
 
         jLabel11.setText("Nombre:");
 
-        nombreProdField.setText("jTextField4");
-
         jLabel12.setText("Descripción:");
-
-        descripcionProdField.setText("jTextField4");
 
         jLabel13.setText("Cantidad:");
 
-        cantidadProdField.setText("jTextField4");
-
         jLabel14.setText("Precio unitario:");
-
-        precioUniProdField.setText("jTextField4");
 
         agregarProdBtn.setText("AGREGAR PRODUCTO");
         agregarProdBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -491,7 +482,6 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                     return;
                 }
 
-
                 boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosProveedores(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
 
                 if (confirmarDatosProveedores) {
@@ -502,7 +492,6 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 } else {
                     return;
                 }
-
 
                 javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
@@ -601,7 +590,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         if (productosTable.getSelectedRow() > -1) {
             try {
 
-                int productId = (int) productosTable.getValueAt(productosTable.getSelectedRow(), 0);
+                int productId = (int) productosTable.getValueAt(productosTable.getSelectedRow(), 0); // ESTO ESTA FALLANDO PORQUE CUANDO SE SELECCIONA UN DATO EN LA TABLA Y ESTE TIENE ID 0 SE CONFUNDE CON LOS OTROS QUE TAMBIEN TIENEN ID 0A
                 currentProductId = productId;
 
                 Producto productoEdiccion = controladorRegistroFactura.buscarProductoPorId(productosTemporales, productId);

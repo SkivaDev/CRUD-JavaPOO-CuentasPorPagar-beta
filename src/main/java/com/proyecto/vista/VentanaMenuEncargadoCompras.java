@@ -134,6 +134,7 @@ public class VentanaMenuEncargadoCompras extends javax.swing.JPanel {
 
     private void gentionarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtnActionPerformed
         // TODO add your handling code here:
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
     }//GEN-LAST:event_gentionarFacturasBtnActionPerformed
 
 

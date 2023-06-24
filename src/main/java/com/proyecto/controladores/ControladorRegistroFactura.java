@@ -96,13 +96,13 @@ public class ControladorRegistroFactura {
             List<Proveedor> proveedores = dao.obtenerListaProveedores("");
 
             for (Proveedor proveedor : proveedores) {
-                comboBoxProveedores.addItem(proveedor.getNombre());
+                comboBox.addItem(proveedor.getNombre());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        comboBox = comboBoxProveedores;
+        //comboBox = comboBoxProveedores;
     }
 
     public String buscarNombreProveedorPorFactura(int idFactura) throws Exception {
