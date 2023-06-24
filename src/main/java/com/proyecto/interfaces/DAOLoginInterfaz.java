@@ -11,4 +11,5 @@ import com.proyecto.entidades.Usuario;
  */
 public interface DAOLoginInterfaz {
     public Usuario obtenerUsuarioPorCredenciales(String username, String password) throws Exception;
+    public Usuario obtenerUsuarioPorDni(String dni) throws Exception;
 }

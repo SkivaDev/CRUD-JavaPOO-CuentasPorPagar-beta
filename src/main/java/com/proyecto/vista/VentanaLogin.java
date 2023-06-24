@@ -16,13 +16,17 @@ import javax.swing.JOptionPane;
  */
 public class VentanaLogin extends javax.swing.JFrame {
     private ControladorLogin controladorLogin;
+    private int intentosSesion;
     /**
      * Creates new form VentanaLogin
      */
     public VentanaLogin() {
+        this.controladorLogin = new ControladorLogin();
+
         initComponents();
         InitStyles();
         this.setLocationRelativeTo(this);
+        this.intentosSesion = 0;
     }
 
     private void InitStyles() {
@@ -43,7 +47,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
         btnSignUp = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        recuperarContraseñaBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(500, 600));
@@ -70,7 +74,12 @@ public class VentanaLogin extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Olvido su contraseña?");
+        recuperarContraseñaBtn.setText("Olvido su contraseña?");
+        recuperarContraseñaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recuperarContraseñaBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,7 +92,7 @@ public class VentanaLogin extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton2)
+                    .addComponent(recuperarContraseñaBtn)
                     .addComponent(usernameField)
                     .addComponent(passwordField)
                     .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -99,7 +108,7 @@ public class VentanaLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(recuperarContraseñaBtn)
                 .addGap(43, 43, 43)
                 .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
@@ -132,17 +141,29 @@ public class VentanaLogin extends javax.swing.JFrame {
             usernameField.requestFocus();
             //return;
         } else {
-            JOptionPane.showMessageDialog(null, "Si hay datos wtf");
-            controladorLogin = new ControladorLogin();
+            JOptionPane.showMessageDialog(null, "Si hay datos :D");
             try {
                 controladorLogin.iniciarSesion(username, password);
                 this.setVisible(false);
             } catch (Exception ex) {
-                Logger.getLogger(VentanaLogin.class.getName()).log(Level.SEVERE, null, ex);
+                intentosSesion++;
+                JOptionPane.showMessageDialog(null, "No se encontró ningún usuario con las credenciales proporcionadas");
+                if(intentosSesion == 3) {
+                    JOptionPane.showMessageDialog(null, "Se ha superado el numero de intentos posibles" 
+                            + "\n" + "\nVuelve a intentar más tarde");
+                    System.exit(0);
+                }
+                //Logger.getLogger(VentanaLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
     }//GEN-LAST:event_btnSignUpActionPerformed
+
+    private void recuperarContraseñaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recuperarContraseñaBtnActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        controladorLogin.abrirVentanaRecuperarContraseña();
+    }//GEN-LAST:event_recuperarContraseñaBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,9 +205,9 @@ public class VentanaLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSignUp;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField passwordField;
+    private javax.swing.JButton recuperarContraseñaBtn;
     private javax.swing.JLabel textLogin;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables

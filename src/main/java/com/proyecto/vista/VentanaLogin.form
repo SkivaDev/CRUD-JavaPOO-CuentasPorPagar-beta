@@ -54,7 +54,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="recuperarContraseñaBtn" min="-2" max="-2" attributes="0"/>
                       <Component id="usernameField" alignment="1" max="32767" attributes="0"/>
                       <Component id="passwordField" alignment="1" max="32767" attributes="0"/>
                       <Component id="btnSignUp" alignment="1" min="-2" pref="358" max="-2" attributes="0"/>
@@ -73,7 +73,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="passwordField" min="-2" pref="65" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Component id="recuperarContraseñaBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Component id="btnSignUp" min="-2" pref="60" max="-2" attributes="0"/>
                   <EmptySpace pref="50" max="32767" attributes="0"/>
@@ -126,10 +126,13 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSignUpActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="recuperarContrase&#xf1;aBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Olvido su contrase&#xf1;a?"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="recuperarContrase&#xf1;aBtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

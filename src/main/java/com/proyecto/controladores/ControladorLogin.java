@@ -12,6 +12,7 @@ import com.proyecto.entidades.JefeFinanzas;
 import com.proyecto.entidades.Tesorero;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
+import com.proyecto.vista.VentanaRecuperarContraseña;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -75,6 +76,11 @@ public class ControladorLogin {
             // Muestra un mensaje de error o realiza otras acciones apropiadas.
         }
 
+    }
+    
+    public void abrirVentanaRecuperarContraseña() {
+        VentanaRecuperarContraseña ventanaRecuperarContraseña = new VentanaRecuperarContraseña();
+        ventanaRecuperarContraseña.setVisible(true);
     }
 
 }
