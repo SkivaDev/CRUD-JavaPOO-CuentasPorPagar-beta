@@ -41,9 +41,9 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
 
         principalBtn = new javax.swing.JButton();
         cerrarSesionBtn = new javax.swing.JButton();
-        gentionarProveedoresBtn = new javax.swing.JButton();
-        gentionarFacturasBtn = new javax.swing.JButton();
-        gentionarFacturasBtn1 = new javax.swing.JButton();
+        EstadoCuentasBtn = new javax.swing.JButton();
+        pagarFacturasBtn = new javax.swing.JButton();
+        expedienteProveedoresBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -82,56 +82,56 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
         });
         add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
 
-        gentionarProveedoresBtn.setBackground(new java.awt.Color(255, 0, 51));
-        gentionarProveedoresBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        gentionarProveedoresBtn.setForeground(new java.awt.Color(255, 255, 255));
-        gentionarProveedoresBtn.setText("Estados de cuenta");
-        gentionarProveedoresBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        gentionarProveedoresBtn.setBorderPainted(false);
-        gentionarProveedoresBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        gentionarProveedoresBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gentionarProveedoresBtn.setIconTextGap(13);
-        gentionarProveedoresBtn.setInheritsPopupMenu(true);
-        gentionarProveedoresBtn.addActionListener(new java.awt.event.ActionListener() {
+        EstadoCuentasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        EstadoCuentasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        EstadoCuentasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        EstadoCuentasBtn.setText("Estado de cuentas");
+        EstadoCuentasBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        EstadoCuentasBtn.setBorderPainted(false);
+        EstadoCuentasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        EstadoCuentasBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        EstadoCuentasBtn.setIconTextGap(13);
+        EstadoCuentasBtn.setInheritsPopupMenu(true);
+        EstadoCuentasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gentionarProveedoresBtnActionPerformed(evt);
+                EstadoCuentasBtnActionPerformed(evt);
             }
         });
-        add(gentionarProveedoresBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 60));
+        add(EstadoCuentasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 60));
 
-        gentionarFacturasBtn.setBackground(new java.awt.Color(255, 0, 51));
-        gentionarFacturasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        gentionarFacturasBtn.setForeground(new java.awt.Color(255, 255, 255));
-        gentionarFacturasBtn.setText("Pagar Facturas");
-        gentionarFacturasBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        gentionarFacturasBtn.setBorderPainted(false);
-        gentionarFacturasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        gentionarFacturasBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gentionarFacturasBtn.setIconTextGap(13);
-        gentionarFacturasBtn.setInheritsPopupMenu(true);
-        gentionarFacturasBtn.addActionListener(new java.awt.event.ActionListener() {
+        pagarFacturasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        pagarFacturasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        pagarFacturasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        pagarFacturasBtn.setText("Pagar Facturas");
+        pagarFacturasBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        pagarFacturasBtn.setBorderPainted(false);
+        pagarFacturasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        pagarFacturasBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        pagarFacturasBtn.setIconTextGap(13);
+        pagarFacturasBtn.setInheritsPopupMenu(true);
+        pagarFacturasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gentionarFacturasBtnActionPerformed(evt);
+                pagarFacturasBtnActionPerformed(evt);
             }
         });
-        add(gentionarFacturasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
+        add(pagarFacturasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
 
-        gentionarFacturasBtn1.setBackground(new java.awt.Color(255, 0, 51));
-        gentionarFacturasBtn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        gentionarFacturasBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        gentionarFacturasBtn1.setText("Expediente Proveedores");
-        gentionarFacturasBtn1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        gentionarFacturasBtn1.setBorderPainted(false);
-        gentionarFacturasBtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        gentionarFacturasBtn1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gentionarFacturasBtn1.setIconTextGap(13);
-        gentionarFacturasBtn1.setInheritsPopupMenu(true);
-        gentionarFacturasBtn1.addActionListener(new java.awt.event.ActionListener() {
+        expedienteProveedoresBtn.setBackground(new java.awt.Color(255, 0, 51));
+        expedienteProveedoresBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        expedienteProveedoresBtn.setForeground(new java.awt.Color(255, 255, 255));
+        expedienteProveedoresBtn.setText("Expediente Proveedores");
+        expedienteProveedoresBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        expedienteProveedoresBtn.setBorderPainted(false);
+        expedienteProveedoresBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        expedienteProveedoresBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        expedienteProveedoresBtn.setIconTextGap(13);
+        expedienteProveedoresBtn.setInheritsPopupMenu(true);
+        expedienteProveedoresBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gentionarFacturasBtn1ActionPerformed(evt);
+                expedienteProveedoresBtnActionPerformed(evt);
             }
         });
-        add(gentionarFacturasBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
+        add(expedienteProveedoresBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -145,26 +145,27 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
         reiniciarPrograma();
     }//GEN-LAST:event_cerrarSesionBtnActionPerformed
 
-    private void gentionarProveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarProveedoresBtnActionPerformed
+    private void EstadoCuentasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstadoCuentasBtnActionPerformed
         // TODO add your handling code here:
-        VentanaDashboard.ShowJPanelWindows(new VentanaGestorProveedores(currentUser));
-    }//GEN-LAST:event_gentionarProveedoresBtnActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorEstadoCuentas(currentUser));
+    }//GEN-LAST:event_EstadoCuentasBtnActionPerformed
 
-    private void gentionarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtnActionPerformed
+    private void pagarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarFacturasBtnActionPerformed
         // TODO add your handling code here:
-        VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
-    }//GEN-LAST:event_gentionarFacturasBtnActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaPagarFacturas(currentUser));
+    }//GEN-LAST:event_pagarFacturasBtnActionPerformed
 
-    private void gentionarFacturasBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtn1ActionPerformed
+    private void expedienteProveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expedienteProveedoresBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gentionarFacturasBtn1ActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaExpedienteProveedores(currentUser));
+    }//GEN-LAST:event_expedienteProveedoresBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EstadoCuentasBtn;
     private javax.swing.JButton cerrarSesionBtn;
-    private javax.swing.JButton gentionarFacturasBtn;
-    private javax.swing.JButton gentionarFacturasBtn1;
-    private javax.swing.JButton gentionarProveedoresBtn;
+    private javax.swing.JButton expedienteProveedoresBtn;
+    private javax.swing.JButton pagarFacturasBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables
 }

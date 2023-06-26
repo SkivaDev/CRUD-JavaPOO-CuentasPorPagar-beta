@@ -8,7 +8,7 @@ import com.proyecto.controladores.ControladorGestorProveedores;
 import com.proyecto.controladores.ControladorGestorUsuarios;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
-import java.util.logging.Level;
+import java.util.logging.Level;// VentanaGestorExpedienteProveedores
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
@@ -71,7 +71,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
 
         title.setText("Facturas");
 
-        searchButton.setBackground(new java.awt.Color(18, 90, 173));
+        searchButton.setBackground(new java.awt.Color(255, 0, 51));
         searchButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("Buscar");
@@ -115,7 +115,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        deleteButton.setBackground(new java.awt.Color(18, 90, 173));
+        deleteButton.setBackground(new java.awt.Color(255, 0, 51));
         deleteButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("Borrar");
@@ -127,7 +127,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
             }
         });
 
-        editButton.setBackground(new java.awt.Color(18, 90, 173));
+        editButton.setBackground(new java.awt.Color(255, 0, 51));
         editButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         editButton.setForeground(new java.awt.Color(255, 255, 255));
         editButton.setText("Editar");
@@ -139,7 +139,7 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
             }
         });
 
-        addButton.setBackground(new java.awt.Color(18, 90, 173));
+        addButton.setBackground(new java.awt.Color(255, 0, 51));
         addButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         addButton.setForeground(new java.awt.Color(255, 255, 255));
         addButton.setText("Nuevo");
