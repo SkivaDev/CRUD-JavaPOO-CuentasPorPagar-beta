@@ -88,7 +88,7 @@ public class VentanaPrincipal extends javax.swing.JPanel {
 
         jLabel2.setText("Sistema de Gestión para Biblioteca Pública. Controle y administre de");
 
-        jLabel3.setText("forma óptima y fácil el flujo de préstamos y devoluciones de Libros. ");
+        jLabel3.setText("a");
 
         jLabel4.setText("Esta herramienta le permitirá llevar un control completo y detallado de su Biblioteca,");
 
@@ -98,9 +98,9 @@ public class VentanaPrincipal extends javax.swing.JPanel {
 
         jLabel7.setText("• Devoluciones");
 
-        jLabel8.setText("• Registro de Usuarios y Libros Nuevos");
+        jLabel8.setText("• Registro de Usuarios y Factuars Nuevos");
 
-        jLabel9.setText("• Edición de Usuarios y Libros existentes");
+        jLabel9.setText("• Edición de Usuarios y Facturas existentes");
 
         jLabel10.setText("• Eliminar todo tipo de Registros");
 
@@ -114,7 +114,7 @@ public class VentanaPrincipal extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(titleText, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                        .addComponent(titleText, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                         .addGap(500, 500, 500))
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -148,7 +148,7 @@ public class VentanaPrincipal extends javax.swing.JPanel {
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(titleText, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(titleText, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(6, 6, 6)
