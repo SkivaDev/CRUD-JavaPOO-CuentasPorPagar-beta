@@ -7,6 +7,8 @@ package com.proyecto.utils;
 import com.proyecto.cuentasporpagarbeta.Main;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -60,6 +62,14 @@ public class Utils {
 
         return password;
     }
+    
+    public static String obtenerFechaActual() {
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fechaActualFormateada = fechaActual.format(formato);
+        return fechaActualFormateada;
+    }
+    
 /*
     public static void main(String[] args) {
         // Ejemplo de uso

@@ -74,7 +74,7 @@ public class ControladorRegistroFactura {
             // Registrar o editar los productos asociados a la factura
             for (Producto producto : productosTemporales) {
                 producto.setIdFactura(idFactura);
-                if (producto.getIdProducto()!= 0) {
+                if (producto.getIdProducto() != 0) {
                     dao.modificarProducto(producto);
                 } else {
                     dao.registrarProducto(producto);
@@ -173,6 +173,16 @@ public class ControladorRegistroFactura {
         return null; // Si no se encuentra el producto con el ID especificado
     }
 
+    //nuevo: aplicando solucion al id 0
+    public Producto buscarProductoPorNombre(List<Producto> productosTemporales, String nombreProducto) {
+        for (Producto producto : productosTemporales) {
+            if (producto.getNombre().equals(nombreProducto)) {
+                return producto;
+            }
+        }
+        return null;
+    }
+
     public void eliminarProductoPorId(List<Producto> productosTemporales, int idProducto) {
         Iterator<Producto> iterator = productosTemporales.iterator();
         while (iterator.hasNext()) {
@@ -182,6 +192,30 @@ public class ControladorRegistroFactura {
                 return;
             }
         }
+    }
+
+    //nuevo: aplicando solucion al id 0
+    public void eliminarProductoPorNombre(List<Producto> productosTemporales, String nombreProducto) {
+        Producto productoAEliminar = null;
+        for (Producto producto : productosTemporales) {
+            if (producto.getNombre().equals(nombreProducto)) {
+                productoAEliminar = producto;
+                break;
+            }
+        }
+        if (productoAEliminar != null) {
+            productosTemporales.remove(productoAEliminar);
+        }
+    }
+
+    /*VALIDACIONES--------------------------------------------------*/
+    public boolean existeProductoConNombre(List<Producto> productosTemporales, String nombreProducto) {
+        for (Producto producto : productosTemporales) {
+            if (producto.getNombre().equals(nombreProducto)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public double calcularMontoTotal(List<Producto> productosTemporales) {

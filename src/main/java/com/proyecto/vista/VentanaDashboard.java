@@ -73,13 +73,13 @@ public class VentanaDashboard extends javax.swing.JFrame {
                 ShowJPanelButtons(new VentanaMenuAdministrador(currentUser));
                 break;
             case "Almacenero":
-                ShowJPanelButtons(new VentanaMenuAlmacenero(currentUser));
+                //ShowJPanelButtons(new VentanaMenuAlmacenero(currentUser));
                 break;
             case "Tesorero":
-                ShowJPanelButtons(new VentanaMenuTesorero(currentUser));
+                //ShowJPanelButtons(new VentanaMenuTesorero(currentUser));
                 break;
             case "Jefe de Finanzas":
-                ShowJPanelButtons(new VentanaMenuJefeFinanzas(currentUser));
+               // ShowJPanelButtons(new VentanaMenuJefeFinanzas(currentUser));
                 break;
             default:
                 break;
