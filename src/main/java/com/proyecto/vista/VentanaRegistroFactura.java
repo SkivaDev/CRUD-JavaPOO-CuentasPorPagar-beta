@@ -99,7 +99,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 String fechaRegistroString = formato.format(invoiceEdition.getFechaRegistro());
                 fechaRegistroField.setText(fechaRegistroString);
 
-                String fechaVencimientoString = formato.format(invoiceEdition.getFechaRegistro());
+                String fechaVencimientoString = formato.format(invoiceEdition.getFechaVencimiento());
                 fechaVencimientoField.setText(fechaVencimientoString);
 
                 descripcionField.setText(invoiceEdition.getDescripcion());
@@ -466,7 +466,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales);
                 int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
 
-                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado)) {
+                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado, 0)) {
                     javax.swing.JOptionPane.showMessageDialog(this, "El monto total de la factura supera a la linea de credito del proveedor selecionado. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
                     fechaVencimientoField.requestFocus();
                     return;
@@ -507,7 +507,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales);
                 int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
 
-                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado)) {
+                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado, invoiceEdition.getIdFactura())) {
                     javax.swing.JOptionPane.showMessageDialog(this, "El monto total de la factura supera a la linea de credito del proveedor selecionado. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
                     fechaVencimientoField.requestFocus();
                     return;
@@ -523,10 +523,10 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                     return;
                 }
 
-                javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Factura " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
             } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " la factura. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
 
         }

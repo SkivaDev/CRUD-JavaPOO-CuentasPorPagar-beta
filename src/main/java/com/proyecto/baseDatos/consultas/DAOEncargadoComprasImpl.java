@@ -215,14 +215,15 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     public void modificarFactura(Factura invoice) throws Exception {
         try {
             this.Conectar();
-            String consulta = "UPDATE facturas SET id_proveedor = ?, fecha_registro = ?, fecha_vencimiento = ?, descripcion = ?, monto_total = ? WHERE id_factura = ?";
+            String consulta = "UPDATE facturas SET id_proveedor = ?, fecha_registro = ?, fecha_vencimiento = ?, descripcion = ?, monto_total = ? , monto_pendiente = ? WHERE id_factura = ?";
             PreparedStatement statement = this.conexion.prepareStatement(consulta);
             statement.setInt(1, invoice.getIdProveedor());
             statement.setDate(2, new java.sql.Date(invoice.getFechaRegistro().getTime()));
             statement.setDate(3, new java.sql.Date(invoice.getFechaVencimiento().getTime()));
             statement.setString(4, invoice.getDescripcion());
             statement.setDouble(5, invoice.getMontoTotal());
-            statement.setInt(6, invoice.getIdFactura());
+            statement.setDouble(6, invoice.getMontoPendiente());
+            statement.setInt(7, invoice.getIdFactura());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error al editar la factura en la base de datos", e);

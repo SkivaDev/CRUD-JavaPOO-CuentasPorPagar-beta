@@ -45,10 +45,9 @@ public class ControladorRegistroFactura {
         try {
             // Registrar la factura
             invoice = new Factura(0, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
-            
+
             System.out.println("Contrl RegisFacConProd Paso1.\nidProveedor :" + invoice.getIdProveedor() + "\nMontoTotal :" + invoice.getMontoTotal());
 
-            
             dao.registrarFactura(invoice);
 
             // Obtener la ID de la factura registrada
@@ -56,7 +55,6 @@ public class ControladorRegistroFactura {
 
             System.out.println("Contrl RegisFacConProd Paso2.\nUltima id Factura Recien registrada :" + idFactura);
 
-            
             // Registrar los productos asociados a la factura
             for (Producto producto : productosTemporales) {
                 producto.setIdFactura(idFactura);
@@ -70,12 +68,16 @@ public class ControladorRegistroFactura {
 
     }
 
-    public void editarFacturaConProductos(List<Producto> productosTemporales, int idFactura, int idProveedor, Date fechaRegistro, Date fechaVencimiento, String direccion,
+    public void editarFacturaConProductos(List<Producto> productosTemporales, int idFactura, int idProveedor, Date fechaRegistro, Date fechaVencimiento, String descripcion,
             Double montoTotal, Double montoPagado, Double montoPendiente) throws Exception {
 
         try {
             // Registrar la factura
-            invoice = new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, direccion, montoTotal, montoPagado, montoPendiente);
+            invoice = new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
+            
+            System.out.println("DATOS para ver: . \nIdFactura: " + invoice.getIdFactura() + "\nMontoTotal: " + invoice.getMontoTotal() + "\nMontoPendiente: " + invoice.getMontoPendiente());
+                    
+            
             dao.modificarFactura(invoice);
 
             // Registrar o editar los productos asociados a la factura
@@ -147,14 +149,14 @@ public class ControladorRegistroFactura {
         model.addColumn("Cantidad");
         model.addColumn("Precio Unitario");
         model.addColumn("Subtotal");
-        
+
         productosTemporales.forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getIdFactura(), u.getNombre(), u.getDescripcion(), u.getCantidad(), u.getPrecioUnitario(), u.getSubtotal()}));
         return model;
     }
 
     public void agregarProductosArrayProductos(List<Producto> productosTemporales, int facturaId) throws Exception {
         List<Producto> listaProductos = dao.obtenerListaProductosporFacturaId(facturaId);
-        for(Producto producto : listaProductos) {
+        for (Producto producto : listaProductos) {
             productosTemporales.add(producto);
         }
     }
@@ -228,7 +230,6 @@ public class ControladorRegistroFactura {
         double precioUnitario = Double.parseDouble(precioUnitarioProd);
         double subtotal = (cantidad * precioUnitario);
 
-
         for (Producto producto : productosTemporales) {
             if (producto.getNombre().equals(productoEdicion.getNombre())) {
 
@@ -267,22 +268,31 @@ public class ControladorRegistroFactura {
     public boolean validarFechas(Date fechaRegistro, Date fechaVencimiento) {  // valida que la fecha registro sea menor a la fecha vencimiento
         return fechaRegistro.before(fechaVencimiento);
     }
-    
-    public boolean validarMontoLineaCredito(double nuevoMontoTotalARegistrar, int idProveedor) throws Exception {
+
+    public boolean validarMontoLineaCredito(double nuevoMontoTotalARegistrar, int idProveedor, int idFacturaInEdition) throws Exception {
         Proveedor proveedor = dao.obtenerProveedorPorId(idProveedor);
         double lineaCredito = proveedor.getLineaCredito();
-        
+
         double sumaTotalMontoFacturasRegistradas = 0;
         double sumaMontoFacturasMasNuevoMonto;
-        
+
         List<Factura> listaFacturasdeProveedor = dao.obtenerListaFacturasPorIdProveedor(idProveedor);
-        for(Factura factura : listaFacturasdeProveedor) {
-            sumaTotalMontoFacturasRegistradas += factura.getMontoTotal();
+
+        if (idFacturaInEdition != 0) { //SI EXISTE UNA FACTURA SIENDO EDITADA
+            for (Factura factura : listaFacturasdeProveedor) {
+                if (factura.getIdFactura() != idFacturaInEdition) {
+                    sumaTotalMontoFacturasRegistradas += factura.getMontoTotal();
+                }
+            }
+        } else { //SI NO EXISTE UNA FACTURA SIENDO EDITADA
+            for (Factura factura : listaFacturasdeProveedor) {
+                sumaTotalMontoFacturasRegistradas += factura.getMontoTotal();
+            }
         }
-        
+
         sumaMontoFacturasMasNuevoMonto = sumaTotalMontoFacturasRegistradas + nuevoMontoTotalARegistrar;
-        
-        if(sumaMontoFacturasMasNuevoMonto <= lineaCredito) {
+
+        if (sumaMontoFacturasMasNuevoMonto <= lineaCredito) {
             return true;
         } else {
             return false;
