@@ -186,11 +186,11 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     public void registrarFactura(Factura invoice) throws Exception {
         try {
             this.Conectar();
-            String consulta = "INSERT INTO proveedores (id_proveedor, fecha_registro, fecha_vencimiento, descripcion, monto_total, monto_pagado, monto_pendiente) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO facturas (id_proveedor, fecha_registro, fecha_vencimiento, descripcion, monto_total, monto_pagado, monto_pendiente) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, invoice.getIdProveedor());
-            statement.setDate(2, (Date) invoice.getFechaRegistro());
-            statement.setDate(3, (Date) invoice.getFechaVencimiento());
+            statement.setDate(2, new java.sql.Date(invoice.getFechaRegistro().getTime()));
+            statement.setDate(3, new java.sql.Date(invoice.getFechaVencimiento().getTime()));
             statement.setString(4, invoice.getDescripcion());
             statement.setDouble(5, invoice.getMontoTotal());
             statement.setDouble(6, invoice.getMontoPagado());
@@ -218,8 +218,8 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             String consulta = "UPDATE facturas SET id_proveedor = ?, fecha_registro = ?, fecha_vencimiento = ?, descripcion = ?, monto_total = ? WHERE id_factura = ?";
             PreparedStatement statement = this.conexion.prepareStatement(consulta);
             statement.setInt(1, invoice.getIdProveedor());
-            statement.setDate(2, (Date) invoice.getFechaRegistro());
-            statement.setDate(3, (Date) invoice.getFechaVencimiento());
+            statement.setDate(2, new java.sql.Date(invoice.getFechaRegistro().getTime()));
+            statement.setDate(3, new java.sql.Date(invoice.getFechaVencimiento().getTime()));
             statement.setString(4, invoice.getDescripcion());
             statement.setDouble(5, invoice.getMontoTotal());
             statement.setInt(6, invoice.getIdFactura());
@@ -272,6 +272,36 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     }
 
     @Override
+    public List<Factura> obtenerListaFacturasPorIdProveedor(int supplierId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM facturas WHERE id_proveedor = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, supplierId);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Factura> facturas = new ArrayList<>(); // idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente
+            while (resultSet.next()) {
+                int idFactura = resultSet.getInt("id_factura");
+                int idProveedor = resultSet.getInt("id_proveedor");
+                Date fechaRegistro = resultSet.getDate("fecha_registro");
+                Date fechaVencimiento = resultSet.getDate("fecha_vencimiento");
+                String descripcion = resultSet.getString("descripcion");
+                Double montoTotal = resultSet.getDouble("monto_total");
+                Double montoPagado = resultSet.getDouble("monto_pagado");
+                Double montoPendiente = resultSet.getDouble("monto_pendiente");
+
+                Factura factura = new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
+                facturas.add(factura);
+            }
+
+            return facturas;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de facturas por ID de proveedor de la base de datos", e);
+        }
+    }
+
+    @Override
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception {
         try {
             this.Conectar();
@@ -288,9 +318,9 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
                 String descripcion = resultSet.getString("descripcion");
                 Double montoTotal = resultSet.getDouble("monto_total");
                 Double montoPagado = resultSet.getDouble("monto_pagado");
-                Double saldoPendiente = resultSet.getDouble("saldo_pendiente");
+                Double montoPendiente = resultSet.getDouble("monto_pendiente");
 
-                return new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, saldoPendiente);
+                return new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
             }
 
             // Si no se encuentra el usuario, puedes lanzar una excepción o retornar null, según tu necesidad
@@ -305,7 +335,7 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     public void registrarProducto(Producto product) throws Exception { // cuando el encargado de compras registra la factura se crea el producto por ende ya es existente
         try {
             this.Conectar();
-            String consulta = "INSERT INTO proveedores (id_factura, nombre, descripcion, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO productos (id_factura, nombre, descripcion, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, product.getIdFactura());
             statement.setString(2, product.getNombre());

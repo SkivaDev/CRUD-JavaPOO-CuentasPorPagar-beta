@@ -29,7 +29,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
     private DefaultTableModel modeloTabla;
 
     private Producto productoEdicion; //ESTO USARIAMOS EN VEZ DE USAR EL currentProductId ya que no se sabe con exactitud por el id = 0
-    
+
     private int currentProductId;
     private int currentFacturaId;
 
@@ -42,7 +42,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         InitStyles();
 
         currentFacturaId = 0; // es el id que se pone en 0 porque significa que es una nueva factura para agregar
-        currentProductId = 0; // es el id que se utiliza al momento de agregar productos o editarlos
+        currentProductId = 0; // es el id que se utiliza al momento de agregar productos o editarlos*************
         LoadProducts();
     }
 
@@ -57,7 +57,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         InitStyles();
 
         currentFacturaId = invoice.getIdFactura(); // es el id que se pone su respectiva idFactura registrada al ventanaGestorFactura envia.
-        currentProductId = 0;
+        currentProductId = 0;//************
         LoadProducts();
     }
 
@@ -84,10 +84,11 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         if (isEdition) {
             title.setText("Editar Factura");
             registrarFacturaBtn.setText("Guardar");
-            controladorRegistroFactura.agregarProductosArrayProductos(productosTemporales, invoiceEdition.getIdFactura());
             fechaRegistroField.setEditable(true);
 
             if (invoiceEdition != null) {
+                controladorRegistroFactura.agregarProductosArrayProductos(productosTemporales, invoiceEdition.getIdFactura());
+
                 String proveedorDeFactura = controladorRegistroFactura.buscarNombreProveedorPorFactura(invoiceEdition.getIdFactura());
                 proveedorCBox.setSelectedItem(proveedorDeFactura);
 
@@ -461,19 +462,29 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                     return;
                 }
 
-                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosProveedores(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
-                if (confirmarDatosProveedores) {
-                    int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
+                // valida que el monto total de la factura no haga que supere la linea de credito del proveedor.
+                double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales);
+                int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
+
+                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "El monto total de la factura supera a la linea de credito del proveedor selecionado. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    fechaVencimientoField.requestFocus();
+                    return;
+                }
+
+                boolean confirmarDatosFactura = controladorRegistroFactura.confirmarDatosFactura(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
+                if (confirmarDatosFactura) {
                     JOptionPane.showMessageDialog(null, "ES EL ID PROVEEDOR: " + idProveedorSelecionado);
-                    
+
                     controladorRegistroFactura.registrarFacturaConProductos(productosTemporales, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
                             descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
                 } else {
                     return;
                 }
-                javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Factura " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                System.out.println(ex.getMessage());
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el factura. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
 
         } else { // codigo donde se edita
@@ -492,11 +503,20 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                     return;
                 }
 
-                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosProveedores(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
+                // valida que el monto total de la factura no haga que supere la linea de credito del proveedor.
+                double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales);
+                int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
+
+                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "El monto total de la factura supera a la linea de credito del proveedor selecionado. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    fechaVencimientoField.requestFocus();
+                    return;
+                }
+
+                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosFactura(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
 
                 if (confirmarDatosProveedores) {
                     int idFactura = invoiceEdition.getIdFactura();
-                    int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
                     controladorRegistroFactura.editarFacturaConProductos(productosTemporales, idFactura, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
                             descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
                 } else {
@@ -542,7 +562,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
 
                 boolean confirmarDatosProducto = controladorRegistroFactura.confirmarDatosProducto(nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
                 if (confirmarDatosProducto) {
-                    controladorRegistroFactura.agregarNuevosProductosArrayProductos(productosTemporales, 0, currentFacturaId,
+                    controladorRegistroFactura.agregarNuevoProductoArrayProductos(productosTemporales, 0, currentFacturaId,
                             nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
 
                     //
@@ -570,8 +590,8 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
 
                 boolean confirmarDatosProducto = controladorRegistroFactura.confirmarDatosProducto(nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
                 if (confirmarDatosProducto) {
-                    controladorRegistroFactura.agregarNuevosProductosArrayProductos(productosTemporales, currentProductId, currentFacturaId,
-                            nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
+
+                    controladorRegistroFactura.editarProductoArrayProductos(productosTemporales, productoEdicion, nombreProd, descripcionProd, cantidadProd, precioUnitarioProd);
                     //
                     double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales); // se calcula el monto total cada vez que se agrega un producto
                     montoTotalLabel.setText(Double.toString(montoTotalCalculado));
@@ -585,7 +605,6 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                     LoadProducts(); // actualiza la tabla cada vez que se registra un producto
 
                     //Volviento las cosas a por defecto (de Editar producto -> Agregar producto)
-                    currentProductId = 0; // cuando se termina de editar. el currentProductId vuelve a su estado default de 0 
                     isProducEdition = false;
                     agregarProdBtn.setText("AGREGAR PRODUCTO");
                 } else {
@@ -629,8 +648,8 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         if (productosTable.getSelectedRow() > -1) {
             try {
                 String nombreProducto = (String) productosTable.getValueAt(productosTable.getSelectedRow(), 2); // Asumiendo que el nombre del producto está en la columna 2
-                Producto productoEdicion = controladorRegistroFactura.buscarProductoPorNombre(productosTemporales, nombreProducto);
-                currentProductId = productoEdicion.getIdProducto();
+                productoEdicion = controladorRegistroFactura.buscarProductoPorNombre(productosTemporales, nombreProducto);
+                //currentProductId = productoEdicion.getIdProducto();
 
                 nombreProdField.setText(productoEdicion.getNombre());
                 descripcionProdField.setText(productoEdicion.getDescripcion());
@@ -650,7 +669,6 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         // TODO add your handling code here:
 
         //DefaultTableModel model = (DefaultTableModel) productosTable.getModel();
-        
         /*
         if (productosTable.getSelectedRows().length < 1) {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más productos a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -675,9 +693,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 }
             }
         }
-        */
-        
-        
+         */
         if (productosTable.getSelectedRows().length < 1) {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más productos a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         } else {
@@ -694,7 +710,14 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                     double montoPendienteCalculado = montoTotalCalculado - (Double.parseDouble(montoPagadoLabel.getText()));
                     montoPendienteLabel.setText(Double.toString(montoPendienteCalculado));
 
-                    LoadProducts();
+                    //
+                    limpiarCamposProducto(); // limpia los campos cada vez que se registra un producto
+                    LoadProducts(); // actualiza la tabla cada vez que se elimina un producto
+
+                    //Volviento las cosas a por defecto (de Editar producto -> Agregar producto)
+                    isProducEdition = false;
+                    agregarProdBtn.setText("AGREGAR PRODUCTO");
+
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

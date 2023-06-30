@@ -39,17 +39,24 @@ public class ControladorRegistroFactura {
         this.dao = new DAOEncargadoComprasImpl();
     }
 
-    public void registrarFacturaConProductos(List<Producto> productosTemporales, int idProveedor, Date fechaRegistro, Date fechaVencimiento, String direccion,
+    public void registrarFacturaConProductos(List<Producto> productosTemporales, int idProveedor, Date fechaRegistro, Date fechaVencimiento, String descripcion,
             Double montoTotal, Double montoPagado, Double montoPendiente) throws Exception {
 
         try {
             // Registrar la factura
-            invoice = new Factura(0, idProveedor, fechaRegistro, fechaVencimiento, direccion, montoTotal, montoPagado, montoPendiente);
+            invoice = new Factura(0, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
+            
+            System.out.println("Contrl RegisFacConProd Paso1.\nidProveedor :" + invoice.getIdProveedor() + "\nMontoTotal :" + invoice.getMontoTotal());
+
+            
             dao.registrarFactura(invoice);
 
             // Obtener la ID de la factura registrada
             int idFactura = dao.obtenerUltimaFacturaRegistrada();
 
+            System.out.println("Contrl RegisFacConProd Paso2.\nUltima id Factura Recien registrada :" + idFactura);
+
+            
             // Registrar los productos asociados a la factura
             for (Producto producto : productosTemporales) {
                 producto.setIdFactura(idFactura);
@@ -139,16 +146,20 @@ public class ControladorRegistroFactura {
         model.addColumn("Descripcion");
         model.addColumn("Cantidad");
         model.addColumn("Precio Unitario");
-
-        productosTemporales.forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getIdFactura(), u.getNombre(), u.getDescripcion(), u.getCantidad(), u.getPrecioUnitario()}));
+        model.addColumn("Subtotal");
+        
+        productosTemporales.forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getIdFactura(), u.getNombre(), u.getDescripcion(), u.getCantidad(), u.getPrecioUnitario(), u.getSubtotal()}));
         return model;
     }
 
     public void agregarProductosArrayProductos(List<Producto> productosTemporales, int facturaId) throws Exception {
-        productosTemporales = dao.obtenerListaProductosporFacturaId(facturaId);
+        List<Producto> listaProductos = dao.obtenerListaProductosporFacturaId(facturaId);
+        for(Producto producto : listaProductos) {
+            productosTemporales.add(producto);
+        }
     }
 
-    public void agregarNuevosProductosArrayProductos(List<Producto> productosTemporales, int productoId, int facturaId,
+    public void agregarNuevoProductoArrayProductos(List<Producto> productosTemporales, int productoId, int facturaId,
             String nombreProd, String descripcionProd, String cantidadProd, String precioUnitarioProd) throws Exception {
 
         int idProducto = productoId;
@@ -208,6 +219,33 @@ public class ControladorRegistroFactura {
         }
     }
 
+    public void editarProductoArrayProductos(List<Producto> productosTemporales, Producto productoEdicion,
+            String nombreProd, String descripcionProd, String cantidadProd, String precioUnitarioProd) {
+
+        String nombre = nombreProd;
+        String descripcion = descripcionProd;
+        int cantidad = Integer.parseInt(cantidadProd);
+        double precioUnitario = Double.parseDouble(precioUnitarioProd);
+        double subtotal = (cantidad * precioUnitario);
+
+
+        for (Producto producto : productosTemporales) {
+            if (producto.getNombre().equals(productoEdicion.getNombre())) {
+
+                // Actualizar los datos del producto con los del productoEdicion
+                producto.setNombre(nombre);
+                producto.setDescripcion(descripcion);
+                producto.setCantidad(cantidad);
+                producto.setPrecioUnitario(precioUnitario);
+                producto.setSubtotal(subtotal);
+
+                // Detener el ciclo
+                break;
+
+            }
+        }
+    }
+
     /*VALIDACIONES--------------------------------------------------*/
     public boolean existeProductoConNombre(List<Producto> productosTemporales, String nombreProducto) {
         for (Producto producto : productosTemporales) {
@@ -228,6 +266,27 @@ public class ControladorRegistroFactura {
 
     public boolean validarFechas(Date fechaRegistro, Date fechaVencimiento) {  // valida que la fecha registro sea menor a la fecha vencimiento
         return fechaRegistro.before(fechaVencimiento);
+    }
+    
+    public boolean validarMontoLineaCredito(double nuevoMontoTotalARegistrar, int idProveedor) throws Exception {
+        Proveedor proveedor = dao.obtenerProveedorPorId(idProveedor);
+        double lineaCredito = proveedor.getLineaCredito();
+        
+        double sumaTotalMontoFacturasRegistradas = 0;
+        double sumaMontoFacturasMasNuevoMonto;
+        
+        List<Factura> listaFacturasdeProveedor = dao.obtenerListaFacturasPorIdProveedor(idProveedor);
+        for(Factura factura : listaFacturasdeProveedor) {
+            sumaTotalMontoFacturasRegistradas += factura.getMontoTotal();
+        }
+        
+        sumaMontoFacturasMasNuevoMonto = sumaTotalMontoFacturasRegistradas + nuevoMontoTotalARegistrar;
+        
+        if(sumaMontoFacturasMasNuevoMonto <= lineaCredito) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean confirmarDatosProducto(String nombre, String descripcion, String cantidad, String precioUnitario) {
@@ -261,7 +320,7 @@ public class ControladorRegistroFactura {
         return false;
     }
 
-    public boolean confirmarDatosProveedores(List<Producto> productosTemporales, String proveedor, String fechaRegistro, String fechaVencimiento, String montoTotal, String montoPagado, String montoPendiente) {
+    public boolean confirmarDatosFactura(List<Producto> productosTemporales, String proveedor, String fechaRegistro, String fechaVencimiento, String montoTotal, String montoPagado, String montoPendiente) {
         String message;
         int cantidadProductos = productosTemporales.size();
         String title = "Confirmación";

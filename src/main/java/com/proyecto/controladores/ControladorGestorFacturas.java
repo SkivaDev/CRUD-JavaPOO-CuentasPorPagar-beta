@@ -64,7 +64,7 @@ public class ControladorGestorFacturas {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         if (table.getSelectedRows().length < 1) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más proveedores a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más Facturas a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         } else {
             for (int i : table.getSelectedRows()) {
                 int idFactura = (int) table.getValueAt(i, 0);
