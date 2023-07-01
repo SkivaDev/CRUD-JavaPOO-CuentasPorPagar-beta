@@ -87,7 +87,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
     }
 
     public static void ShowJPanelWindows(JPanel p) {
-        p.setSize(925, 565);
+        p.setSize(900, 600);
         p.setLocation(0, 0);
 
         windowsContent.removeAll();
