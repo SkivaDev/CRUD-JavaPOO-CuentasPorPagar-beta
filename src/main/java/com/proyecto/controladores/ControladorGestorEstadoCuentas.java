@@ -184,6 +184,54 @@ public class ControladorGestorEstadoCuentas {
         return null;
     }
 
+    public DefaultTableModel filtrarFacturasPendientes(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<Factura> listaFacturas = dao.obtenerListaFacturas("");
+
+            for (Factura u : listaFacturas) {
+                if (u.getMontoPendiente() != 0) {
+                    try {
+                        model.addRow(new Object[]{u.getIdFactura(), dao.buscarNombreProveedorPorFactura(u.getIdFactura()), u.getFechaRegistro(),
+                            u.getFechaVencimiento(), u.getDescripcion(), u.getMontoTotal(), u.getMontoPagado(), u.getMontoPendiente()});
+                    } catch (Exception ex) {
+                        Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public DefaultTableModel filtrarFacturasPagadas(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<Factura> listaFacturas = dao.obtenerListaFacturas("");
+
+            for (Factura u : listaFacturas) {
+                if (u.getMontoPendiente() == 0) {
+                    try {
+                        model.addRow(new Object[]{u.getIdFactura(), dao.buscarNombreProveedorPorFactura(u.getIdFactura()), u.getFechaRegistro(),
+                            u.getFechaVencimiento(), u.getDescripcion(), u.getMontoTotal(), u.getMontoPagado(), u.getMontoPendiente()});
+                    } catch (Exception ex) {
+                        Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
     /*
     public DefaultTableModel eliminarProveedores(JTable table) {
 

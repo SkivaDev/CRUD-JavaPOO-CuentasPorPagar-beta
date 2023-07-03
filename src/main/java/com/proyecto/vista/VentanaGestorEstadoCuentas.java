@@ -278,7 +278,8 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MousePressed
 
     private void facturasPendientesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasPendientesBtnActionPerformed
-
+        modeloTabla = controladorGestorEstadoCuentas.filtrarFacturasPendientes(jTable1);
+        jTable1.setModel(modeloTabla);
     }//GEN-LAST:event_facturasPendientesBtnActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
@@ -309,7 +310,8 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
 
     private void facturasPagadasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasPagadasBtnActionPerformed
         // TODO add your handling code here:
-
+        modeloTabla = controladorGestorEstadoCuentas.filtrarFacturasPagadas(jTable1);
+        jTable1.setModel(modeloTabla);
     }//GEN-LAST:event_facturasPagadasBtnActionPerformed
 
     private void bancosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosBtnActionPerformed
