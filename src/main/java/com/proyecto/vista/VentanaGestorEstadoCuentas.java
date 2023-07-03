@@ -3,6 +3,7 @@ package com.proyecto.vista;
 //import com.mycompany.ilib.DAOUsersImpl;
 //import com.proyecto.vista.VentanaDashboard;
 //import com.mycompany.interfaces.DAOUsers;
+import com.proyecto.controladores.ControladorGestorEstadoCuentas;
 import com.proyecto.controladores.ControladorGestorProveedores;
 import com.proyecto.controladores.ControladorGestorUsuarios;
 import com.proyecto.entidades.Usuario;
@@ -12,17 +13,17 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
 
     private Usuario currentUser;
-    private ControladorGestorProveedores controladorGestorProveedores;
+    private ControladorGestorEstadoCuentas controladorGestorEstadoCuentas;
     private DefaultTableModel modeloTabla;
 
     public VentanaGestorEstadoCuentas(Usuario currentUser) {
-        this.controladorGestorProveedores = new ControladorGestorProveedores();
+        this.controladorGestorEstadoCuentas = new ControladorGestorEstadoCuentas();
         this.currentUser = currentUser;
         this.modeloTabla = new DefaultTableModel();
 
         initComponents();
         InitStyles();
-        LoadSuppliers();
+        LoadInvoices();
     }
 
     private void InitStyles() {
@@ -31,13 +32,13 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
         userSearchField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
 
-    private void LoadSuppliers() {
+    private void LoadInvoices() {
         
         // Limpiar el modelo de la tabla
         modeloTabla.setRowCount(0);
         jTable1.setModel(modeloTabla);
 
-        modeloTabla = controladorGestorProveedores.listarProveedores(jTable1);
+        modeloTabla = controladorGestorEstadoCuentas.listarFacturas(jTable1);
         jTable1.setModel(modeloTabla);
         
 
@@ -57,18 +58,20 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
         searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        addButton = new javax.swing.JButton();
-        searchButton1 = new javax.swing.JButton();
-        searchButton3 = new javax.swing.JButton();
-        searchButton4 = new javax.swing.JButton();
-        addButton1 = new javax.swing.JButton();
-        addButton2 = new javax.swing.JButton();
+        facturasPendientesBtn = new javax.swing.JButton();
+        filtro30Btn = new javax.swing.JButton();
+        filtro60Btn = new javax.swing.JButton();
+        filtro90Btn = new javax.swing.JButton();
+        facturasPagadasBtn = new javax.swing.JButton();
+        bancosBtn = new javax.swing.JButton();
+        userSearchField = new javax.swing.JTextField();
+        filtroTodosBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("Gestor Estados de Cuentas");
+        title.setText("ESTADOS DE CUENTAS");
 
         searchButton.setBackground(new java.awt.Color(255, 0, 51));
         searchButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -88,14 +91,14 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Nombre", "Apellido P.", "Apellido M.", "Domicilio", "Teléfono"
+                "IDFactura", "Proveedor", "Fecha Registro", "Fecha Vencimiento", "Descripción", "Monto Total", "Monto Pagado", "Monto Pendiente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -114,75 +117,87 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        addButton.setBackground(new java.awt.Color(255, 0, 51));
-        addButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        addButton.setForeground(new java.awt.Color(255, 255, 255));
-        addButton.setText("Facturas Pendientes");
-        addButton.setBorderPainted(false);
-        addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        facturasPendientesBtn.setBackground(new java.awt.Color(255, 0, 51));
+        facturasPendientesBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        facturasPendientesBtn.setForeground(new java.awt.Color(255, 255, 255));
+        facturasPendientesBtn.setText("Facturas Pendientes");
+        facturasPendientesBtn.setBorderPainted(false);
+        facturasPendientesBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        facturasPendientesBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                facturasPendientesBtnActionPerformed(evt);
             }
         });
 
-        searchButton1.setBackground(new java.awt.Color(255, 0, 51));
-        searchButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        searchButton1.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton1.setText("30");
-        searchButton1.setBorderPainted(false);
-        searchButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        searchButton1.addActionListener(new java.awt.event.ActionListener() {
+        filtro30Btn.setBackground(new java.awt.Color(255, 0, 51));
+        filtro30Btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        filtro30Btn.setForeground(new java.awt.Color(255, 255, 255));
+        filtro30Btn.setText("30");
+        filtro30Btn.setBorderPainted(false);
+        filtro30Btn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        filtro30Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButton1ActionPerformed(evt);
+                filtro30BtnActionPerformed(evt);
             }
         });
 
-        searchButton3.setBackground(new java.awt.Color(255, 0, 51));
-        searchButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        searchButton3.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton3.setText("60");
-        searchButton3.setBorderPainted(false);
-        searchButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        searchButton3.addActionListener(new java.awt.event.ActionListener() {
+        filtro60Btn.setBackground(new java.awt.Color(255, 0, 51));
+        filtro60Btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        filtro60Btn.setForeground(new java.awt.Color(255, 255, 255));
+        filtro60Btn.setText("60");
+        filtro60Btn.setBorderPainted(false);
+        filtro60Btn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        filtro60Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButton3ActionPerformed(evt);
+                filtro60BtnActionPerformed(evt);
             }
         });
 
-        searchButton4.setBackground(new java.awt.Color(255, 0, 51));
-        searchButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        searchButton4.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton4.setText("90");
-        searchButton4.setBorderPainted(false);
-        searchButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        searchButton4.addActionListener(new java.awt.event.ActionListener() {
+        filtro90Btn.setBackground(new java.awt.Color(255, 0, 51));
+        filtro90Btn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        filtro90Btn.setForeground(new java.awt.Color(255, 255, 255));
+        filtro90Btn.setText("90");
+        filtro90Btn.setBorderPainted(false);
+        filtro90Btn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        filtro90Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButton4ActionPerformed(evt);
+                filtro90BtnActionPerformed(evt);
             }
         });
 
-        addButton1.setBackground(new java.awt.Color(255, 0, 51));
-        addButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        addButton1.setForeground(new java.awt.Color(255, 255, 255));
-        addButton1.setText("Pagos Realizados");
-        addButton1.setBorderPainted(false);
-        addButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        addButton1.addActionListener(new java.awt.event.ActionListener() {
+        facturasPagadasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        facturasPagadasBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        facturasPagadasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        facturasPagadasBtn.setText("Facturas Pagadas");
+        facturasPagadasBtn.setBorderPainted(false);
+        facturasPagadasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        facturasPagadasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButton1ActionPerformed(evt);
+                facturasPagadasBtnActionPerformed(evt);
             }
         });
 
-        addButton2.setBackground(new java.awt.Color(255, 0, 51));
-        addButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        addButton2.setForeground(new java.awt.Color(255, 255, 255));
-        addButton2.setText("Bancos");
-        addButton2.setBorderPainted(false);
-        addButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        addButton2.addActionListener(new java.awt.event.ActionListener() {
+        bancosBtn.setBackground(new java.awt.Color(255, 0, 51));
+        bancosBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        bancosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        bancosBtn.setText("Bancos");
+        bancosBtn.setBorderPainted(false);
+        bancosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bancosBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButton2ActionPerformed(evt);
+                bancosBtnActionPerformed(evt);
+            }
+        });
+
+        filtroTodosBtn.setBackground(new java.awt.Color(255, 0, 51));
+        filtroTodosBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        filtroTodosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        filtroTodosBtn.setText("Todos");
+        filtroTodosBtn.setBorderPainted(false);
+        filtroTodosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        filtroTodosBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtroTodosBtnActionPerformed(evt);
             }
         });
 
@@ -191,64 +206,70 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(title)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(addButton)
+                                .addGap(6, 6, 6)
+                                .addComponent(bancosBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(facturasPendientesBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(addButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(addButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3))
+                                .addComponent(facturasPagadasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 830, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(searchButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(userSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(filtro30Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(searchButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(filtro60Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(searchButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(searchButton)))
-                        .addGap(50, 50, 50))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 830, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34))))
+                                .addComponent(filtro90Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(filtroTodosBtn)))
+                        .addGap(34, 34, 34))
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addComponent(title)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addComponent(title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filtro30Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filtro60Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filtro90Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userSearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(filtroTodosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                    .addComponent(facturasPendientesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(facturasPagadasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bancosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, 859, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 15, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -256,50 +277,65 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jTable1MousePressed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor());
-    }//GEN-LAST:event_addButtonActionPerformed
+    private void facturasPendientesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasPendientesBtnActionPerformed
+
+    }//GEN-LAST:event_facturasPendientesBtnActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         
-        modeloTabla = controladorGestorProveedores.buscarProveedores(jTable1, userSearchField.getText());
+        modeloTabla = controladorGestorEstadoCuentas.buscarFacturas(jTable1, userSearchField.getText());
         jTable1.setModel(modeloTabla);
 
 
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void searchButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButton1ActionPerformed
+    private void filtro30BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtro30BtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchButton1ActionPerformed
+        modeloTabla = controladorGestorEstadoCuentas.filtrarPor30Dias(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_filtro30BtnActionPerformed
 
-    private void searchButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButton3ActionPerformed
+    private void filtro60BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtro60BtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchButton3ActionPerformed
+        modeloTabla = controladorGestorEstadoCuentas.filtrarPor60Dias(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_filtro60BtnActionPerformed
 
-    private void searchButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButton4ActionPerformed
+    private void filtro90BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtro90BtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchButton4ActionPerformed
+        modeloTabla = controladorGestorEstadoCuentas.filtrarPor90Dias(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_filtro90BtnActionPerformed
 
-    private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
+    private void facturasPagadasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasPagadasBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addButton1ActionPerformed
 
-    private void addButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton2ActionPerformed
+    }//GEN-LAST:event_facturasPagadasBtnActionPerformed
+
+    private void bancosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addButton2ActionPerformed
+    }//GEN-LAST:event_bancosBtnActionPerformed
+
+    private void filtroTodosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtroTodosBtnActionPerformed
+        // TODO add your handling code here:
+        modeloTabla = controladorGestorEstadoCuentas.filtrarTodasFacturas(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_filtroTodosBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
-    private javax.swing.JButton addButton1;
-    private javax.swing.JButton addButton2;
+    private javax.swing.JButton bancosBtn;
     private javax.swing.JPanel bg;
+    private javax.swing.JButton facturasPagadasBtn;
+    private javax.swing.JButton facturasPendientesBtn;
+    private javax.swing.JButton filtro30Btn;
+    private javax.swing.JButton filtro60Btn;
+    private javax.swing.JButton filtro90Btn;
+    private javax.swing.JButton filtroTodosBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton searchButton;
-    private javax.swing.JButton searchButton1;
-    private javax.swing.JButton searchButton3;
-    private javax.swing.JButton searchButton4;
     private javax.swing.JLabel title;
+    private javax.swing.JTextField userSearchField;
     // End of variables declaration//GEN-END:variables
 }

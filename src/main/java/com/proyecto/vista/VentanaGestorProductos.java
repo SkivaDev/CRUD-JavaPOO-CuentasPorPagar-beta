@@ -9,13 +9,13 @@ import com.proyecto.entidades.Usuario;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 
-public class VentanaGestorProveedores extends javax.swing.JPanel {
+public class VentanaGestorProductos extends javax.swing.JPanel {
 
     private Usuario currentUser;
-    private ControladorGestorProveedores controladorGestorProveedores;
+    private ControladorGeadstorProveedores controladorGestorProveedores;
     private DefaultTableModel modeloTabla;
 
-    public VentanaGestorProveedores(Usuario currentUser) {
+    public VentanaGestorProductos(Usuario currentUser) {
         this.controladorGestorProveedores = new ControladorGestorProveedores();
         this.currentUser = currentUser;
         this.modeloTabla = new DefaultTableModel();
@@ -61,13 +61,12 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
         deleteButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
-        addButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("Proveedores");
+        title.setText("PRODUCTOS");
 
         searchButton.setBackground(new java.awt.Color(255, 0, 51));
         searchButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -87,14 +86,14 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Nombre", "Apellido P.", "Apellido M.", "Domicilio", "Teléfono"
+                "ID", "Nombre", "Categoria", "Descripcion", "Cantidad", "Precio Unitario"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -149,13 +148,6 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
             }
         });
 
-        addButton1.setBackground(new java.awt.Color(255, 0, 51));
-        addButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        addButton1.setForeground(new java.awt.Color(255, 255, 255));
-        addButton1.setText("Expediente Proveedor");
-        addButton1.setBorderPainted(false);
-        addButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
@@ -169,9 +161,7 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addGap(327, 327, 327)
-                                .addComponent(addButton1)
-                                .addGap(18, 18, 18)
+                                .addGap(554, 554, 554)
                                 .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
@@ -199,8 +189,7 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteButton)
                     .addComponent(editButton)
-                    .addComponent(addButton)
-                    .addComponent(addButton1))
+                    .addComponent(addButton))
                 .addGap(25, 25, 25))
         );
 
@@ -250,7 +239,6 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JButton addButton1;
     private javax.swing.JPanel bg;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton editButton;
