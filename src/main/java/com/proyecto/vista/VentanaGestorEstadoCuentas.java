@@ -316,6 +316,7 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
 
     private void bancosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosBtnActionPerformed
         // TODO add your handling code here:
+        VentanaDashboard.ShowJPanelWindows(new Vetnan());
     }//GEN-LAST:event_bancosBtnActionPerformed
 
     private void filtroTodosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtroTodosBtnActionPerformed
