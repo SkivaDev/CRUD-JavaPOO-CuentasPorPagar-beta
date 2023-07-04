@@ -7,6 +7,7 @@ package com.proyecto.controladores;
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
+import com.proyecto.vista.VentanaBETAAAExpedienteProveedor;
 import com.proyecto.vista.VentanaDetalleExpedienteProveedor;
 import com.proyecto.vista.VentanaRegistroProveedor;
 import com.proyecto.vista.VentanaRegistroUsuario;

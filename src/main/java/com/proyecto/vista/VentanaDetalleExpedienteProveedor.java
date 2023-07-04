@@ -10,7 +10,6 @@ import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.Usuario;
-import static com.proyecto.utils.Utils.obtenerFechaActual;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
@@ -45,10 +43,14 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
 
-        nombreProveedorLabel.setText(supplierShowing.getNombre());
-        direccionLabel.setText(supplierShowing.getDireccion());
-        telefonoLabel1.setText(supplierShowing.getTelefono());
-        lineaCreditoLabel.setText(Double.toString(supplierShowing.getLineaCredito()));
+        nombreProveedorField.setText(supplierShowing.getNombre());
+        nombreProveedorField.setEditable(false);
+        direccionField.setText(supplierShowing.getDireccion());
+        direccionField.setEditable(false);
+        telefonoField.setText(supplierShowing.getTelefono());
+        telefonoField.setEditable(false);
+        lineaCreditoField.setText(Double.toString(supplierShowing.getLineaCredito()));
+        lineaCreditoField.setEditable(false);
         
     }
 
@@ -56,12 +58,11 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
         
         // Limpiar el modelo de la tabla
         modeloTabla.setRowCount(0);
-        jTable1.setModel(modeloTabla);
-        modeloTabla = controladorDetalleExpedienteProveedor.listarProductosProveedor(jTable1, supplierShowing.getIdProveedor());
-        jTable1.setModel(modeloTabla);
+        expedienteProveedorTable.setModel(modeloTabla);
+        modeloTabla = controladorDetalleExpedienteProveedor.listarProductosProveedor(expedienteProveedorTable, supplierShowing.getIdProveedor());
+        expedienteProveedorTable.setModel(modeloTabla);
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,103 +75,68 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
 
         bg = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
-        nameLabel = new javax.swing.JLabel();
-        nombreProveedorLabel = new javax.swing.JLabel();
-        nameLabel1 = new javax.swing.JLabel();
-        direccionLabel = new javax.swing.JLabel();
-        nameLabel2 = new javax.swing.JLabel();
-        lineaCreditoLabel = new javax.swing.JLabel();
-        nameLabel3 = new javax.swing.JLabel();
-        telefonoLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        hitorialPagosBtn = new javax.swing.JButton();
-        productosProveeBtn = new javax.swing.JButton();
+        expedienteProveedorTable = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        nombreProveedorField = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        direccionField = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        telefonoField = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        lineaCreditoField = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        mostrarProductosBtn = new javax.swing.JButton();
         facturasPendientesBtn = new javax.swing.JButton();
-        volvertBtn = new javax.swing.JButton();
+        historialTransaccionesBtn = new javax.swing.JButton();
+        volverBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("EXPEDIENTE PROVEEDOR");
+        title.setText("DETALLES DE PROVEEDOR");
 
-        nameLabel.setText("Proveedor:");
-
-        nombreProveedorLabel.setText("(nombre proveedor)");
-
-        nameLabel1.setText("Dirección:");
-
-        direccionLabel.setText("(direccion)");
-
-        nameLabel2.setText("Telefono:");
-
-        lineaCreditoLabel.setText("(lineaCredito)");
-
-        nameLabel3.setText("Linea de Credito:");
-
-        telefonoLabel1.setText("(telefono)");
-
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        expedienteProveedorTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Apellido P.", "Apellido M.", "Domicilio", "Teléfono"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
-            };
+        ));
+        jScrollPane1.setViewportView(expedienteProveedorTable);
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+        jLabel10.setText("PROVEEDOR");
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTable1MousePressed(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
+        jLabel11.setText("Nombre:");
 
-        hitorialPagosBtn.setBackground(new java.awt.Color(255, 0, 51));
-        hitorialPagosBtn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        hitorialPagosBtn.setForeground(new java.awt.Color(255, 255, 255));
-        hitorialPagosBtn.setText("Historial Pagos");
-        hitorialPagosBtn.setBorderPainted(false);
-        hitorialPagosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        hitorialPagosBtn.addActionListener(new java.awt.event.ActionListener() {
+        jLabel12.setText("Dirección:");
+
+        jLabel13.setText("Telefono:");
+
+        jLabel14.setText("Linea de credito:");
+
+        mostrarProductosBtn.setBackground(new java.awt.Color(255, 0, 51));
+        mostrarProductosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mostrarProductosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        mostrarProductosBtn.setText("PRODUCTOS");
+        mostrarProductosBtn.setBorderPainted(false);
+        mostrarProductosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        mostrarProductosBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hitorialPagosBtnActionPerformed(evt);
-            }
-        });
-
-        productosProveeBtn.setBackground(new java.awt.Color(255, 0, 51));
-        productosProveeBtn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        productosProveeBtn.setForeground(new java.awt.Color(255, 255, 255));
-        productosProveeBtn.setText("Productos que Provee");
-        productosProveeBtn.setBorderPainted(false);
-        productosProveeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        productosProveeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                productosProveeBtnActionPerformed(evt);
+                mostrarProductosBtnActionPerformed(evt);
             }
         });
 
         facturasPendientesBtn.setBackground(new java.awt.Color(255, 0, 51));
-        facturasPendientesBtn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        facturasPendientesBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         facturasPendientesBtn.setForeground(new java.awt.Color(255, 255, 255));
-        facturasPendientesBtn.setText("Facturas Pendientes");
+        facturasPendientesBtn.setText("FACTURAS PENDIENTES");
         facturasPendientesBtn.setBorderPainted(false);
         facturasPendientesBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         facturasPendientesBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -179,15 +145,27 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
             }
         });
 
-        volvertBtn.setBackground(new java.awt.Color(255, 0, 51));
-        volvertBtn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        volvertBtn.setForeground(new java.awt.Color(255, 255, 255));
-        volvertBtn.setText("VOLVER");
-        volvertBtn.setBorderPainted(false);
-        volvertBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        volvertBtn.addActionListener(new java.awt.event.ActionListener() {
+        historialTransaccionesBtn.setBackground(new java.awt.Color(255, 0, 51));
+        historialTransaccionesBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        historialTransaccionesBtn.setForeground(new java.awt.Color(255, 255, 255));
+        historialTransaccionesBtn.setText("HISTORIAL TRANSACCIONES");
+        historialTransaccionesBtn.setBorderPainted(false);
+        historialTransaccionesBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        historialTransaccionesBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                volvertBtnActionPerformed(evt);
+                historialTransaccionesBtnActionPerformed(evt);
+            }
+        });
+
+        volverBtn.setBackground(new java.awt.Color(255, 0, 51));
+        volverBtn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        volverBtn.setForeground(new java.awt.Color(255, 255, 255));
+        volverBtn.setText("VOLVER");
+        volverBtn.setBorderPainted(false);
+        volverBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        volverBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverBtnActionPerformed(evt);
             }
         });
 
@@ -198,69 +176,71 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(bgLayout.createSequentialGroup()
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 805, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(bgLayout.createSequentialGroup()
-                                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(nombreProveedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(bgLayout.createSequentialGroup()
-                                        .addComponent(nameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(direccionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(106, 106, 106)
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(bgLayout.createSequentialGroup()
-                                        .addComponent(nameLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lineaCreditoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(bgLayout.createSequentialGroup()
-                                        .addComponent(nameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(telefonoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(323, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(volvertBtn)
+                                .addComponent(mostrarProductosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(productosProveeBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(hitorialPagosBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(facturasPendientesBtn))
-                            .addComponent(jScrollPane1))
-                        .addGap(31, 31, 31))))
+                                .addComponent(facturasPendientesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(historialTransaccionesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 805, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
+                            .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(volverBtn))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
+                            .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel10)
+                                .addGroup(bgLayout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(nombreProveedorField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel12)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(direccionField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel13)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(telefonoField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel14)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(lineaCreditoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 48, Short.MAX_VALUE))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(volverBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombreProveedorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(telefonoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(direccionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nameLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lineaCreditoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                    .addComponent(jLabel11)
+                    .addComponent(nombreProveedorField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(direccionField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(telefonoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(lineaCreditoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hitorialPagosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(productosProveeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mostrarProductosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(facturasPendientesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(volvertBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                    .addComponent(historialTransaccionesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -275,48 +255,46 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void hitorialPagosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hitorialPagosBtnActionPerformed
-
-    }//GEN-LAST:event_hitorialPagosBtnActionPerformed
-
-    private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
-
-    }//GEN-LAST:event_jTable1MousePressed
-
-    private void productosProveeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productosProveeBtnActionPerformed
+    private void mostrarProductosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarProductosBtnActionPerformed
         // TODO add your handling code here:
-        modeloTabla = controladorDetalleExpedienteProveedor.listarProductosProveedor(jTable1, supplierShowing.getIdProveedor());
-        jTable1.setModel(modeloTabla);
-    }//GEN-LAST:event_productosProveeBtnActionPerformed
+        modeloTabla = controladorDetalleExpedienteProveedor.listarProductosProveedor(expedienteProveedorTable, supplierShowing.getIdProveedor());
+        expedienteProveedorTable.setModel(modeloTabla);
+    }//GEN-LAST:event_mostrarProductosBtnActionPerformed
 
     private void facturasPendientesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasPendientesBtnActionPerformed
         // TODO add your handling code here:
-        modeloTabla = controladorDetalleExpedienteProveedor.listarFacturasPendientesProveedor(jTable1, supplierShowing.getIdProveedor());
-        jTable1.setModel(modeloTabla);
+        modeloTabla = controladorDetalleExpedienteProveedor.listarFacturasPendientesProveedor(expedienteProveedorTable, supplierShowing.getIdProveedor());
+        expedienteProveedorTable.setModel(modeloTabla);
     }//GEN-LAST:event_facturasPendientesBtnActionPerformed
 
-    private void volvertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volvertBtnActionPerformed
+    private void historialTransaccionesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historialTransaccionesBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_historialTransaccionesBtnActionPerformed
+
+    private void volverBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverBtnActionPerformed
         // TODO add your handling code here:
         VentanaDashboard.ShowJPanelWindows(new VentanaGestorExpedienteProveedores(currentUser));
-    }//GEN-LAST:event_volvertBtnActionPerformed
+    }//GEN-LAST:event_volverBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
-    private javax.swing.JLabel direccionLabel;
+    private javax.swing.JTextField direccionField;
+    private javax.swing.JTable expedienteProveedorTable;
     private javax.swing.JButton facturasPendientesBtn;
-    private javax.swing.JButton hitorialPagosBtn;
+    private javax.swing.JButton historialTransaccionesBtn;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lineaCreditoLabel;
-    private javax.swing.JLabel nameLabel;
-    private javax.swing.JLabel nameLabel1;
-    private javax.swing.JLabel nameLabel2;
-    private javax.swing.JLabel nameLabel3;
-    private javax.swing.JLabel nombreProveedorLabel;
-    private javax.swing.JButton productosProveeBtn;
-    private javax.swing.JLabel telefonoLabel1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField lineaCreditoField;
+    private javax.swing.JButton mostrarProductosBtn;
+    private javax.swing.JTextField nombreProveedorField;
+    private javax.swing.JTextField telefonoField;
     private javax.swing.JLabel title;
-    private javax.swing.JButton volvertBtn;
+    private javax.swing.JButton volverBtn;
     // End of variables declaration//GEN-END:variables
 }
