@@ -89,13 +89,15 @@
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="title" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="filtro30Btn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="filtro60Btn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="filtro90Btn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="userSearchField" alignment="0" pref="40" max="32767" attributes="0"/>
-                      <Component id="filtroTodosBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="searchButton" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="userSearchField" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="filtro30Btn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="filtro60Btn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="filtro90Btn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="filtroTodosBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="searchButton" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="416" max="-2" attributes="0"/>

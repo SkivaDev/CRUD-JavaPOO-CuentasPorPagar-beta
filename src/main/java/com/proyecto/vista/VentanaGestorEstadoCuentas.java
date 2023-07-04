@@ -8,6 +8,8 @@ import com.proyecto.controladores.ControladorGestorProveedores;
 import com.proyecto.controladores.ControladorGestorUsuarios;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
@@ -242,13 +244,14 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(filtro30Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filtro60Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filtro90Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userSearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(filtroTodosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userSearchField)
+                    .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(filtro30Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filtro60Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filtro90Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filtroTodosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -315,8 +318,11 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
     }//GEN-LAST:event_facturasPagadasBtnActionPerformed
 
     private void bancosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosBtnActionPerformed
-        // TODO add your handling code here:
-        VentanaDashboard.ShowJPanelWindows(new Vetnan());
+        try {
+            VentanaDashboard.ShowJPanelWindows(new VentanaDetalleBancos(currentUser));
+        } catch (Exception ex) {
+            Logger.getLogger(VentanaGestorEstadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bancosBtnActionPerformed
 
     private void filtroTodosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtroTodosBtnActionPerformed

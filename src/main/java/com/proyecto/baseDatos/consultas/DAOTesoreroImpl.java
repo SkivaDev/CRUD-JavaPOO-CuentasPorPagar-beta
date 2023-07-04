@@ -5,6 +5,7 @@
 package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
+import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
@@ -492,4 +493,57 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
 
 
      */
+    @Override
+    public List<CuentaBancaria> obtenerListaCuentasBancarias() throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM cuentas_bancarias";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<CuentaBancaria> cuentasBancarias = new ArrayList<>();
+            while (resultSet.next()) {
+                int idCuenta = resultSet.getInt("id_cuenta");
+                String nombreBanco = resultSet.getString("nombre_banco");
+                Double saldoActual = resultSet.getDouble("saldo_actual");
+                Double saldoPrevio = resultSet.getDouble("saldo_previo");
+
+                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, nombreBanco, saldoActual, saldoPrevio);
+                cuentasBancarias.add(cuentaBancaria);
+            }
+
+            return cuentasBancarias;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de cuentas bancarias de la base de datos", e);
+        }
+    }
+
+    @Override
+    public CuentaBancaria obtenerCuentaBancariaPorNombre(String name) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM cuentas_bancarias WHERE nombre_banco = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int idCuenta = resultSet.getInt("id_cuenta");
+                String nombreBanco = resultSet.getString("nombre_banco");
+                double saldoActual = resultSet.getDouble("saldo_actual");
+                double saldoPrevio = resultSet.getDouble("saldo_previo");
+
+                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, nombreBanco, saldoActual, saldoPrevio);
+                return cuentaBancaria;
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la cuenta bancaria de la base de datos", e);
+        } finally {
+            this.Cerrar();
+        }
+
+        return null;
+    }
+
 }
