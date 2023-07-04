@@ -57,7 +57,7 @@ public class VentanaGestorExpedienteProveedores extends javax.swing.JPanel {
         searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        addButton2 = new javax.swing.JButton();
+        selecionarProveedorBtn = new javax.swing.JButton();
         userSearchField = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -110,15 +110,15 @@ public class VentanaGestorExpedienteProveedores extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        addButton2.setBackground(new java.awt.Color(255, 0, 51));
-        addButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        addButton2.setForeground(new java.awt.Color(255, 255, 255));
-        addButton2.setText("Seleccionar Proveedor");
-        addButton2.setBorderPainted(false);
-        addButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        addButton2.addActionListener(new java.awt.event.ActionListener() {
+        selecionarProveedorBtn.setBackground(new java.awt.Color(255, 0, 51));
+        selecionarProveedorBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        selecionarProveedorBtn.setForeground(new java.awt.Color(255, 255, 255));
+        selecionarProveedorBtn.setText("Seleccionar Proveedor");
+        selecionarProveedorBtn.setBorderPainted(false);
+        selecionarProveedorBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        selecionarProveedorBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButton2ActionPerformed(evt);
+                selecionarProveedorBtnActionPerformed(evt);
             }
         });
 
@@ -129,18 +129,19 @@ public class VentanaGestorExpedienteProveedores extends javax.swing.JPanel {
             .addGroup(bgLayout.createSequentialGroup()
                 .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(title)
-                        .addGroup(bgLayout.createSequentialGroup()
-                            .addComponent(userSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(searchButton)
-                            .addGap(56, 56, 56)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(title)
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(userSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(searchButton)))
+                        .addGap(56, 56, 56))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 830, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                        .addComponent(addButton2)
+                        .addComponent(selecionarProveedorBtn)
                         .addGap(51, 51, 51))))
         );
         bgLayout.setVerticalGroup(
@@ -157,7 +158,7 @@ public class VentanaGestorExpedienteProveedores extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(addButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selecionarProveedorBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
 
@@ -185,17 +186,18 @@ public class VentanaGestorExpedienteProveedores extends javax.swing.JPanel {
 
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void addButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton2ActionPerformed
+    private void selecionarProveedorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecionarProveedorBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addButton2ActionPerformed
+        controladorGestorProveedores.mostrarExpedienteProveedor(jTable1, currentUser);
+    }//GEN-LAST:event_selecionarProveedorBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton2;
     private javax.swing.JPanel bg;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton searchButton;
+    private javax.swing.JButton selecionarProveedorBtn;
     private javax.swing.JLabel title;
     private javax.swing.JTextField userSearchField;
     // End of variables declaration//GEN-END:variables

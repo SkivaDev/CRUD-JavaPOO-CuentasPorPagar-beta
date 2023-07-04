@@ -5,7 +5,9 @@
 package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
+import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
+import com.proyecto.vista.VentanaDetalleExpedienteProveedor;
 import com.proyecto.vista.VentanaRegistroProveedor;
 import com.proyecto.vista.VentanaRegistroUsuario;
 import javax.swing.JTable;
@@ -95,6 +97,20 @@ public class ControladorGestorProveedores {
         }
 
         return null;
+    }
+
+    public void mostrarExpedienteProveedor(JTable table, Usuario currentUser) {
+        if (table.getSelectedRow() > -1) {
+            try {
+                int supplierId = (int) table.getValueAt(table.getSelectedRow(), 0);
+
+                VentanaDashboard.ShowJPanelWindows(new VentanaDetalleExpedienteProveedor(dao.obtenerProveedorPorId(supplierId), currentUser));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor para mostrar su expediente.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

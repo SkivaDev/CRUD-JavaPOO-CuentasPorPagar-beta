@@ -52,7 +52,7 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
-                                  <Component id="addButton1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="expedienteProveedorBtn" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="addButton" pref="89" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -90,7 +90,7 @@
                       <Component id="deleteButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="editButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="addButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="addButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="expedienteProveedorBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
@@ -255,7 +255,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="addButton1">
+        <Component class="javax.swing.JButton" name="expedienteProveedorBtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="0" red="ff" type="rgb"/>
@@ -272,6 +272,9 @@
               <Color id="Default Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="expedienteProveedorBtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

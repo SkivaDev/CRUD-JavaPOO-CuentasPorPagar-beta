@@ -546,4 +546,69 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         return null;
     }
 
+    @Override
+    public List<Producto> obtenerListaProductosPorProveedorId(int supplierId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM productos JOIN facturas ON productos.id_factura = facturas.id_factura WHERE facturas.id_proveedor = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, supplierId);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Producto> productos = new ArrayList<>();
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                int idFactura = resultSet.getInt("id_factura");
+                String nombre = resultSet.getString("nombre");
+                String descripcion = resultSet.getString("descripcion");
+                int cantidad = resultSet.getInt("cantidad");
+                double precioUnitario = resultSet.getDouble("precio_unitario");
+                double subtotal = resultSet.getDouble("subtotal");
+
+                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, cantidad, precioUnitario, subtotal);
+                productos.add(producto);
+            }
+
+            return productos;
+
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de productos (obtenerListaProductosPorProveedorId) de la base de datos", e);
+        } finally {
+            this.Cerrar();
+        }
+    }
+
+    @Override
+    public List<Factura> obtenerListaFacturasPorProveedorId(int supplierId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM facturas WHERE id_proveedor = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, supplierId);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Factura> facturas = new ArrayList<>();
+            while (resultSet.next()) {
+                int idFactura = resultSet.getInt("id_factura");
+                int idProveedor = resultSet.getInt("id_proveedor");
+                Date fechaRegistro = resultSet.getDate("fecha_registro");
+                Date fechaVencimiento = resultSet.getDate("fecha_vencimiento");
+                String descripcion = resultSet.getString("descripcion");
+                double montoTotal = resultSet.getDouble("monto_total");
+                double montoPagado = resultSet.getDouble("monto_pagado");
+                double montoPendiente = resultSet.getDouble("monto_pendiente");
+
+                Factura factura = new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
+                facturas.add(factura);
+            }
+
+            return facturas;
+
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de facturas(obtenerListaFacturasPorProveedorId) de la base de datos", e);
+        } finally {
+            this.Cerrar();
+        }
+    }
+
 }

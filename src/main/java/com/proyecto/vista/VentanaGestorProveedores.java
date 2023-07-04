@@ -61,7 +61,7 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
         deleteButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
-        addButton1 = new javax.swing.JButton();
+        expedienteProveedorBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -149,12 +149,17 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
             }
         });
 
-        addButton1.setBackground(new java.awt.Color(255, 0, 51));
-        addButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        addButton1.setForeground(new java.awt.Color(255, 255, 255));
-        addButton1.setText("Expediente Proveedor");
-        addButton1.setBorderPainted(false);
-        addButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        expedienteProveedorBtn.setBackground(new java.awt.Color(255, 0, 51));
+        expedienteProveedorBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        expedienteProveedorBtn.setForeground(new java.awt.Color(255, 255, 255));
+        expedienteProveedorBtn.setText("Expediente Proveedor");
+        expedienteProveedorBtn.setBorderPainted(false);
+        expedienteProveedorBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        expedienteProveedorBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                expedienteProveedorBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
@@ -170,7 +175,7 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGap(327, 327, 327)
-                                .addComponent(addButton1)
+                                .addComponent(expedienteProveedorBtn)
                                 .addGap(18, 18, 18)
                                 .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -200,7 +205,7 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
                     .addComponent(deleteButton)
                     .addComponent(editButton)
                     .addComponent(addButton)
-                    .addComponent(addButton1))
+                    .addComponent(expedienteProveedorBtn))
                 .addGap(25, 25, 25))
         );
 
@@ -247,13 +252,20 @@ public class VentanaGestorProveedores extends javax.swing.JPanel {
 
     }//GEN-LAST:event_searchButtonActionPerformed
 
+    private void expedienteProveedorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expedienteProveedorBtnActionPerformed
+        // TODO add your handling code here:
+        
+        //controladorGestorProveedores.mostrarExpedienteProveedor(jTable1, currentUser);
+
+    }//GEN-LAST:event_expedienteProveedorBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JButton addButton1;
     private javax.swing.JPanel bg;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton editButton;
+    private javax.swing.JButton expedienteProveedorBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton searchButton;

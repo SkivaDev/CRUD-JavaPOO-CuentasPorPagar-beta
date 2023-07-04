@@ -2,11 +2,13 @@ package com.proyecto.vista;
 
 //import com.mycompany.ilib.DAOUsersImpl;
 //import com.mycompany.interfaces.DAOUsers;
+import com.proyecto.controladores.ControladorDetalleExpedienteProveedor;
 import com.proyecto.controladores.ControladorRegistroFactura;
 import com.proyecto.controladores.ControladorRegistroProveedor;
 import com.proyecto.controladores.ControladorRegistroUsuario;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
+import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.Usuario;
 import static com.proyecto.utils.Utils.obtenerFechaActual;
 import java.awt.Color;
@@ -21,43 +23,21 @@ import javax.swing.table.DefaultTableModel;
 
 public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
 
-    private ControladorReagistroFactura controladorRegistroFactura;
-    boolean isEdition = false;
-    boolean isProducEdition = false;
-    private Factura invoiceEdition;
-    private List<Producto> productosTemporales;
+    private ControladorDetalleExpedienteProveedor controladorDetalleExpedienteProveedor;
+    private Proveedor supplierShowing; 
+    private Usuario currentUser;
     private DefaultTableModel modeloTabla;
 
-    private Producto productoEdicion; //ESTO USARIAMOS EN VEZ DE USAR EL currentProductId ya que no se sabe con exactitud por el id = 0
 
-    private int currentProductId;
-    private int currentFacturaId;
 
-    public VentanaDetalleExpedienteProveedor() throws Exception {
-        this.controladorRegistroFactura = new ControladorRegistroFactura();
-        this.productosTemporales = new ArrayList<>();
+    public VentanaDetalleExpedienteProveedor(Proveedor supplier, Usuario currentUser) throws Exception {
+        this.controladorDetalleExpedienteProveedor = new ControladorDetalleExpedienteProveedor();
         this.modeloTabla = new DefaultTableModel();
+        this.supplierShowing = supplier;
+        this.currentUser = currentUser;
 
         initComponents();
         InitStyles();
-
-        currentFacturaId = 0; // es el id que se pone en 0 porque significa que es una nueva factura para agregar
-        currentProductId = 0; // es el id que se utiliza al momento de agregar productos o editarlos*************
-        LoadProducts();
-    }
-
-    public VentanaDetalleExpedienteProveedor(Factura invoice) throws Exception {
-        this.controladorRegistroFactura = new ControladorRegistroFactura();
-        this.productosTemporales = new ArrayList<>();
-        this.modeloTabla = new DefaultTableModel();
-
-        initComponents();
-        isEdition = true;
-        invoiceEdition = invoice;
-        InitStyles();
-
-        currentFacturaId = invoice.getIdFactura(); // es el id que se pone su respectiva idFactura registrada al ventanaGestorFactura envia.
-        currentProductId = 0;//************
         LoadProducts();
     }
 
@@ -65,75 +45,23 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
 
-        fechaRegistroField.setEditable(false);
-        fechaRegistroField.setText(obtenerFechaActual()); // Define la fecha actual en la que se esta registrando la factura
-        //agrega todos los proveedores al combo box de la ventana
-        controladorRegistroFactura.llenarComboBoxProveedores(proveedorCBox);
-        //
-
-        //El monto total, monto pagado, y monto pendiente se ponen en 0 porque pordefecto es para registrar nuevas facturas
-        montoTotalLabel.setText("0");
-        montoPagadoLabel.setText("0");
-        montoPendienteLabel.setText("0");
-
-        //
-        //nameField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del proveedor.");
-        //addressField.putClientProperty("JTextField.placeholderText", "Ingrese la dirección del proveedor.");
-        //phoneField.putClientProperty("JTextField.placeholderText", "Ingrese teléfono del proveedor.");
-        // creditLineField.putClientProperty("JTextField.placeholderText", "Ingrese la linea de credito del proveedor.");
-        if (isEdition) {
-            title.setText("Editar Factura");
-            hitorialPagosBtn.setText("Guardar");
-            fechaRegistroField.setEditable(true);
-
-            if (invoiceEdition != null) {
-                controladorRegistroFactura.agregarProductosArrayProductos(productosTemporales, invoiceEdition.getIdFactura());
-
-                String proveedorDeFactura = controladorRegistroFactura.buscarNombreProveedorPorFactura(invoiceEdition.getIdFactura());
-                proveedorCBox.setSelectedItem(proveedorDeFactura);
-
-                // Crea el formato deseado para la fecha
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
-                // Convierte la fecha a String
-                String fechaRegistroString = formato.format(invoiceEdition.getFechaRegistro());
-                fechaRegistroField.setText(fechaRegistroString);
-
-                String fechaVencimientoString = formato.format(invoiceEdition.getFechaVencimiento());
-                fechaVencimientoField.setText(fechaVencimientoString);
-
-                descripcionField.setText(invoiceEdition.getDescripcion());
-
-                montoTotalLabel.setText(Double.toString(invoiceEdition.getMontoTotal()));
-                montoPagadoLabel.setText(Double.toString(invoiceEdition.getMontoPagado()));
-                montoPendienteLabel.setText(Double.toString(invoiceEdition.getMontoPendiente()));
-
-            }
-        }
+        nombreProveedorLabel.setText(supplierShowing.getNombre());
+        direccionLabel.setText(supplierShowing.getDireccion());
+        telefonoLabel1.setText(supplierShowing.getTelefono());
+        lineaCreditoLabel.setText(Double.toString(supplierShowing.getLineaCredito()));
+        
     }
 
     private void LoadProducts() {
-
+        
         // Limpiar el modelo de la tabla
         modeloTabla.setRowCount(0);
-
-        // Limpia la tabla antes de asignar el nuevo modelo
-        productosTable.setModel(new DefaultTableModel());
-
-        // Agrega el nuevo modelo al controlador y obtén el modelo actualizado
-        modeloTabla = controladorRegistroFactura.agregarProductosTabla(productosTable, productosTemporales);
-
-        // Asigna el nuevo modelo a la tabla
-        productosTable.setModel(modeloTabla);
+        jTable1.setModel(modeloTabla);
+        modeloTabla = controladorDetalleExpedienteProveedor.listarProductosProveedor(jTable1, supplierShowing.getIdProveedor());
+        jTable1.setModel(modeloTabla);
 
     }
 
-    public void limpiarCamposProducto() {
-        nombreProdField.setText("");
-        descripcionProdField.setText("");
-        cantidadProdField.setText("");
-        precioUniProdField.setText("");
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,7 +87,7 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
         hitorialPagosBtn = new javax.swing.JButton();
         productosProveeBtn = new javax.swing.JButton();
         facturasPendientesBtn = new javax.swing.JButton();
-        volvetBtn = new javax.swing.JButton();
+        volvertBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -251,15 +179,15 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
             }
         });
 
-        volvetBtn.setBackground(new java.awt.Color(255, 0, 51));
-        volvetBtn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        volvetBtn.setForeground(new java.awt.Color(255, 255, 255));
-        volvetBtn.setText("VOLVER");
-        volvetBtn.setBorderPainted(false);
-        volvetBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        volvetBtn.addActionListener(new java.awt.event.ActionListener() {
+        volvertBtn.setBackground(new java.awt.Color(255, 0, 51));
+        volvertBtn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        volvertBtn.setForeground(new java.awt.Color(255, 255, 255));
+        volvertBtn.setText("VOLVER");
+        volvertBtn.setBorderPainted(false);
+        volvertBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        volvertBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                volvetBtnActionPerformed(evt);
+                volvertBtnActionPerformed(evt);
             }
         });
 
@@ -297,7 +225,7 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(volvetBtn)
+                                .addComponent(volvertBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(productosProveeBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -331,7 +259,7 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
                     .addComponent(hitorialPagosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(productosProveeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(facturasPendientesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(volvetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(volvertBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -349,108 +277,6 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
 
     private void hitorialPagosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hitorialPagosBtnActionPerformed
 
-        String proveedor = (String) proveedorCBox.getSelectedItem();
-        String fechaRegistro = fechaRegistroField.getText();
-        String fechaVencimiento = fechaVencimientoField.getText();
-        String descripcion = descripcionField.getText();
-        String montoTotal = montoTotalLabel.getText();
-        String montoPagado = montoPagadoLabel.getText();
-        String montoPendiente = montoPendienteLabel.getText();
-
-        String successMsg = isEdition ? "modificado" : "registrado";
-        String errorMsg = isEdition ? "modificar" : "registrar";
-
-        // Validaciones para los campos
-        if (fechaRegistro.isEmpty() || fechaVencimiento.isEmpty() || descripcion.isEmpty()) {
-
-            javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            fechaRegistroField.requestFocus();
-
-        } else if (!isEdition) { // codigo donde se agrega
-
-            try {
-                //CONDICIONAL fechaRegistro < fechaVencimiento"yyyy-MM-dd"
-
-                // Convierte el String a LocalDate
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-                Date fechaRegistroDate = formato.parse(fechaRegistro);
-                Date fechaVencimientoDate = formato.parse(fechaVencimiento);
-
-                // valida que la fecha registro sea menor a la fecha vencimiento
-                if (!controladorRegistroFactura.validarFechas(fechaRegistroDate, fechaVencimientoDate)) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "La fecha de vencimiento debe de ser mayor a la fecha de registro. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-                    fechaVencimientoField.requestFocus();
-                    return;
-                }
-
-                // valida que el monto total de la factura no haga que supere la linea de credito del proveedor.
-                double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales);
-                int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
-
-                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado, 0)) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "El monto total de la factura supera a la linea de credito del proveedor selecionado. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-                    fechaVencimientoField.requestFocus();
-                    return;
-                }
-
-                boolean confirmarDatosFactura = controladorRegistroFactura.confirmarDatosFactura(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
-                if (confirmarDatosFactura) {
-                    JOptionPane.showMessageDialog(null, "ES EL ID PROVEEDOR: " + idProveedorSelecionado);
-
-                    controladorRegistroFactura.registrarFacturaConProductos(productosTemporales, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
-                        descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
-                } else {
-                    return;
-                }
-                javax.swing.JOptionPane.showMessageDialog(this, "Factura " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el factura. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-
-        } else { // codigo donde se edita
-
-            try {
-                //CONDICIONAL fechaRegistro < fechaVencimiento"yyyy-MM-dd"
-
-                // Convierte el String a LocalDate
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-                Date fechaRegistroDate = formato.parse(fechaRegistro);
-                Date fechaVencimientoDate = formato.parse(fechaVencimiento);
-
-                // valida que la fecha registro sea menor a la fecha vencimiento
-                if (!controladorRegistroFactura.validarFechas(fechaRegistroDate, fechaVencimientoDate)) {
-                    fechaRegistroField.requestFocus();
-                    return;
-                }
-
-                // valida que el monto total de la factura no haga que supere la linea de credito del proveedor.
-                double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales);
-                int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
-
-                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado, invoiceEdition.getIdFactura())) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "El monto total de la factura supera a la linea de credito del proveedor selecionado. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-                    fechaVencimientoField.requestFocus();
-                    return;
-                }
-
-                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosFactura(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
-
-                if (confirmarDatosProveedores) {
-                    int idFactura = invoiceEdition.getIdFactura();
-                    controladorRegistroFactura.editarFacturaConProductos(productosTemporales, idFactura, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
-                        descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
-                } else {
-                    return;
-                }
-
-                javax.swing.JOptionPane.showMessageDialog(this, "Factura " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " la factura. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-
-        }
     }//GEN-LAST:event_hitorialPagosBtnActionPerformed
 
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
@@ -459,15 +285,20 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
 
     private void productosProveeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productosProveeBtnActionPerformed
         // TODO add your handling code here:
+        modeloTabla = controladorDetalleExpedienteProveedor.listarProductosProveedor(jTable1, supplierShowing.getIdProveedor());
+        jTable1.setModel(modeloTabla);
     }//GEN-LAST:event_productosProveeBtnActionPerformed
 
     private void facturasPendientesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasPendientesBtnActionPerformed
         // TODO add your handling code here:
+        modeloTabla = controladorDetalleExpedienteProveedor.listarFacturasPendientesProveedor(jTable1, supplierShowing.getIdProveedor());
+        jTable1.setModel(modeloTabla);
     }//GEN-LAST:event_facturasPendientesBtnActionPerformed
 
-    private void volvetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volvetBtnActionPerformed
+    private void volvertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volvertBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_volvetBtnActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorExpedienteProveedores(currentUser));
+    }//GEN-LAST:event_volvertBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -486,6 +317,6 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
     private javax.swing.JButton productosProveeBtn;
     private javax.swing.JLabel telefonoLabel1;
     private javax.swing.JLabel title;
-    private javax.swing.JButton volvetBtn;
+    private javax.swing.JButton volvertBtn;
     // End of variables declaration//GEN-END:variables
 }

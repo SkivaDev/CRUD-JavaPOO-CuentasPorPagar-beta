@@ -45,6 +45,10 @@ public interface DAOTesoreroInterfaz {
    // public Users getUserById(int userId) throws Exception; 
     //public boolean supplierNameEnUso(String supplierName) throws Exception;
     
+      public List<Producto> obtenerListaProductosPorProveedorId(int supplierId) throws Exception;
+      public List<Factura> obtenerListaFacturasPorProveedorId(int supplierId) throws Exception;
+      
+      
       public List<CuentaBancaria> obtenerListaCuentasBancarias() throws Exception;
       public CuentaBancaria obtenerCuentaBancariaPorNombre(String name) throws Exception;
       

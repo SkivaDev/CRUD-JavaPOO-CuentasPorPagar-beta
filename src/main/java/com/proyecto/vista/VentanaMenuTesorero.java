@@ -157,7 +157,7 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
 
     private void expedienteProveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expedienteProveedoresBtnActionPerformed
         // TODO add your handling code here:
-        //VentanaDashboard.ShowJPanelWindows(new VentanaExpedienteProveedores(currentUser));
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorExpedienteProveedores(currentUser));
     }//GEN-LAST:event_expedienteProveedoresBtnActionPerformed
 
 
