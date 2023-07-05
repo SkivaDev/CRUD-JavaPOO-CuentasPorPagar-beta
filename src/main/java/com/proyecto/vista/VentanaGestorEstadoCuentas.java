@@ -68,6 +68,7 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
         bancosBtn = new javax.swing.JButton();
         userSearchField = new javax.swing.JTextField();
         filtroTodosBtn = new javax.swing.JButton();
+        registrarSolicitudPagoBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -203,6 +204,18 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
             }
         });
 
+        registrarSolicitudPagoBtn.setBackground(new java.awt.Color(204, 0, 0));
+        registrarSolicitudPagoBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        registrarSolicitudPagoBtn.setForeground(new java.awt.Color(255, 255, 255));
+        registrarSolicitudPagoBtn.setText("Registrar Solicitud Pago");
+        registrarSolicitudPagoBtn.setBorderPainted(false);
+        registrarSolicitudPagoBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        registrarSolicitudPagoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registrarSolicitudPagoBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
@@ -217,6 +230,8 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
                                 .addGap(6, 6, 6)
                                 .addComponent(bancosBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(registrarSolicitudPagoBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(facturasPendientesBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(facturasPagadasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -258,7 +273,8 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(facturasPendientesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(facturasPagadasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bancosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bancosBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(registrarSolicitudPagoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -331,6 +347,10 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
         jTable1.setModel(modeloTabla);
     }//GEN-LAST:event_filtroTodosBtnActionPerformed
 
+    private void registrarSolicitudPagoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarSolicitudPagoBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registrarSolicitudPagoBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bancosBtn;
@@ -343,6 +363,7 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
     private javax.swing.JButton filtroTodosBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton registrarSolicitudPagoBtn;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel title;
     private javax.swing.JTextField userSearchField;
