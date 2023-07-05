@@ -306,7 +306,7 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             throw new SQLException("Error al obtener la lista de facturas por ID de proveedor de la base de datos", e);
         }
     }
-
+    */
     @Override
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception {
         try {
@@ -335,7 +335,7 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             throw new SQLException("Error al consultar obtenerFacturaPorId la base de datos", e);
         }
     }
-     */
+
  /*PRODUCTOS--------------------------------------------------*/
  /*
     @Override
