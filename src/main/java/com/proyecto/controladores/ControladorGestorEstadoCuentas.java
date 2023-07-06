@@ -9,6 +9,7 @@ import com.proyecto.baseDatos.consultas.DAOTesoreroImpl;
 import com.proyecto.entidades.Factura;
 import com.proyecto.vista.VentanaDashboard;
 import com.proyecto.vista.VentanaRegistroProveedor;
+import com.proyecto.vista.VentanaRegistroSolicitudPago;
 import com.proyecto.vista.VentanaRegistroUsuario;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -253,21 +254,21 @@ public class ControladorGestorEstadoCuentas {
         }
         return null;
     }
-
-    public void editarProveedores(JTable table) {
+     */
+    public void registrarSolicitudPagoFactura(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
-                int supplierId = (int) table.getValueAt(table.getSelectedRow(), 0);
+                int invoiceId = (int) table.getValueAt(table.getSelectedRow(), 0);
 
-                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor(dao.obtenerProveedorPorId(supplierId)));
+                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroSolicitudPago(dao.obtenerFacturaPorId(invoiceId)));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar una factura para solicitar pago.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
-     */
+
     public DefaultTableModel buscarFacturas(JTable table, String name) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();

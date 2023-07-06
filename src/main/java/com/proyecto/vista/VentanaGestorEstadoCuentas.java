@@ -349,6 +349,7 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
 
     private void registrarSolicitudPagoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarSolicitudPagoBtnActionPerformed
         // TODO add your handling code here:
+        controladorGestorEstadoCuentas.registrarSolicitudPagoFactura(jTable1);
     }//GEN-LAST:event_registrarSolicitudPagoBtnActionPerformed
 
 
