@@ -5,12 +5,15 @@
 package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
+import com.proyecto.entidades.Canje;
 import com.proyecto.entidades.CategoriaProducto;
+import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
+import com.proyecto.entidades.SolicitudPago;
 import com.proyecto.interfaces.DAOEncargadoComprasInterfaz;
 import com.proyecto.interfaces.DAOTesoreroInterfaz;
 import java.sql.Date;
@@ -18,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -638,6 +642,184 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             return categoriaProducto;
         } catch (SQLException e) {
             throw new SQLException("Error al obtener la categoría de producto por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public List<CategoriaProducto> obtenerListaCategoriasProducto() throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM categorias_producto";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<CategoriaProducto> categoriasProducto = new ArrayList<>();
+            while (resultSet.next()) {
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                String nombreCategoria = resultSet.getString("nombre_categoria");
+                String descripcionCategoria = resultSet.getString("descripcion_categoria");
+
+                CategoriaProducto categoriaProducto = new CategoriaProducto(idCategoriaProducto, nombreCategoria, descripcionCategoria);
+                categoriasProducto.add(categoriaProducto);
+            }
+
+            return categoriasProducto;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de cuentas bancarias de la base de datos", e);
+        }
+    }
+
+    @Override
+    public List<Producto> obtenerListaProductosPorNombreCategoria(String categoryName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT p.* FROM productos p INNER JOIN categorias_producto c ON p.id_categoria_producto = c.id_categoria_producto WHERE c.nombre_categoria = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setString(1, categoryName);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Producto> productos = new ArrayList<>();
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                int idFactura = resultSet.getInt("id_factura");
+                String nombre = resultSet.getString("nombre");
+                String descripcion = resultSet.getString("descripcion");
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                int cantidadTotal = resultSet.getInt("cantidad_total");
+                int cantidadIngresada = resultSet.getInt("cantidad_ingresada");
+                int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
+                double precioUnitario = resultSet.getDouble("precio_unitario");
+                double subtotal = resultSet.getDouble("subtotal");
+
+                CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
+
+                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
+                productos.add(producto);
+            }
+
+            return productos;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de productos por nombre de categoría de la base de datos", e);
+        }
+    }
+
+    @Override
+    public int registrarCheque(Cheque check) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO cheques (id_factura, monto_cheque, id_cuenta_bancaria, fecha_emicion, estado_cheque) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, check.getFactura().getIdFactura());
+            statement.setDouble(2, check.getMontoCheque());
+            statement.setInt(3, check.getCuentaBancaria().getIdCuentaBancaria());
+            statement.setDate(4, new java.sql.Date(check.getFechaEmicion().getTime()));
+            statement.setString(5, check.getEstadoCheque());
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idCheque = generatedKeys.getInt(1);
+                return idCheque;
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el cheque");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el cheque en la base de datos", e);
+        }
+    }
+
+    @Override
+    public Cheque obtenerChequePorId(int checkId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM cheques WHERE id_cheque = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, checkId);
+            ResultSet resultSet = statement.executeQuery();
+
+            Cheque cheque = null;
+            if (resultSet.next()) {
+                int idCheque = resultSet.getInt("id_cheque");
+                int idFactura = resultSet.getInt("id_factura");
+                double montoCheque = resultSet.getDouble("monto_cheque");
+                int idCuentaBancaria = resultSet.getInt("id_cuenta_bancaria");
+                Date fechaEmicion = resultSet.getDate("fecha_emicion");
+                String estadoCheque = resultSet.getString("estado_cheque");
+
+                // Aquí debes obtener la factura y la cuenta bancaria correspondientes utilizando los métodos adecuados
+                Factura factura = obtenerFacturaPorId(idFactura); // Utiliza el método adecuado para obtener la factura por su ID
+                CuentaBancaria cuentaBancaria = obtenerCuentaBancariaPorId(idCuentaBancaria); // Utiliza el método adecuado para obtener la cuenta bancaria por su ID
+
+                cheque = new Cheque(idCheque, factura, montoCheque, cuentaBancaria, fechaEmicion, estadoCheque);
+            }
+
+            return cheque;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el cheque por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public CuentaBancaria obtenerCuentaBancariaPorId(int bankAccountId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM cuentas_bancarias WHERE id_cuenta = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, bankAccountId);
+            ResultSet resultSet = statement.executeQuery();
+
+            CuentaBancaria cuentaBancaria = null;
+            if (resultSet.next()) {
+                int idCuentaBancaria = resultSet.getInt("id_cuenta");
+                String nombreBanco = resultSet.getString("nombre_banco");
+                double saldoActual = resultSet.getDouble("saldo_actual");
+                double saldoPrevio = resultSet.getDouble("saldo_previo");
+
+                cuentaBancaria = new CuentaBancaria(idCuentaBancaria, nombreBanco, saldoActual, saldoPrevio);
+            }
+
+            return cuentaBancaria;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la cuenta bancaria por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public int registrarSolicitudPago(SolicitudPago paymentRequest) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO solicitudes_pago (id_factura, metodo_pago, id_cheque, id_canje, estado_solicitud, fecha_registro) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, paymentRequest.getFactura().getIdFactura());
+            statement.setString(2, paymentRequest.getMetodoPago());
+
+            Cheque cheque = paymentRequest.getCheque();
+            if (cheque != null) {
+                statement.setInt(3, cheque.getIdCheque());
+            } else {
+                statement.setNull(3, Types.INTEGER);
+            }
+
+            Canje canje = paymentRequest.getCanje();
+            if (canje != null) {
+                statement.setInt(4, canje.getIdCanje());
+            } else {
+                statement.setNull(4, Types.INTEGER);
+            }
+
+            statement.setString(5, paymentRequest.getEstadoSolicitud());
+            statement.setDate(6, new java.sql.Date(paymentRequest.getFechaRegistro().getTime()));
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idSolicitud = generatedKeys.getInt(1);
+                return idSolicitud;
+            } else {
+                throw new SQLException("Error al obtener el ID generado para la solicitud de pago");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar la solicitud de pago en la base de datos", e);
         }
     }
 

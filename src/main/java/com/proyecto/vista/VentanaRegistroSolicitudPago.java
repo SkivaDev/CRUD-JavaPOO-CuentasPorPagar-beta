@@ -6,6 +6,7 @@ import com.proyecto.controladores.ControladorRegistroFactura;
 import com.proyecto.controladores.ControladorRegistroProveedor;
 import com.proyecto.controladores.ControladorRegistroSolicitudPago;
 import com.proyecto.controladores.ControladorRegistroUsuario;
+import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Usuario;
@@ -47,7 +48,11 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         montoPendienteField.setEditable(false);
         montoPagadoField.setEditable(false);
         montoTotalField.setEditable(false);
-        
+
+        //
+        controladorRegistroSolicitudPago.llenarComboBoxCuentasBancarias(bancosCbox);
+        controladorRegistroSolicitudPago.llenarComboBoxCategoriasProducto(categoriaProductoCBox);
+
         if (isCheck) {
 
             detalleCanjeField.setEditable(false);
@@ -124,7 +129,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         montoChequeField = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
-        bancoCbox = new javax.swing.JComboBox<>();
+        bancosCbox = new javax.swing.JComboBox<>();
         jLabel32 = new javax.swing.JLabel();
         saldoActualBancoField = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -206,7 +211,12 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
 
         jLabel31.setText("Saldo Actual:");
 
-        bancoCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        bancosCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        bancosCbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bancosCboxActionPerformed(evt);
+            }
+        });
 
         jLabel32.setText("Seleccionar Banco:");
 
@@ -215,6 +225,11 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         jLabel21.setText("Seleccionar Producto:");
 
         categoriaProductoCBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        categoriaProductoCBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoriaProductoCBoxActionPerformed(evt);
+            }
+        });
 
         jLabel22.setText("Cantidad Productos:");
 
@@ -297,7 +312,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                                         .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(porChequeBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(bancoCbox, javax.swing.GroupLayout.Alignment.LEADING, 0, 134, Short.MAX_VALUE)))
+                                        .addComponent(bancosCbox, javax.swing.GroupLayout.Alignment.LEADING, 0, 134, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel26)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -353,7 +368,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                             .addComponent(jLabel20))
                         .addGap(18, 18, 18)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bancoCbox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bancosCbox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(saldoActualBancoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(detalleCanjeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(categoriaProductoCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -398,7 +413,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         productoCBox.setEnabled(true);
         cantidadProductosField.setEditable(true);
 
-        bancoCbox.setEnabled(false);
+        bancosCbox.setEnabled(false);
         saldoActualBancoField.setEditable(false);
         montoChequeField.setEditable(false);
 
@@ -407,7 +422,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
     private void porChequeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_porChequeBtnActionPerformed
         // TODO add your handling code here:
 
-        bancoCbox.setEnabled(true);
+        bancosCbox.setEnabled(true);
         saldoActualBancoField.setEditable(true);
         montoChequeField.setEditable(true);
 
@@ -418,19 +433,89 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
     }//GEN-LAST:event_porChequeBtnActionPerformed
 
     private void registrarSolicitudBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarSolicitudBtnActionPerformed
-/*
-        String proveedor = (String) proveedorCBox.getSelectedItem();
+
+        String idFactura = idFacturaField.getText();
+        String nombreProveedor = nombreProveedorField.getText();
         String fechaRegistro = fechaRegistroField.getText();
         String fechaVencimiento = fechaVencimientoField.getText();
-        String descripcion = descripcionField.getText();
-        String montoTotal = montoTotalLabel.getText();
-        String montoPagado = montoPagadoLabel.getText();
-        String montoPendiente = montoPendienteLabel.getText();
+        String montoPendiente = idFacturaField.getText();
+        String montoPagado = idFacturaField.getText();
+        String montoTotal = idFacturaField.getText();
 
-        String successMsg = isEdition ? "modificado" : "registrado";
-        String errorMsg = isEdition ? "modificar" : "registrar";
+        String cuentaBancariaSelecionada = (String) bancosCbox.getSelectedItem();
+        String montoPagoPorCheque = montoChequeField.getText();
 
+        String detalleCanje = detalleCanjeField.getText();
+        String categoriaProductoSeleccionado = (String) categoriaProductoCBox.getSelectedItem();
+        String productoSeleccionado = (String) productoCBox.getSelectedItem();
+        String cantidadProductos = cantidadProductosField.getText();
+
+        //String successMsg = isCheck ? "modificado" : "registrado";
+        //String errorMsg = isCheck ? "modificar" : "registrar";
         // Validaciones para los campos
+        if (isCheck) { // codigo donde se paga por cheque
+            try {
+                //VALIDACION: todos los campos completos
+                if (montoPagoPorCheque.isEmpty()) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    montoChequeField.requestFocus();
+                    return;
+                }
+
+                //VALIDACION: si el monto a pagar es menor al saldo de la cuenta
+                if (Double.valueOf(montoPagoPorCheque) > Double.valueOf(saldoActualBancoField.getText())) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "El monto registrado supera al saldo de la cuenta actual. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    montoChequeField.requestFocus();
+                    return;
+                }
+
+                boolean confirmarDatosSolicitudPago = controladorRegistroSolicitudPago.confirmarDatosSolicitudPagoPorCheque(idFactura, nombreProveedor,
+                        fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente, detalleCanje, detalleCanje, montoPagado);
+                if (confirmarDatosSolicitudPago) {
+
+                    Cheque chequeRecienRegistrado = controladorRegistroSolicitudPago.registrarRegistroCheque(invoicePayment, Double.valueOf(montoPagoPorCheque), cuentaBancariaSelecionada);
+
+                    controladorRegistroSolicitudPago.registrarSolicitud(invoicePayment, chequeRecienRegistrado, null);
+                } else {
+                    return;
+                }
+                javax.swing.JOptionPane.showMessageDialog(this, "Solicitud " + "registrada" + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + "registrar" + " la solicitud. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else { // codigo donde se paga por canje || NOS QUEDAMOS TERMINANDO DE PROGRAMAR EL PAGO POR CANJE
+            try {
+                //VALIDACION: todos los campos completos
+                if (detalleCanje.isEmpty() || cantidadProductos.isEmpty()) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    montoChequeField.requestFocus();
+                    return;
+                }
+
+                //VALIDACION: si el monto a pagar es menor al saldo de la cuenta
+                if (Integer.parseInt(cantidadProductos) < "Monto disponible de productos en inventario") {
+                    javax.swing.JOptionPane.showMessageDialog(this, "La catidad registrada supera al cantidad en inventario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    montoChequeField.requestFocus();
+                    return;
+                }
+
+                boolean confirmarDatosSolicitudPago = controladorRegistroSolicitudPago.confirmarDatosSolicitudPagoPorCheque(idFactura, nombreProveedor,
+                        fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente, detalleCanje, detalleCanje, montoPagado);
+                if (confirmarDatosSolicitudPago) {
+
+                    Cheque chequeRecienRegistrado = controladorRegistroSolicitudPago.registrarRegistroCheque(invoicePayment, Double.valueOf(montoPagoPorCheque), cuentaBancariaSelecionada);
+
+                    controladorRegistroSolicitudPago.registrarSolicitud(invoicePayment, chequeRecienRegistrado, null);
+                } else {
+                    return;
+                }
+                javax.swing.JOptionPane.showMessageDialog(this, "Solicitud " + "registrada" + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + "registrar" + " la solicitud. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
         if (fechaRegistro.isEmpty() || fechaVencimiento.isEmpty() || descripcion.isEmpty()) {
 
             javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -498,12 +583,24 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
 
-        }*/
+        }  */
     }//GEN-LAST:event_registrarSolicitudBtnActionPerformed
+
+    private void bancosCboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosCboxActionPerformed
+        // TODO add your handling code here:
+        String cuentaBancariaSelecionada = (String) bancosCbox.getSelectedItem();
+        controladorRegistroSolicitudPago.mostrarSaldoBanco(cuentaBancariaSelecionada, saldoActualBancoField);
+    }//GEN-LAST:event_bancosCboxActionPerformed
+
+    private void categoriaProductoCBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriaProductoCBoxActionPerformed
+        // TODO add your handling code here:
+        String categoriaProductoSelecionado = (String) categoriaProductoCBox.getSelectedItem();
+        controladorRegistroSolicitudPago.agregarProductosCboxFildrados(categoriaProductoSelecionado, productoCBox);
+    }//GEN-LAST:event_categoriaProductoCBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> bancoCbox;
+    private javax.swing.JComboBox<String> bancosCbox;
     private javax.swing.JPanel bg;
     private javax.swing.JTextField cantidadProductosField;
     private javax.swing.JComboBox<String> categoriaProductoCBox;

@@ -5,11 +5,13 @@
 package com.proyecto.interfaces;
 
 import com.proyecto.entidades.CategoriaProducto;
+import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
+import com.proyecto.entidades.SolicitudPago;
 
 import java.util.List;
 
@@ -52,8 +54,17 @@ public interface DAOTesoreroInterfaz {
       
       public List<CuentaBancaria> obtenerListaCuentasBancarias() throws Exception;
       public CuentaBancaria obtenerCuentaBancariaPorNombre(String name) throws Exception;
+      public CuentaBancaria obtenerCuentaBancariaPorId(int bankAccountId) throws Exception;
       
+      public List<CategoriaProducto> obtenerListaCategoriasProducto() throws Exception;
       public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception;
+      
+      public List<Producto> obtenerListaProductosPorNombreCategoria(String categoryName) throws Exception;
+      
+      public int registrarCheque(Cheque check) throws Exception; //devuelve el id del cheque cuando se registra
+      public Cheque obtenerChequePorId(int checkId) throws Exception;
+      
+      public int registrarSolicitudPago(SolicitudPago paymentRequest) throws Exception; //devuelve el id del cheque cuando se registra
       
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
