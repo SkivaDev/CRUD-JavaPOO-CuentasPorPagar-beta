@@ -623,28 +623,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         isProducEdition = true;
         agregarProdBtn.setText("EDITAR PRODUCTO");
 
-        /*
-        if (productosTable.getSelectedRow() > -1) {
-            try {
 
-                int productId = (int) productosTable.getValueAt(productosTable.getSelectedRow(), 0); // ESTO ESTA FALLANDO PORQUE CUANDO SE SELECCIONA UN DATO EN LA TABLA Y ESTE TIENE ID 0 SE CONFUNDE CON LOS OTROS QUE TAMBIEN TIENEN ID 0A
-                currentProductId = productId;
-
-                Producto productoEdiccion = controladorRegistroFactura.buscarProductoPorId(productosTemporales, productId);
-                currentProductId = productoEdiccion.getIdProducto();
-
-                nombreProdField.setText(productoEdiccion.getNombre());
-                descripcionProdField.setText(productoEdiccion.getDescripcion());
-                cantidadProdField.setText(Integer.toString(productoEdiccion.getCantidad()));
-                precioUniProdField.setText(Double.toString(productoEdiccion.getPrecioUnitario()));
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el producto a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-         */
         if (productosTable.getSelectedRow() > -1) {
             try {
                 String nombreProducto = (String) productosTable.getValueAt(productosTable.getSelectedRow(), 2); // Asumiendo que el nombre del producto está en la columna 2
@@ -668,32 +647,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
     private void borrarProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarProdBtnActionPerformed
         // TODO add your handling code here:
 
-        //DefaultTableModel model = (DefaultTableModel) productosTable.getModel();
-        /*
-        if (productosTable.getSelectedRows().length < 1) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más productos a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-        } else {
-            for (int i : productosTable.getSelectedRows()) {
-                try {
-                    //dao.eliminar((int) jTable1.getValueAt(i, 0));
-                    int productId = (int) productosTable.getValueAt(i, 0);
-                    controladorRegistroFactura.eliminarProductoPorId(productosTemporales, productId);
 
-                    //
-                    double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales); // se calcula el monto total cada vez que se agrega un producto
-                    montoTotalLabel.setText(Double.toString(montoTotalCalculado));
-
-                    //double montoPagadoCalculado el monto pagado no se puede editar porque afectaria a los registros
-                    double montoPendienteCalculado = montoTotalCalculado - (Double.parseDouble(montoPagadoLabel.getText()));
-                    montoPendienteLabel.setText(Double.toString(montoPendienteCalculado));
-
-                    LoadProducts();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-         */
         if (productosTable.getSelectedRows().length < 1) {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más productos a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         } else {

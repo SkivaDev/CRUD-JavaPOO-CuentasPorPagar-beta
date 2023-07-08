@@ -58,34 +58,32 @@
                                           <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
-                                              <Component id="saldoActualBancoField" min="-2" pref="134" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="saldoActualBancoField" pref="134" max="32767" attributes="0"/>
+                                              <Component id="jLabel31" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel17" min="-2" pref="245" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="productoCBox" min="-2" pref="200" max="-2" attributes="0"/>
-                                          <Component id="detalleCanjeField" min="-2" pref="200" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="productoCBox" alignment="0" pref="200" max="32767" attributes="0"/>
+                                      <Component id="detalleCanjeField" alignment="0" pref="200" max="32767" attributes="0"/>
                                       <Component id="porCanjeBtn" alignment="0" min="-2" pref="121" max="-2" attributes="0"/>
+                                      <Component id="jLabel19" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel21" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
-                                      <Component id="categoriaProductoCBox" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cantidadProductosField" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="categoriaProductoCBox" pref="200" max="32767" attributes="0"/>
+                                      <Component id="cantidadProductosField" pref="200" max="32767" attributes="0"/>
+                                      <Component id="jLabel20" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel22" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
@@ -114,7 +112,6 @@
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Component id="title" alignment="0" min="-2" pref="333" max="-2" attributes="0"/>
                                       <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="porChequeBtn" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -124,9 +121,12 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="nombreProveedorField" min="-2" pref="170" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="bancoCbox" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
-                                      <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel32" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jLabel18" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jLabel32" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="porChequeBtn" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="bancoCbox" alignment="0" pref="134" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace min="18" max="32767" attributes="0"/>
                                   <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
