@@ -5,6 +5,7 @@
 package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
+import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
@@ -336,14 +337,17 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     public void registrarProducto(Producto product) throws Exception { // cuando el encargado de compras registra la factura se crea el producto por ende ya es existente
         try {
             this.Conectar();
-            String consulta = "INSERT INTO productos (id_factura, nombre, descripcion, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO productos (id_factura, nombre, descripcion, id_categoria_producto, cantidad_total, cantidad_ingresada, cantidad_pendiente, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, product.getIdFactura());
             statement.setString(2, product.getNombre());
             statement.setString(3, product.getDescripcion());
-            statement.setInt(4, product.getCantidad());
-            statement.setDouble(5, product.getPrecioUnitario());
-            statement.setDouble(6, product.getSubtotal());
+            statement.setInt(4, product.getCategoriaProducto().getIdCategoriaProducto());
+            statement.setInt(5, product.getCantidadTotal());
+            statement.setInt(6, product.getCantidadIngresada());
+            statement.setInt(7, product.getCantidadPendiente());
+            statement.setDouble(8, product.getPrecioUnitario());
+            statement.setDouble(9, product.getSubtotal());
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -362,15 +366,18 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     public void modificarProducto(Producto product) throws Exception {
         try {
             this.Conectar();
-            String consulta = "UPDATE productos SET id_factura = ?, nombre = ?, descripcion = ?, cantidad = ?, precio_unitario = ?, subtotal = ? WHERE id_producto = ?";
+            String consulta = "UPDATE productos SET id_factura = ?, nombre = ?, descripcion = ?, id_categoria_producto = ?, cantidad_total = ?, cantidad_ingresada = ?, cantidad_pendiente = ?, precio_unitario = ?, subtotal = ? WHERE id_producto = ?";
             PreparedStatement statement = this.conexion.prepareStatement(consulta);
             statement.setInt(1, product.getIdFactura());
             statement.setString(2, product.getNombre());
             statement.setString(3, product.getDescripcion());
-            statement.setInt(4, product.getCantidad());
-            statement.setDouble(5, product.getPrecioUnitario());
-            statement.setDouble(6, product.getSubtotal());
-            statement.setInt(7, product.getIdProducto());
+            statement.setInt(4, product.getCategoriaProducto().getIdCategoriaProducto());
+            statement.setInt(5, product.getCantidadTotal());
+            statement.setInt(6, product.getCantidadIngresada());
+            statement.setInt(7, product.getCantidadPendiente());
+            statement.setDouble(8, product.getPrecioUnitario());
+            statement.setDouble(9, product.getSubtotal());
+            statement.setInt(10, product.getIdProducto());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error al editar la factura en la base de datos", e);
@@ -404,11 +411,16 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
                 int idFactura = resultSet.getInt("id_factura");
                 String nombre = resultSet.getString("nombre");
                 String descripcion = resultSet.getString("descripcion");
-                int cantidad = resultSet.getInt("cantidad");
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                int cantidadTotal = resultSet.getInt("cantidad_total");
+                int cantidadIngresada = resultSet.getInt("cantidad_ingresada");
+                int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
                 double precioUnitario = resultSet.getDouble("precio_unitario");
                 double subtotal = resultSet.getDouble("subtotal");
 
-                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, cantidad, precioUnitario, subtotal);
+                CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
+                
+                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
                 productos.add(producto);
             }
 
@@ -479,6 +491,30 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             return null;
         } catch (SQLException e) {
             throw new SQLException("Error al buscar el nombre del proveedor por factura en la base de datos", e);
+        }
+    }
+
+    @Override
+    public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM categorias_producto WHERE id_categoria_producto = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, productCategoryId);
+            ResultSet resultSet = statement.executeQuery();
+
+            CategoriaProducto categoriaProducto = null;
+            if (resultSet.next()) {
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                String nombreCategoria = resultSet.getString("nombre_categoria");
+                String descripcionCategoria = resultSet.getString("descripcion_categoria");
+
+                categoriaProducto = new CategoriaProducto(idCategoriaProducto, nombreCategoria, descripcionCategoria);
+            }
+
+            return categoriaProducto;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la categoría de producto por ID de la base de datos", e);
         }
     }
 

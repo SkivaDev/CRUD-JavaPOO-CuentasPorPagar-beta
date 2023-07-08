@@ -4,6 +4,7 @@
  */
 package com.proyecto.interfaces;
 
+import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
@@ -51,6 +52,8 @@ public interface DAOTesoreroInterfaz {
       
       public List<CuentaBancaria> obtenerListaCuentasBancarias() throws Exception;
       public CuentaBancaria obtenerCuentaBancariaPorNombre(String name) throws Exception;
+      
+      public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception;
       
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;

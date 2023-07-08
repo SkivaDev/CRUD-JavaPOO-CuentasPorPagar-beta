@@ -45,7 +45,7 @@ public class ControladorDetalleExpedienteProveedor {
 
         try {
             dao.obtenerListaProductosPorProveedorId(supplierId).forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getIdFactura(), u.getNombre(),
-                u.getDescripcion(), u.getCantidad(), u.getPrecioUnitario(), u.getSubtotal()}));
+                u.getDescripcion(), u.getCantidadTotal(), u.getPrecioUnitario(), u.getSubtotal()}));
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -150,7 +150,7 @@ public class ControladorRegistroFactura {
         model.addColumn("Precio Unitario");
         model.addColumn("Subtotal");
 
-        productosTemporales.forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getIdFactura(), u.getNombre(), u.getDescripcion(), u.getCantidad(), u.getPrecioUnitario(), u.getSubtotal()}));
+        productosTemporales.forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getIdFactura(), u.getNombre(), u.getDescripcion(), u.getCantidadTotal(), u.getPrecioUnitario(), u.getSubtotal()}));
         return model;
     }
 
@@ -168,11 +168,11 @@ public class ControladorRegistroFactura {
         int idFactura = facturaId;
         String nombre = nombreProd;
         String descripcion = descripcionProd;
-        int cantidad = Integer.parseInt(cantidadProd);
+        int cantidadTotal = Integer.parseInt(cantidadProd);
         double precioUnitario = Double.parseDouble(precioUnitarioProd);
-        double subtotal = (cantidad * precioUnitario);
+        double subtotal = (cantidadTotal * precioUnitario);
 
-        Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, cantidad, precioUnitario, subtotal);
+        Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, null, cantidadTotal, 0, cantidadTotal, precioUnitario, subtotal);
         productosTemporales.add(producto);
 
     }
@@ -226,9 +226,9 @@ public class ControladorRegistroFactura {
 
         String nombre = nombreProd;
         String descripcion = descripcionProd;
-        int cantidad = Integer.parseInt(cantidadProd);
+        int cantidadTotal = Integer.parseInt(cantidadProd);
         double precioUnitario = Double.parseDouble(precioUnitarioProd);
-        double subtotal = (cantidad * precioUnitario);
+        double subtotal = (cantidadTotal * precioUnitario);
 
         for (Producto producto : productosTemporales) {
             if (producto.getNombre().equals(productoEdicion.getNombre())) {
@@ -236,7 +236,7 @@ public class ControladorRegistroFactura {
                 // Actualizar los datos del producto con los del productoEdicion
                 producto.setNombre(nombre);
                 producto.setDescripcion(descripcion);
-                producto.setCantidad(cantidad);
+                producto.setCantidadTotal(cantidadTotal);
                 producto.setPrecioUnitario(precioUnitario);
                 producto.setSubtotal(subtotal);
 
@@ -299,7 +299,7 @@ public class ControladorRegistroFactura {
         }
     }
 
-    public boolean confirmarDatosProducto(String nombre, String descripcion, String cantidad, String precioUnitario) {
+    public boolean confirmarDatosProducto(String nombre, String descripcion, String cantidadTotal, String precioUnitario) {
         String message;
         String title = "Confirmación";
         int optionType = JOptionPane.YES_NO_OPTION;
@@ -307,7 +307,7 @@ public class ControladorRegistroFactura {
         message = "***** Datos del Proveedor *****";
         message += "\nNombre: " + nombre;
         message += "\nDescripcion: " + descripcion;
-        message += "\ncantidad: " + cantidad;
+        message += "\ncantidad: " + cantidadTotal;
         message += "\nprecio Unitario: " + precioUnitario;
         message += "\n";
         message += "\nLos datos son correctos?";

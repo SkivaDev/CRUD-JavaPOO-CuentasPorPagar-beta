@@ -13,16 +13,22 @@ public class Producto {
     private int idFactura;
     private String nombre;
     private String descripcion;
-    private int cantidad;
+    private CategoriaProducto categoriaProducto;
+    private int cantidadTotal; //cantidad
+    private int cantidadIngresada;
+    private int cantidadPendiente;
     private double precioUnitario;
     private double subtotal;
 
-    public Producto(int idProducto, int idFactura, String nombre, String descripcion, int cantidad, double precioUnitario, double subtotal) {
+    public Producto(int idProducto, int idFactura, String nombre, String descripcion, CategoriaProducto categoriaProducto, int cantidadTotal, int cantidadIngresada, int cantidadPendiente, double precioUnitario, double subtotal) {
         this.idProducto = idProducto;
         this.idFactura = idFactura;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.cantidad = cantidad;
+        this.categoriaProducto = categoriaProducto;
+        this.cantidadTotal = cantidadTotal;
+        this.cantidadIngresada = cantidadIngresada;
+        this.cantidadPendiente = cantidadPendiente;
         this.precioUnitario = precioUnitario;
         this.subtotal = subtotal;
     }
@@ -59,12 +65,36 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public CategoriaProducto getCategoriaProducto() {
+        return categoriaProducto;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
+        this.categoriaProducto = categoriaProducto;
+    }
+
+    public int getCantidadTotal() {
+        return cantidadTotal;
+    }
+
+    public void setCantidadTotal(int cantidadTotal) {
+        this.cantidadTotal = cantidadTotal;
+    }
+
+    public int getCantidadIngresada() {
+        return cantidadIngresada;
+    }
+
+    public void setCantidadIngresada(int cantidadIngresada) {
+        this.cantidadIngresada = cantidadIngresada;
+    }
+
+    public int getCantidadPendiente() {
+        return cantidadPendiente;
+    }
+
+    public void setCantidadPendiente(int cantidadPendiente) {
+        this.cantidadPendiente = cantidadPendiente;
     }
 
     public double getPrecioUnitario() {

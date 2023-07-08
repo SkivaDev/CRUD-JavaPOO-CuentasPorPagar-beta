@@ -632,7 +632,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
 
                 nombreProdField.setText(productoEdicion.getNombre());
                 descripcionProdField.setText(productoEdicion.getDescripcion());
-                cantidadProdField.setText(Integer.toString(productoEdicion.getCantidad()));
+                cantidadProdField.setText(Integer.toString(productoEdicion.getCantidadTotal()));
                 precioUniProdField.setText(Double.toString(productoEdicion.getPrecioUnitario()));
             } catch (Exception e) {
                 System.out.println(e.getMessage());

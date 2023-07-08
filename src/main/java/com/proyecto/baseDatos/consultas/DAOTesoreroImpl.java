@@ -5,6 +5,7 @@
 package com.proyecto.baseDatos.consultas;
 
 import com.proyecto.baseDatos.GestorBaseDatos;
+import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
@@ -306,7 +307,7 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             throw new SQLException("Error al obtener la lista de facturas por ID de proveedor de la base de datos", e);
         }
     }
-    */
+     */
     @Override
     public Factura obtenerFacturaPorId(int invoiceId) throws Exception {
         try {
@@ -336,7 +337,7 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
- /*PRODUCTOS--------------------------------------------------*/
+    /*PRODUCTOS--------------------------------------------------*/
  /*
     @Override
     public void registrarProducto(Producto product) throws Exception { // cuando el encargado de compras registra la factura se crea el producto por ende ya es existente
@@ -561,11 +562,16 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
                 int idFactura = resultSet.getInt("id_factura");
                 String nombre = resultSet.getString("nombre");
                 String descripcion = resultSet.getString("descripcion");
-                int cantidad = resultSet.getInt("cantidad");
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                int cantidadTotal = resultSet.getInt("cantidad_total");
+                int cantidadIngresada = resultSet.getInt("cantidad_ingresada");
+                int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
                 double precioUnitario = resultSet.getDouble("precio_unitario");
                 double subtotal = resultSet.getDouble("subtotal");
 
-                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, cantidad, precioUnitario, subtotal);
+                CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
+
+                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
                 productos.add(producto);
             }
 
@@ -608,6 +614,30 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             throw new SQLException("Error al obtener la lista de facturas(obtenerListaFacturasPorProveedorId) de la base de datos", e);
         } finally {
             this.Cerrar();
+        }
+    }
+
+    @Override
+    public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM categorias_producto WHERE id_categoria_producto = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, productCategoryId);
+            ResultSet resultSet = statement.executeQuery();
+
+            CategoriaProducto categoriaProducto = null;
+            if (resultSet.next()) {
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                String nombreCategoria = resultSet.getString("nombre_categoria");
+                String descripcionCategoria = resultSet.getString("descripcion_categoria");
+
+                categoriaProducto = new CategoriaProducto(idCategoriaProducto, nombreCategoria, descripcionCategoria);
+            }
+
+            return categoriaProducto;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la categoría de producto por ID de la base de datos", e);
         }
     }
 

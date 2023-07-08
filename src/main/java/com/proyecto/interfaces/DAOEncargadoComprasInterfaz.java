@@ -4,6 +4,7 @@
  */
 package com.proyecto.interfaces;
 
+import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
@@ -39,6 +40,8 @@ public interface DAOEncargadoComprasInterfaz {
     public int obtenerUltimaFacturaRegistrada() throws Exception;
    // public Users getUserById(int userId) throws Exception; 
     //public boolean supplierNameEnUso(String supplierName) throws Exception;
+    
+    public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception;
     
     //EXTRAS
     public String buscarNombreProveedorPorFactura(int idFactura) throws Exception;
