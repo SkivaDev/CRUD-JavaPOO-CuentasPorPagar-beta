@@ -9,6 +9,7 @@ import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.baseDatos.consultas.DAOTesoreroImpl;
 import com.proyecto.entidades.Administrador;
 import com.proyecto.entidades.Almacenero;
+import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.EncargadoCompras;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.JefeFinanzas;
@@ -50,9 +51,9 @@ public class ControladorRegistroSolicitudPago {
             Factura factura = dao.obtenerFacturaPorId(facturaId);
 
             String nombreProveedorPorFacturaId = dao.buscarNombreProveedorPorFactura(facturaId);
-            
+
             idFacturaField.setText(Integer.toString(factura.getIdFactura()));
-            
+
             nombreProveedor.setText(nombreProveedorPorFacturaId);
 
             // Crea el formato deseado para la fecha
@@ -75,9 +76,19 @@ public class ControladorRegistroSolicitudPago {
 
     }
 
-    
-    
-    
+    public void llenarComboBoxCuentasBancarias(JComboBox<String> comboBox) {
+
+        try {
+            List<CuentaBancaria> cuentasBancarias = dao.obtenerListaCuentasBancarias();
+
+            for (CuentaBancaria cuentaBancaria : cuentasBancarias) {
+                comboBox.addItem(cuentaBancaria.getNombreBanco());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public boolean confirmarDatosFactura(List<Producto> productosTemporales, String proveedor, String fechaRegistro, String fechaVencimiento, String montoTotal, String montoPagado, String montoPendiente) {
         String message;
