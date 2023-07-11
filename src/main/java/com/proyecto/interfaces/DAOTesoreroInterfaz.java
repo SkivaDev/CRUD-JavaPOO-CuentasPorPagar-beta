@@ -10,6 +10,7 @@ import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
+import com.proyecto.entidades.Inventario;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.SolicitudPago;
@@ -77,6 +78,8 @@ public interface DAOTesoreroInterfaz {
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     
+   public Inventario obtenerInventarioPorIdProducto(int productId) throws Exception;
+   
     //VERIFICACIONES
    // public boolean existeRegistroPago(int idFactura) throws Exception;
 }

@@ -6,7 +6,9 @@ import com.proyecto.controladores.ControladorRegistroFactura;
 import com.proyecto.controladores.ControladorRegistroProveedor;
 import com.proyecto.controladores.ControladorRegistroSolicitudPago;
 import com.proyecto.controladores.ControladorRegistroUsuario;
+import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.Cheque;
+import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Usuario;
@@ -444,7 +446,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         String detalleCanje = detalleCanjeField.getText();
         String categoriaProductoSeleccionado = (String) categoriaProductoCBox.getSelectedItem();
         String productoSeleccionado = (String) productoCBox.getSelectedItem();
-        String cantidadProductos = cantidadProductosField.getText();
+        String cantidadProductosSeleccionado = cantidadProductosField.getText();
 
         //String successMsg = isCheck ? "modificado" : "registrado";
         //String errorMsg = isCheck ? "modificar" : "registrar";
@@ -458,8 +460,16 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                     return;
                 }
 
-                //VALIDACION: si el monto a pagar es menor al saldo de la cuenta
-                if (Double.valueOf(montoPagoPorCheque) > Double.valueOf(saldoActualBancoField.getText())) {
+                //VALIDACION: el monto a pagar tiene que ser mayor a 0
+                Double doubleMontoPagoPorCheque = Double.valueOf(montoPagoPorCheque);
+                if (doubleMontoPagoPorCheque > 0) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "El monto registrado supera al saldo de la cuenta actual. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    montoChequeField.requestFocus();
+                    return;
+                }
+
+                //VALIDACION: el monto a pagar tiene que ser menor al saldo de la cuenta bancaria
+                if (doubleMontoPagoPorCheque > Double.valueOf(saldoActualBancoField.getText())) {
                     javax.swing.JOptionPane.showMessageDialog(this, "El monto registrado supera al saldo de la cuenta actual. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
                     montoChequeField.requestFocus();
                     return;
@@ -469,7 +479,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                         fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente, detalleCanje, detalleCanje, montoPagado);
                 if (confirmarDatosSolicitudPago) {
 
-                    Cheque chequeRecienRegistrado = controladorRegistroSolicitudPago.registrarRegistroCheque(invoicePayment, Double.valueOf(montoPagoPorCheque), cuentaBancariaSelecionada);
+                    Cheque chequeRecienRegistrado = controladorRegistroSolicitudPago.registrarRegistroCheque(invoicePayment, doubleMontoPagoPorCheque, cuentaBancariaSelecionada);
 
                     controladorRegistroSolicitudPago.registrarSolicitud(invoicePayment, chequeRecienRegistrado, null);
                 } else {
@@ -481,30 +491,39 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
             }
 
         } else { // codigo donde se paga por canje || NOS QUEDAMOS TERMINANDO DE PROGRAMAR EL PAGO POR CANJE
-            
+
             javax.swing.JOptionPane.showMessageDialog(this, "Estamos trabajando en ello. Intente mas tarde\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
 
             /*
             try {
                 //VALIDACION: todos los campos completos
-                if (detalleCanje.isEmpty() || cantidadProductos.isEmpty()) {
+                if (detalleCanje.isEmpty() || cantidadProductosSeleccionado.isEmpty()) {
                     javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
                     montoChequeField.requestFocus();
                     return;
                 }
 
-                //VALIDACION: si el monto a pagar es menor al saldo de la cuenta
-                if (Integer.parseInt(cantidadProductos) < "Monto disponible de productos en inventario") {
-                    javax.swing.JOptionPane.showMessageDialog(this, "La catidad registrada supera al cantidad en inventario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                //VALIDACION: la cantidad de productos selecionado tiene que ser mayor a 0
+                int intCantidadProductosSeleccionado = Integer.parseInt(cantidadProductosSeleccionado);
+                if (intCantidadProductosSeleccionado > 0) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "La cantidad registrada debe ser mayor a 0. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    montoChequeField.requestFocus();
+                    return;
+                }
+                //VALIDACION: la cantidad de productos selecionado tiene que ser menor a la cantidad disponible en inventario
+                int cantidadDispinibleProducto = controladorRegistroSolicitudPago.cantidadTotalDispinibleProducto(productoSeleccionado, categoriaProductoSeleccionado);
+                if (cantidadDispinibleProducto >= intCantidadProductosSeleccionado) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "La cantidad registrada supera al cantidad en inventario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
                     montoChequeField.requestFocus();
                     return;
                 }
 
-                boolean confirmarDatosSolicitudPago = controladorRegistroSolicitudPago.confirmarDatosSolicitudPagoPorCheque(idFactura, nombreProveedor,
-                        fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente, detalleCanje, detalleCanje, montoPagado);
+                boolean confirmarDatosSolicitudPago = controladorRegistroSolicitudPago.confirmarDatosSolicitudPagoPorCanje(idFactura, nombreProveedor,
+                        fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente,
+                        detalleCanje, categoriaProductoSeleccionado, productoSeleccionado, cantidadProductosSeleccionado);
                 if (confirmarDatosSolicitudPago) {
 
-                    Cheque chequeRecienRegistrado = controladorRegistroSolicitudPago.registrarRegistroCheque(invoicePayment, Double.valueOf(montoPagoPorCheque), cuentaBancariaSelecionada);
+                    Canje canjeRecienRegistrado = controladorRegistroSolicitudPago.registrarRegistroCheque(invoicePayment, Double.valueOf(montoPagoPorCheque), cuentaBancariaSelecionada);
 
                     controladorRegistroSolicitudPago.registrarSolicitud(invoicePayment, chequeRecienRegistrado, null);
                 } else {
@@ -516,7 +535,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
             }*/
         }
 
-        
+
     }//GEN-LAST:event_registrarSolicitudBtnActionPerformed
 
     private void bancosCboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosCboxActionPerformed

@@ -15,6 +15,7 @@ import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.EncargadoCompras;
 import com.proyecto.entidades.Factura;
+import com.proyecto.entidades.Inventario;
 import com.proyecto.entidades.JefeFinanzas;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
@@ -69,11 +70,39 @@ public class ControladorRegistroSolicitudPago {
         return chequeRegistrado;
     }
 
+    /*
+    public Cheque registrarRegistroCanje(Factura invoice, String detalleCanje, String categoriaProductoSeleccionado,
+            String nombreproductoSeleccionado, int cantidadProductosSeleccionado) throws Exception {
+
+        List<Producto> productosFiltrados = dao.obtenerListaProductosDisponiblesInventarioPorNombreCategoria(categoriaProductoSeleccionado);
+        for (Producto producto : productosFiltrados) {
+            if (producto.getNombre().equals(nombreproductoSeleccionado)) {
+                Inventario inventario = dao.obtenerInventarioPorIdProducto(producto.getIdProducto());
+                return inventario.getCantidadProducto();
+            }
+        }
+
+        CuentaBancaria cuentaBancaria = dao.obtenerCuentaBancariaPorNombre(nombreCuentaBancaria);
+
+        String fechaActual = obtenerFechaActual();
+        // Convierte el String a LocalDate
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaRegistroDate = formato.parse(fechaActual);
+
+        String estadoCheque = "Emitido";
+
+        check = new Cheque(0, invoice, montoCheque, cuentaBancaria, fechaRegistroDate, estadoCheque);
+        int idChequeRegistrado = dao.registrarCheque(check);
+
+        Cheque chequeRegistrado = dao.obtenerChequePorId(idChequeRegistrado);
+
+        return chequeRegistrado;
+    }*/
     public void registrarSolicitud(Factura invoice, Cheque check, Canje exchange) throws Exception {
         SolicitudPago solicitudPago = null;
         String metodoPago;
         String estadoSolicitud;
-        
+
         String fechaActual = obtenerFechaActual();
         // Convierte el String a LocalDate
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,12 +116,12 @@ public class ControladorRegistroSolicitudPago {
         } else if (exchange != null) { // Registro por canje
             metodoPago = "Canje";
             estadoSolicitud = "Pendiente";
-            
+
             solicitudPago = new SolicitudPago(0, invoice, metodoPago, null, exchange, estadoSolicitud, fechaRegistroDate);
         }
 
         int idSolicitudPagoRegistrada = dao.registrarSolicitudPago(solicitudPago);
-        
+
     }
 
     public void mostrarDatosFactura(int facturaId, JTextField idFacturaField, JTextField nombreProveedor, JTextField fechaRegistro,
@@ -183,6 +212,22 @@ public class ControladorRegistroSolicitudPago {
 
     }
 
+
+    public int cantidadTotalDispinibleProducto(String nombreProducto, String categoriaProducto) {
+        try {
+            List<Producto> productosFiltrados = dao.obtenerListaProductosDisponiblesInventarioPorNombreCategoria(categoriaProducto);
+            for (Producto producto : productosFiltrados) {
+                if (producto.getNombre().equals(nombreProducto)) {
+                    Inventario inventario = dao.obtenerInventarioPorIdProducto(producto.getIdProducto());
+                    return inventario.getCantidadProducto();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public boolean confirmarDatosSolicitudPagoPorCheque(String idFactura, String proveedor, String fechaRegistro,
             String fechaVencimiento, String montoTotal, String montoPagado, String montoPendiente,
             String cuentaBancaria, String saldoCuenta, String montoPagar) {
@@ -202,6 +247,48 @@ public class ControladorRegistroSolicitudPago {
         message += "\nCuenta bancaria: " + cuentaBancaria;
         message += "\nSaldo cuenta bancaria: " + saldoCuenta;
         message += "\nMonto a pagar: " + montoPagar;
+        message += "\n";
+        message += "\nLos datos son correctos?";
+
+        UIManager.put("Button.yesButtonText", "Aceptar");
+        UIManager.put("Button.noButtonText", "Cancelar");
+
+        int result = JOptionPane.showConfirmDialog(null, message, title, optionType);
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                return true;
+            case JOptionPane.NO_OPTION:
+                return false;
+
+            case JOptionPane.CLOSED_OPTION:
+                return false;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    public boolean confirmarDatosSolicitudPagoPorCanje(String idFactura, String proveedor, String fechaRegistro,
+            String fechaVencimiento, String montoTotal, String montoPagado, String montoPendiente,
+            String detalleCanje, String categoriaProductoSeleccionado, String productoSeleccionado, String cantidadProductosSeleccionado) {
+        String message;
+        String title = "Confirmación";
+        int optionType = JOptionPane.YES_NO_OPTION;
+
+        message = "***** Datos de la solicitud *****";
+        message += "\nIDFactura: " + idFactura;
+        message += "\nProveedor a pagar: " + proveedor;
+        message += "\nFecha Registro: " + fechaRegistro;
+        message += "\nFecha Vencimiento: " + fechaVencimiento;
+        message += "\nMonto Total: " + montoTotal;
+        message += "\nMonto Pagado: " + montoPagado;
+        message += "\nMonto Pendiente: " + montoPendiente;
+        message += "\n";
+        message += "\nMetodo de Pago: Canje";
+        message += "\nDetalle de canje: " + detalleCanje;
+        message += "\ncategoria Producto: " + categoriaProductoSeleccionado;
+        message += "\nProducto: " + productoSeleccionado;
+        message += "\nCantidad Productos a canjear: " + cantidadProductosSeleccionado;
         message += "\n";
         message += "\nLos datos son correctos?";
 

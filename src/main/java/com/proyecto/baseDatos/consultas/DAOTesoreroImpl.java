@@ -11,6 +11,7 @@ import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
+import com.proyecto.entidades.Inventario;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.SolicitudPago;
@@ -926,13 +927,13 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
     @Override
     public List<Producto> obtenerListaProductosDisponiblesInventarioPorNombreCategoria(String categoryName) throws Exception {
         try {
-            this.Conectar();           
+            this.Conectar();
             String consulta = "SELECT p.* FROM productos p "
-                    +"INNER JOIN inventario inv ON p.id_producto = inv.id_producto_inventariado "
-                    +"INNER JOIN categorias_producto c ON p.id_categoria_producto = c.id_categoria_producto "
-                    +"WHERE c.nombre_categoria = ? "
+                    + "INNER JOIN inventario inv ON p.id_producto = inv.id_producto_inventariado "
+                    + "INNER JOIN categorias_producto c ON p.id_categoria_producto = c.id_categoria_producto "
+                    + "WHERE c.nombre_categoria = ? "
                     + "AND inv.cantidad_producto > 0";
-            
+
             PreparedStatement statement = this.conexion.prepareStatement(consulta);
             statement.setString(1, categoryName);
             ResultSet resultSet = statement.executeQuery();
@@ -959,6 +960,30 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             return productos;
         } catch (SQLException e) {
             throw new SQLException("Error al obtener la lista de productos por nombre de categoría de la base de datos", e);
+        }
+    }
+
+    @Override
+    public Inventario obtenerInventarioPorIdProducto(int productId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM inventario WHERE id_producto_inventariado  = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, productId);
+            ResultSet resultSet = statement.executeQuery();
+
+            Inventario inventario = null;
+            if (resultSet.next()) {
+                int idInventario = resultSet.getInt("id_inventario");
+                int idProductoInventariado = resultSet.getInt("id_producto_inventariado");
+                String nombreProducto = resultSet.getString("nombre_producto");
+                int cantidadProducto = resultSet.getInt("cantidad_producto");
+
+                inventario = new Inventario(idInventario, idProductoInventariado, nombreProducto, cantidadProducto);
+            }
+            return inventario;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el producto por ID de la base de datos", e);
         }
     }
 
