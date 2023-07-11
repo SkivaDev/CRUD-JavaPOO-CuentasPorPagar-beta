@@ -61,6 +61,7 @@ public interface DAOTesoreroInterfaz {
       public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception;
       
       public List<Producto> obtenerListaProductosPorNombreCategoria(String categoryName) throws Exception;
+      public List<Producto> obtenerListaProductosDisponiblesInventarioPorNombreCategoria(String categoryName) throws Exception;
       
       public int registrarCheque(Cheque check) throws Exception; //devuelve el id del cheque cuando se registra
       public Cheque obtenerChequePorId(int checkId) throws Exception;

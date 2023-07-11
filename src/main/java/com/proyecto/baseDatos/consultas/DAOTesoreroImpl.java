@@ -923,4 +923,43 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
+    @Override
+    public List<Producto> obtenerListaProductosDisponiblesInventarioPorNombreCategoria(String categoryName) throws Exception {
+        try {
+            this.Conectar();           
+            String consulta = "SELECT p.* FROM productos p "
+                    +"INNER JOIN inventario inv ON p.id_producto = inv.id_producto_inventariado "
+                    +"INNER JOIN categorias_producto c ON p.id_categoria_producto = c.id_categoria_producto "
+                    +"WHERE c.nombre_categoria = ? "
+                    + "AND inv.cantidad_producto > 0";
+            
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setString(1, categoryName);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Producto> productos = new ArrayList<>();
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                int idFactura = resultSet.getInt("id_factura");
+                String nombre = resultSet.getString("nombre");
+                String descripcion = resultSet.getString("descripcion");
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                int cantidadTotal = resultSet.getInt("cantidad_total");
+                int cantidadIngresada = resultSet.getInt("cantidad_ingresada");
+                int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
+                double precioUnitario = resultSet.getDouble("precio_unitario");
+                double subtotal = resultSet.getDouble("subtotal");
+
+                CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
+
+                Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
+                productos.add(producto);
+            }
+
+            return productos;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de productos por nombre de categoría de la base de datos", e);
+        }
+    }
+
 }

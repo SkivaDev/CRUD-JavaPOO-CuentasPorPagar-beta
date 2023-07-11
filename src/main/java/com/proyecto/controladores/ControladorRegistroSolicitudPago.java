@@ -171,8 +171,9 @@ public class ControladorRegistroSolicitudPago {
     public void agregarProductosCboxFildrados(String categoriaProducto, JComboBox<String> comboBox) {
 
         try {
-            List<Producto> productosFiltrados = dao.obtenerListaProductosPorNombreCategoria(categoriaProducto);
+            List<Producto> productosFiltrados = dao.obtenerListaProductosDisponiblesInventarioPorNombreCategoria(categoriaProducto);
 
+            comboBox.removeAllItems();
             for (Producto producto : productosFiltrados) {
                 comboBox.addItem(producto.getNombre());
             }
