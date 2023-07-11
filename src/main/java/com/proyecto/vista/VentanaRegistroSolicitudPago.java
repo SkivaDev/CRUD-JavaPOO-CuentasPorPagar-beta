@@ -189,8 +189,6 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
 
         jLabel20.setText("Seleccionar Categoría:");
 
-        productoCBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel23.setText("ID:");
 
         jLabel24.setText("Nombre Proveedor:");
@@ -211,7 +209,6 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
 
         jLabel31.setText("Saldo Actual:");
 
-        bancosCbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         bancosCbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bancosCboxActionPerformed(evt);
@@ -224,7 +221,6 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
 
         jLabel21.setText("Seleccionar Producto:");
 
-        categoriaProductoCBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         categoriaProductoCBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoriaProductoCBoxActionPerformed(evt);
@@ -485,6 +481,10 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
             }
 
         } else { // codigo donde se paga por canje || NOS QUEDAMOS TERMINANDO DE PROGRAMAR EL PAGO POR CANJE
+            
+            javax.swing.JOptionPane.showMessageDialog(this, "Estamos trabajando en ello. Intente mas tarde\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+
+            /*
             try {
                 //VALIDACION: todos los campos completos
                 if (detalleCanje.isEmpty() || cantidadProductos.isEmpty()) {
@@ -513,77 +513,10 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                 javax.swing.JOptionPane.showMessageDialog(this, "Solicitud " + "registrada" + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + "registrar" + " la solicitud. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
+            }*/
         }
 
-        if (fechaRegistro.isEmpty() || fechaVencimiento.isEmpty() || descripcion.isEmpty()) {
-
-            javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            fechaRegistroField.requestFocus();
-
-        } else if (isCheck) { // codigo donde se paga por cheque
-
-            try {
-                //CONDICIONAL fechaRegistro < fechaVencimiento"yyyy-MM-dd"
-
-                // Convierte el String a LocalDate
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-                Date fechaRegistroDate = formato.parse(fechaRegistro);
-                Date fechaVencimientoDate = formato.parse(fechaVencimiento);
-
-                // valida que la fecha registro sea menor a la fecha vencimiento
-                if (!controladorRegistroFactura.validarFechas(fechaRegistroDate, fechaVencimientoDate)) {
-                    fechaRegistroField.requestFocus();
-                    return;
-                }
-
-                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosProveedores(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
-                if (confirmarDatosProveedores) {
-                    int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
-                    controladorRegistroFactura.registrarFacturaConProductos(productosTemporales, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
-                            descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
-                } else {
-                    return;
-                }
-                javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-
-        } else { // codigo donde se paga por canje
-
-            try {
-                //CONDICIONAL fechaRegistro < fechaVencimiento"yyyy-MM-dd"
-
-                // Convierte el String a LocalDate
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-                Date fechaRegistroDate = formato.parse(fechaRegistro);
-                Date fechaVencimientoDate = formato.parse(fechaVencimiento);
-
-                // valida que la fecha registro sea menor a la fecha vencimiento
-                if (!controladorRegistroFactura.validarFechas(fechaRegistroDate, fechaVencimientoDate)) {
-                    fechaRegistroField.requestFocus();
-                    return;
-                }
-
-                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosProveedores(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
-
-                if (confirmarDatosProveedores) {
-                    int idFactura = invoiceEdition.getIdFactura();
-                    int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
-                    controladorRegistroFactura.editarFacturaConProductos(productosTemporales, idFactura, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
-                            descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
-                } else {
-                    return;
-                }
-
-                javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-
-        }  */
+        
     }//GEN-LAST:event_registrarSolicitudBtnActionPerformed
 
     private void bancosCboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosCboxActionPerformed

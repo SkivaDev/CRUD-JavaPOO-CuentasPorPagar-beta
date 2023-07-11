@@ -4,6 +4,7 @@
  */
 package com.proyecto.interfaces;
 
+import com.proyecto.entidades.Canje;
 import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.CuentaBancaria;
@@ -65,6 +66,12 @@ public interface DAOTesoreroInterfaz {
       public Cheque obtenerChequePorId(int checkId) throws Exception;
       
       public int registrarSolicitudPago(SolicitudPago paymentRequest) throws Exception; //devuelve el id del cheque cuando se registra
+      
+      
+      //
+      public List<SolicitudPago> obtenerListaSolicitudesPago() throws Exception;
+      public Canje obtenerCanjePorId(int exchangeId) throws Exception;
+      public Producto obtenerProductoPorId(int productId) throws Exception;
       
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;

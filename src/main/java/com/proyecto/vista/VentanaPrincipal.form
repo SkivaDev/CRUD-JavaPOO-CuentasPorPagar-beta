@@ -162,7 +162,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Sistema de Gesti&#xf3;n para Biblioteca P&#xfa;blica. Controle y administre de"/>
+            <Property name="text" type="java.lang.String" value="Sistema de Gesti&#xf3;n para Pago de facturas"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">

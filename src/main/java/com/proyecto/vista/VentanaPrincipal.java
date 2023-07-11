@@ -86,7 +86,7 @@ public class VentanaPrincipal extends javax.swing.JPanel {
 
         titleText.setText("Bienvenido");
 
-        jLabel2.setText("Sistema de Gestión para Biblioteca Pública. Controle y administre de");
+        jLabel2.setText("Sistema de Gestión para Pago de facturas");
 
         jLabel3.setText("a");
 

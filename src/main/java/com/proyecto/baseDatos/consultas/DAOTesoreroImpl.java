@@ -823,4 +823,104 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
+    @Override
+    public List<SolicitudPago> obtenerListaSolicitudesPago() throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM solicitudes_pago";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<SolicitudPago> solicitudesPago = new ArrayList<>();
+            while (resultSet.next()) {
+                int idSolicitudPago = resultSet.getInt("id_solicitud");
+                int idFactura = resultSet.getInt("id_factura");
+                String metodoPago = resultSet.getString("metodo_pago");
+                int idCheque = resultSet.getInt("id_cheque");
+                int idCanje = resultSet.getInt("id_canje");
+                String estadoSolicitud = resultSet.getString("estado_solicitud");
+                Date fechaRegistro = resultSet.getDate("fecha_registro");
+
+                // Aquí debes obtener la factura, el cheque y el canje correspondientes utilizando los métodos adecuados
+                Factura factura = obtenerFacturaPorId(idFactura); // Utiliza el método adecuado para obtener la factura por su ID
+                Cheque cheque = obtenerChequePorId(idCheque); // Utiliza el método adecuado para obtener el cheque por su ID
+                Canje canje = obtenerCanjePorId(idCanje); // Utiliza el método adecuado para obtener el canje por su ID
+
+                SolicitudPago solicitudPago = new SolicitudPago(idSolicitudPago, factura, metodoPago, cheque, canje, estadoSolicitud, fechaRegistro);
+                solicitudesPago.add(solicitudPago);
+            }
+
+            return solicitudesPago;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de solicitudes de pago de la base de datos", e);
+        }
+    }
+
+    @Override
+    public Canje obtenerCanjePorId(int exchangeId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM canjes WHERE id_canje = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, exchangeId);
+            ResultSet resultSet = statement.executeQuery();
+
+            Canje canje = null;
+            if (resultSet.next()) {
+                int idCanje = resultSet.getInt("id_canje");
+                int idFactura = resultSet.getInt("id_factura");
+                String detalleCanje = resultSet.getString("detalle_canje");
+                int idProductoCanje = resultSet.getInt("id_producto_canje");
+                int cantidadProducto = resultSet.getInt("cantidad_producto");
+                double equivalenteDinero = resultSet.getDouble("equivalente_dinero");
+                Date fechaEmision = resultSet.getDate("fecha_emicion");
+                String estadoCheque = resultSet.getString("estado_canje");
+
+                // Aquí debes obtener la factura y el productoCanje correspondientes utilizando los métodos adecuados
+                Factura factura = obtenerFacturaPorId(idFactura); // Utiliza el método adecuado para obtener la factura por su ID
+                Producto productoCanje = obtenerProductoPorId(idProductoCanje); // Utiliza el método adecuado para obtener el productoCanje por su ID
+
+                canje = new Canje(idCanje, factura, detalleCanje, productoCanje, cantidadProducto, equivalenteDinero, fechaEmision, estadoCheque);
+            }
+
+            return canje;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el canje por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public Producto obtenerProductoPorId(int productId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM productos WHERE id_producto = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, productId);
+            ResultSet resultSet = statement.executeQuery();
+
+            Producto producto = null;
+            if (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                int idFactura = resultSet.getInt("id_factura");
+                String nombre = resultSet.getString("nombre");
+                String descripcion = resultSet.getString("descripcion");
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                int cantidadTotal = resultSet.getInt("cantidad_total");
+                int cantidadIngresada = resultSet.getInt("cantidad_ingresada");
+                int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
+                double precioUnitario = resultSet.getDouble("precio_unitario");
+                double subtotal = resultSet.getDouble("subtotal");
+
+                // Aquí debes obtener la categoríaProducto correspondiente utilizando el método adecuado
+                CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto); // Utiliza el método adecuado para obtener la categoríaProducto por su ID
+
+                producto = new Producto(idProducto, idFactura, nombre, descripcion, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
+            }
+
+            return producto;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el producto por ID de la base de datos", e);
+        }
+    }
+
 }

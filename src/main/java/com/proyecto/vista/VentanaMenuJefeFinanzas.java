@@ -41,7 +41,7 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
 
         principalBtn = new javax.swing.JButton();
         cerrarSesionBtn = new javax.swing.JButton();
-        gentionarProveedoresBtn = new javax.swing.JButton();
+        aprobarRechazarBtn = new javax.swing.JButton();
         gentionarFacturasBtn = new javax.swing.JButton();
         gentionarFacturasBtn1 = new javax.swing.JButton();
         gentionarFacturasBtn2 = new javax.swing.JButton();
@@ -83,22 +83,22 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
         });
         add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 270, 60));
 
-        gentionarProveedoresBtn.setBackground(new java.awt.Color(255, 0, 51));
-        gentionarProveedoresBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        gentionarProveedoresBtn.setForeground(new java.awt.Color(255, 255, 255));
-        gentionarProveedoresBtn.setText("Aprobar o Rechazar Pago");
-        gentionarProveedoresBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        gentionarProveedoresBtn.setBorderPainted(false);
-        gentionarProveedoresBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        gentionarProveedoresBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gentionarProveedoresBtn.setIconTextGap(13);
-        gentionarProveedoresBtn.setInheritsPopupMenu(true);
-        gentionarProveedoresBtn.addActionListener(new java.awt.event.ActionListener() {
+        aprobarRechazarBtn.setBackground(new java.awt.Color(255, 0, 51));
+        aprobarRechazarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        aprobarRechazarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        aprobarRechazarBtn.setText("Aprobar o Rechazar Pago");
+        aprobarRechazarBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        aprobarRechazarBtn.setBorderPainted(false);
+        aprobarRechazarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        aprobarRechazarBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        aprobarRechazarBtn.setIconTextGap(13);
+        aprobarRechazarBtn.setInheritsPopupMenu(true);
+        aprobarRechazarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gentionarProveedoresBtnActionPerformed(evt);
+                aprobarRechazarBtnActionPerformed(evt);
             }
         });
-        add(gentionarProveedoresBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 60));
+        add(aprobarRechazarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 60));
 
         gentionarFacturasBtn.setBackground(new java.awt.Color(255, 0, 51));
         gentionarFacturasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -163,14 +163,14 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
         reiniciarPrograma();
     }//GEN-LAST:event_cerrarSesionBtnActionPerformed
 
-    private void gentionarProveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarProveedoresBtnActionPerformed
+    private void aprobarRechazarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aprobarRechazarBtnActionPerformed
         // TODO add your handling code here:
-        VentanaDashboard.ShowJPanelWindows(new VentanaGestorProveedores(currentUser));
-    }//GEN-LAST:event_gentionarProveedoresBtnActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorSolicitudesPago(currentUser));
+    }//GEN-LAST:event_aprobarRechazarBtnActionPerformed
 
     private void gentionarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtnActionPerformed
         // TODO add your handling code here:
-        VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
+        //VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
     }//GEN-LAST:event_gentionarFacturasBtnActionPerformed
 
     private void gentionarFacturasBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtn1ActionPerformed
@@ -183,11 +183,11 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aprobarRechazarBtn;
     private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton gentionarFacturasBtn;
     private javax.swing.JButton gentionarFacturasBtn1;
     private javax.swing.JButton gentionarFacturasBtn2;
-    private javax.swing.JButton gentionarProveedoresBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables
 }
