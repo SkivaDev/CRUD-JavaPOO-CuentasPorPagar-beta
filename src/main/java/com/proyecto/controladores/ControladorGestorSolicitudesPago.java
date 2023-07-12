@@ -5,6 +5,7 @@
 package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
+import com.proyecto.baseDatos.consultas.DAOJefeFinanzasImpl;
 import com.proyecto.baseDatos.consultas.DAOTesoreroImpl;
 import com.proyecto.entidades.SolicitudPago;
 import com.proyecto.entidades.Usuario;
@@ -25,11 +26,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ControladorGestorSolicitudesPago {
 
-    private DAOTesoreroImpl dao;
+    private DAOJefeFinanzasImpl dao;
 
     //private Usuario user;
     public ControladorGestorSolicitudesPago() {
-        this.dao = new DAOTesoreroImpl();
+        this.dao = new DAOJefeFinanzasImpl();
     }
 
     public DefaultTableModel listarSolicitudes(JTable table) {
