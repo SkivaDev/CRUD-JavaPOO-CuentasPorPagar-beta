@@ -69,7 +69,7 @@ public interface DAOTesoreroInterfaz {
       
       public int registrarSolicitudPago(SolicitudPago paymentRequest) throws Exception; //devuelve el id del cheque cuando se registra
       
-      
+      public int registrarCanje(Canje exchange) throws Exception; //devuelve el id del canje cuando se registra
       //
       public List<SolicitudPago> obtenerListaSolicitudesPago() throws Exception;
       public Canje obtenerCanjePorId(int exchangeId) throws Exception;

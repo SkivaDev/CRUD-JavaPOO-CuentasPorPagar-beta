@@ -5,6 +5,7 @@
 package com.proyecto.utils;
 
 import com.proyecto.cuentasporpagarbeta.Main;
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -12,6 +13,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -62,15 +69,15 @@ public class Utils {
 
         return password;
     }
-    
+
     public static String obtenerFechaActual() {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fechaActualFormateada = fechaActual.format(formato);
         return fechaActualFormateada;
     }
-    
-/*
+
+    /*
     public static void main(String[] args) {
         // Ejemplo de uso
         String nombre = "Fabrizio";
@@ -84,7 +91,7 @@ public class Utils {
         String password = generatePassword(nombre);
         System.out.println("Contraseña: " + password);
     }
-*/
+     */
     public static void reiniciarPrograma() {
         try {
             String javaHome = System.getProperty("java.home");

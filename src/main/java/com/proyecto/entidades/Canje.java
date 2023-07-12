@@ -18,9 +18,9 @@ public class Canje {
     private int cantidadProducto;
     private double equivalenteDinero;
     private Date fechaEmicion;
-    private String estadoCheque;
+    private String estadoCanje;
 
-    public Canje(int idCanje, Factura factura, String detalleCanje, Producto productoCanje, int cantidadProducto, double equivalenteDinero, Date fechaEmicion, String estadoCheque) {
+    public Canje(int idCanje, Factura factura, String detalleCanje, Producto productoCanje, int cantidadProducto, double equivalenteDinero, Date fechaEmicion, String estadoCanje) {
         this.idCanje = idCanje;
         this.factura = factura;
         this.detalleCanje = detalleCanje;
@@ -28,7 +28,7 @@ public class Canje {
         this.cantidadProducto = cantidadProducto;
         this.equivalenteDinero = equivalenteDinero;
         this.fechaEmicion = fechaEmicion;
-        this.estadoCheque = estadoCheque;
+        this.estadoCanje = estadoCanje;
     }
 
     public int getIdCanje() {
@@ -87,12 +87,12 @@ public class Canje {
         this.fechaEmicion = fechaEmicion;
     }
 
-    public String getEstadoCheque() {
-        return estadoCheque;
+    public String getEstadoCanje() {
+        return estadoCanje;
     }
 
-    public void setEstadoCheque(String estadoCheque) {
-        this.estadoCheque = estadoCheque;
+    public void setEstadoCanje(String estadoCanje) {
+        this.estadoCanje = estadoCanje;
     }
     
     

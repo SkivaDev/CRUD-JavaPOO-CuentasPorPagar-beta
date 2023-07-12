@@ -24,16 +24,20 @@ import com.proyecto.entidades.Tesorero;
 import com.proyecto.entidades.Usuario;
 import static com.proyecto.utils.Utils.generarNumeroRandom;
 import static com.proyecto.utils.Utils.obtenerFechaActual;
+import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,6 +50,7 @@ public class ControladorRegistroSolicitudPago {
     private DAOTesoreroImpl dao;
     private Factura invoice;
     private Cheque check;
+    private Canje exchange;
 
     public ControladorRegistroSolicitudPago() {
         this.dao = new DAOTesoreroImpl();
@@ -70,34 +75,27 @@ public class ControladorRegistroSolicitudPago {
         return chequeRegistrado;
     }
 
-    /*
-    public Cheque registrarRegistroCanje(Factura invoice, String detalleCanje, String categoriaProductoSeleccionado,
+    
+    public Canje registrarRegistroCanje(Factura invoice, Producto productoSelecionado, String detalleCanje, String categoriaProductoSeleccionado,
             String nombreproductoSeleccionado, int cantidadProductosSeleccionado) throws Exception {
-
-        List<Producto> productosFiltrados = dao.obtenerListaProductosDisponiblesInventarioPorNombreCategoria(categoriaProductoSeleccionado);
-        for (Producto producto : productosFiltrados) {
-            if (producto.getNombre().equals(nombreproductoSeleccionado)) {
-                Inventario inventario = dao.obtenerInventarioPorIdProducto(producto.getIdProducto());
-                return inventario.getCantidadProducto();
-            }
-        }
-
-        CuentaBancaria cuentaBancaria = dao.obtenerCuentaBancariaPorNombre(nombreCuentaBancaria);
 
         String fechaActual = obtenerFechaActual();
         // Convierte el String a LocalDate
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaRegistroDate = formato.parse(fechaActual);
 
-        String estadoCheque = "Emitido";
+        String estadoCanje = "Emitido";
 
-        check = new Cheque(0, invoice, montoCheque, cuentaBancaria, fechaRegistroDate, estadoCheque);
-        int idChequeRegistrado = dao.registrarCheque(check);
+        Double equivalenteDinero = (productoSelecionado.getPrecioUnitario() * cantidadProductosSeleccionado);
+        
+        exchange = new Canje(0, invoice, detalleCanje, productoSelecionado, cantidadProductosSeleccionado, equivalenteDinero, fechaRegistroDate, estadoCanje);
+        int idCanjeRegistrado = dao.registrarCanje(exchange);
 
-        Cheque chequeRegistrado = dao.obtenerChequePorId(idChequeRegistrado);
+        Canje canjeRegistrado = dao.obtenerCanjePorId(idCanjeRegistrado);
 
-        return chequeRegistrado;
-    }*/
+        return canjeRegistrado;
+    }
+    
     public void registrarSolicitud(Factura invoice, Cheque check, Canje exchange) throws Exception {
         SolicitudPago solicitudPago = null;
         String metodoPago;
@@ -197,7 +195,7 @@ public class ControladorRegistroSolicitudPago {
 
     }
 
-    public void agregarProductosCboxFildrados(String categoriaProducto, JComboBox<String> comboBox) {
+    public void agregarProductosCboxFildrados2(String categoriaProducto, JComboBox<String> comboBox) {
 
         try {
             List<Producto> productosFiltrados = dao.obtenerListaProductosDisponiblesInventarioPorNombreCategoria(categoriaProducto);
@@ -212,6 +210,43 @@ public class ControladorRegistroSolicitudPago {
 
     }
 
+    public void agregarProductosCboxFildrados(String categoriaProducto, JComboBox<Producto> productComboBox) {
+
+        try {
+            List<Producto> productosFiltrados = dao.obtenerListaProductosDisponiblesInventarioPorNombreCategoria(categoriaProducto);
+            productComboBox.removeAllItems();
+
+            // Crear un DefaultComboBoxModel con la lista de productos
+            DefaultComboBoxModel<Producto> model = new DefaultComboBoxModel<>(productosFiltrados.toArray(new Producto[0]));
+            productComboBox.setModel(model);
+
+            // Configurar el ListCellRenderer para mostrar solo el nombre del producto
+            productComboBox.setRenderer(new ListCellRenderer<Producto>() {
+                public Component getListCellRendererComponent(JList<? extends Producto> list, Producto value, int index,
+                        boolean isSelected, boolean cellHasFocus) {
+                    JLabel label = new JLabel();
+                    if (value != null) {
+                        label.setText(value.getNombre()); // Mostrar el nombre del producto si no es nulo
+                    } else {
+                        label.setText("Sin productos"); // Mostrar un texto predeterminado si es nulo
+                    }
+                    if (isSelected) {
+                        label.setBackground(list.getSelectionBackground());
+                        label.setForeground(list.getSelectionForeground());
+                    } else {
+                        label.setBackground(list.getBackground());
+                        label.setForeground(list.getForeground());
+                    }
+                    label.setOpaque(true);
+                    return label;
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public int cantidadTotalDispinibleProducto(String nombreProducto, String categoriaProducto) {
         try {
@@ -243,6 +278,7 @@ public class ControladorRegistroSolicitudPago {
         message += "\nMonto Total: " + montoTotal;
         message += "\nMonto Pagado: " + montoPagado;
         message += "\nMonto Pendiente: " + montoPendiente;
+        message += "\n";
         message += "\nMetodo de Pago: Cheque";
         message += "\nCuenta bancaria: " + cuentaBancaria;
         message += "\nSaldo cuenta bancaria: " + saldoCuenta;

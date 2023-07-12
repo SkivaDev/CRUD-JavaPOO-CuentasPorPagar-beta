@@ -987,4 +987,31 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
+    @Override
+    public int registrarCanje(Canje exchange) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO canjes (id_factura, detalle_canje, id_producto_canje, cantidad_producto, equivalente_dinero, fecha_emicion, estado_canje) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, exchange.getFactura().getIdFactura());
+            statement.setString(2, exchange.getDetalleCanje());
+            statement.setInt(3, exchange.getProductoCanje().getIdFactura());
+            statement.setInt(4, exchange.getCantidadProducto());
+            statement.setDouble(5, exchange.getEquivalenteDinero());
+            statement.setDate(6, new java.sql.Date(exchange.getFechaEmicion().getTime()));
+            statement.setString(7, exchange.getEstadoCanje());
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idCanje = generatedKeys.getInt(1);
+                return idCanje;
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el canje");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el canje en la base de datos", e);
+        }
+    }
+
 }
