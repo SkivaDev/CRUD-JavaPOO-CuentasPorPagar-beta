@@ -29,18 +29,16 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
-        userSearchField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
 
     private void LoadRequests() {
-        
+
         // Limpiar el modelo de la tabla
         modeloTabla.setRowCount(0);
         jTable1.setModel(modeloTabla);
 
         modeloTabla = ControladorGestorSolicitudesPago.listarSolicitudes(jTable1);
         jTable1.setModel(modeloTabla);
-        
 
     }
 
@@ -55,30 +53,20 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
 
         bg = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
-        userSearchField = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         aprobarSolicitudBtn = new javax.swing.JButton();
         desaprobarSolicitudBtn = new javax.swing.JButton();
+        todoBtn = new javax.swing.JButton();
+        solicitudesPendientesBtn = new javax.swing.JButton();
+        solicitudesAprobadasBtn = new javax.swing.JButton();
+        solicitudesDesaprobadasBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
         title.setText("SOLICITUDES DE PAGO");
-
-        searchButton.setBackground(new java.awt.Color(255, 0, 51));
-        searchButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton.setText("Buscar");
-        searchButton.setBorderPainted(false);
-        searchButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
 
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -136,6 +124,54 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
             }
         });
 
+        todoBtn.setBackground(new java.awt.Color(255, 0, 51));
+        todoBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        todoBtn.setForeground(new java.awt.Color(255, 255, 255));
+        todoBtn.setText("Todo");
+        todoBtn.setBorderPainted(false);
+        todoBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        todoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                todoBtnActionPerformed(evt);
+            }
+        });
+
+        solicitudesPendientesBtn.setBackground(new java.awt.Color(255, 0, 51));
+        solicitudesPendientesBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        solicitudesPendientesBtn.setForeground(new java.awt.Color(255, 255, 255));
+        solicitudesPendientesBtn.setText("Pendientes");
+        solicitudesPendientesBtn.setBorderPainted(false);
+        solicitudesPendientesBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        solicitudesPendientesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solicitudesPendientesBtnActionPerformed(evt);
+            }
+        });
+
+        solicitudesAprobadasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        solicitudesAprobadasBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        solicitudesAprobadasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        solicitudesAprobadasBtn.setText("Aprobadas");
+        solicitudesAprobadasBtn.setBorderPainted(false);
+        solicitudesAprobadasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        solicitudesAprobadasBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solicitudesAprobadasBtnActionPerformed(evt);
+            }
+        });
+
+        solicitudesDesaprobadasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        solicitudesDesaprobadasBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        solicitudesDesaprobadasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        solicitudesDesaprobadasBtn.setText("Desaprobadas");
+        solicitudesDesaprobadasBtn.setBorderPainted(false);
+        solicitudesDesaprobadasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        solicitudesDesaprobadasBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solicitudesDesaprobadasBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
@@ -144,20 +180,26 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                        .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                         .addGap(699, 699, 699))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(bgLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(aprobarSolicitudBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(desaprobarSolicitudBtn))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(userSearchField)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchButton)))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addComponent(aprobarSolicitudBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(desaprobarSolicitudBtn))
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addComponent(solicitudesAprobadasBtn)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(solicitudesDesaprobadasBtn)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(solicitudesPendientesBtn)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(todoBtn)))))
                         .addGap(50, 50, 50))))
         );
         bgLayout.setVerticalGroup(
@@ -166,9 +208,11 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(todoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solicitudesPendientesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solicitudesAprobadasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solicitudesDesaprobadasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -195,23 +239,39 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MousePressed
 
     private void aprobarSolicitudBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aprobarSolicitudBtnActionPerformed
-        
-       // controladorGestorProveedores.editarProveedores(jTable1);
-        
+
+        // controladorGestorProveedores.editarProveedores(jTable1);
 
     }//GEN-LAST:event_aprobarSolicitudBtnActionPerformed
 
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        
-       // modeloTabla = controladorGestorProveedores.buscarProveedores(jTable1, userSearchField.getText());
-       // jTable1.setModel(modeloTabla);
-
-
-    }//GEN-LAST:event_searchButtonActionPerformed
-
     private void desaprobarSolicitudBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desaprobarSolicitudBtnActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_desaprobarSolicitudBtnActionPerformed
+
+    private void todoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todoBtnActionPerformed
+        // TODO add your handling code here:
+        modeloTabla = ControladorGestorSolicitudesPago.filtrarTodasSolicitudes(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_todoBtnActionPerformed
+
+    private void solicitudesPendientesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitudesPendientesBtnActionPerformed
+        // TODO add your handling code here:
+        modeloTabla = ControladorGestorSolicitudesPago.filtrarSolicitudesPendientes(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_solicitudesPendientesBtnActionPerformed
+
+    private void solicitudesAprobadasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitudesAprobadasBtnActionPerformed
+        // TODO add your handling code here:
+        modeloTabla = ControladorGestorSolicitudesPago.filtrarSolicitudesAprobadas(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_solicitudesAprobadasBtnActionPerformed
+
+    private void solicitudesDesaprobadasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitudesDesaprobadasBtnActionPerformed
+        // TODO add your handling code here:
+        modeloTabla = ControladorGestorSolicitudesPago.filtrarSolicitudesDesaprobadas(jTable1);
+        jTable1.setModel(modeloTabla);
+    }//GEN-LAST:event_solicitudesDesaprobadasBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -220,8 +280,10 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
     private javax.swing.JButton desaprobarSolicitudBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton searchButton;
+    private javax.swing.JButton solicitudesAprobadasBtn;
+    private javax.swing.JButton solicitudesDesaprobadasBtn;
+    private javax.swing.JButton solicitudesPendientesBtn;
     private javax.swing.JLabel title;
-    private javax.swing.JTextField userSearchField;
+    private javax.swing.JButton todoBtn;
     // End of variables declaration//GEN-END:variables
 }

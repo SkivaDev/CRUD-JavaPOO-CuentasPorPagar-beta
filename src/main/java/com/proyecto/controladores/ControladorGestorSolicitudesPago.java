@@ -6,12 +6,16 @@ package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.baseDatos.consultas.DAOTesoreroImpl;
+import com.proyecto.entidades.SolicitudPago;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
 import com.proyecto.vista.VentanaBETAAAExpedienteProveedor;
 import com.proyecto.vista.VentanaDetalleExpedienteProveedor;
 import com.proyecto.vista.VentanaRegistroProveedor;
 import com.proyecto.vista.VentanaRegistroUsuario;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,23 +44,143 @@ public class ControladorGestorSolicitudesPago {
         model.addColumn("Metodo Pago");
         model.addColumn("IDCheque");
         model.addColumn("IDCanje");
+        model.addColumn("Fecha Registro");
         model.addColumn("Estado solicitud");
 
         try {
             //DAOUsers dao = new DAOUsersImpl();
             //dao.obtenerListaSolicitudesPago().forEach((u) -> model.addRow(new Object[]{u.getIdSolicitudPago(), 
-             //   u.getFactura().getIdFactura(), u.getMetodoPago(), u.getCheque().getIdCheque(), u.getCanje().getIdCanje(), u.getEstadoSolicitud()}));
-            
-            dao.obtenerListaSolicitudesPago().forEach((u) -> model.addRow(new Object[]{u.getIdSolicitudPago(), 
-                u.getFactura().getIdFactura(), u.getMetodoPago(), "null", "null", u.getEstadoSolicitud()}));
-            
+            //   u.getFactura().getIdFactura(), u.getMetodoPago(), u.getCheque().getIdCheque(), u.getCanje().getIdCanje(), u.getEstadoSolicitud()}));
+
+            //dao.obtenerListaSolicitudesPago().forEach((u) -> model.addRow(new Object[]{u.getIdSolicitudPago(),
+            //    u.getFactura().getIdFactura(), u.getMetodoPago(), "null", "null", u.getEstadoSolicitud()}));
+            dao.obtenerListaSolicitudesPago().forEach((u) -> {
+                Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
+                Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
+
+                model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+            });
+
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
-/*
+
+    public void aprobarSolicitud(JTable table) {
+        if (table.getSelectedRow() > -1) {
+            try {
+                int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
+
+                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor(dao.obtenerProveedorPorId(supplierId)));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public DefaultTableModel filtrarSolicitudesAprobadas(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<SolicitudPago> solicitudesPago = dao.obtenerListaSolicitudesPago();
+
+            for (SolicitudPago u : solicitudesPago) {
+                if (u.getEstadoSolicitud().equals("Aprobado")) {
+                    try {
+                        Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
+                        Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
+                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+                    } catch (Exception ex) {
+                        Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public DefaultTableModel filtrarSolicitudesDesaprobadas(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<SolicitudPago> solicitudesPago = dao.obtenerListaSolicitudesPago();
+
+            for (SolicitudPago u : solicitudesPago) {
+                if (u.getEstadoSolicitud().equals("Desaprobado")) {
+                    try {
+                        Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
+                        Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
+                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+                    } catch (Exception ex) {
+                        Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public DefaultTableModel filtrarSolicitudesPendientes(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<SolicitudPago> solicitudesPago = dao.obtenerListaSolicitudesPago();
+
+            for (SolicitudPago u : solicitudesPago) {
+                if (u.getEstadoSolicitud().equals("Pendiente")) {
+                    try {
+                        Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
+                        Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
+                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+                    } catch (Exception ex) {
+                        Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public DefaultTableModel filtrarTodasSolicitudes(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<SolicitudPago> solicitudesPago = dao.obtenerListaSolicitudesPago();
+
+            for (SolicitudPago u : solicitudesPago) {
+                try {
+                    Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
+                    Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
+                    model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+                } catch (Exception ex) {
+                    Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /*
     public DefaultTableModel eliminarProveedores(JTable table) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -120,5 +244,5 @@ public class ControladorGestorSolicitudesPago {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor para mostrar su expediente.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
-*/
+     */
 }
