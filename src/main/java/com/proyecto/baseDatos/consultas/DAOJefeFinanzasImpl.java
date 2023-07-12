@@ -1015,4 +1015,18 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
         }
     }
 
+    @Override
+    public void modificarEstadoSolicitudPagoPorId(int requestId, String estadoSolicitud) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE solicitudes_pago SET estado_solicitud = ? WHERE id_solicitud = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, estadoSolicitud);
+            statement.setInt(2, requestId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar estado de la solicitud de pago en la base de datos", e);
+        }
+    }
+
 }

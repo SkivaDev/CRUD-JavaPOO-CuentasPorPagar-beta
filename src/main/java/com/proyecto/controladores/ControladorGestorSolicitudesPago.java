@@ -72,14 +72,40 @@ public class ControladorGestorSolicitudesPago {
     public void aprobarSolicitud(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
-                int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
-
-                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor(dao.obtenerProveedorPorId(supplierId)));
+                //VALIDACION: el estado actual de la solicitud debe ser pendiente
+                String estadoActualSolicitud = (String) table.getValueAt(table.getSelectedRow(), 6);
+                if (estadoActualSolicitud.equals("Pendiente")) {
+                    int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
+                    dao.modificarEstadoSolicitudPagoPorId(requestId, "Aprobado");
+                    filtrarTodasSolicitudes(table);
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Solo puedes aprobar solicitudes pendientes.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar la solicitud a aprobar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void desaprobarSolicitud(JTable table) {
+        if (table.getSelectedRow() > -1) {
+            try {
+                //VALIDACION: el estado actual de la solicitud debe ser pendiente
+                String estadoActualSolicitud = (String) table.getValueAt(table.getSelectedRow(), 6);
+                if (estadoActualSolicitud.equals("Pendiente")) {
+                    int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
+                    dao.modificarEstadoSolicitudPagoPorId(requestId, "Desaprobado");
+                    filtrarTodasSolicitudes(table);
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Solo puedes desaprobar solicitudes pendientes.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar la solicitud a aprobar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
 

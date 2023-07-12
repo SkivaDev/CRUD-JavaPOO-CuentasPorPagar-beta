@@ -241,12 +241,13 @@ public class VentanaGestorSolicitudesPago extends javax.swing.JPanel {
     private void aprobarSolicitudBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aprobarSolicitudBtnActionPerformed
 
         // controladorGestorProveedores.editarProveedores(jTable1);
+        ControladorGestorSolicitudesPago.aprobarSolicitud(jTable1);
 
     }//GEN-LAST:event_aprobarSolicitudBtnActionPerformed
 
     private void desaprobarSolicitudBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desaprobarSolicitudBtnActionPerformed
         // TODO add your handling code here:
-
+        ControladorGestorSolicitudesPago.desaprobarSolicitud(jTable1);
     }//GEN-LAST:event_desaprobarSolicitudBtnActionPerformed
 
     private void todoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todoBtnActionPerformed

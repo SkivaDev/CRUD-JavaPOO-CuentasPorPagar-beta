@@ -75,6 +75,8 @@ public interface DAOJefeFinanzasInterfaz {
       public Canje obtenerCanjePorId(int exchangeId) throws Exception;
       public Producto obtenerProductoPorId(int productId) throws Exception;
       
+      public void modificarEstadoSolicitudPagoPorId(int requestId, String estadoSolicitud) throws Exception;
+      
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     
