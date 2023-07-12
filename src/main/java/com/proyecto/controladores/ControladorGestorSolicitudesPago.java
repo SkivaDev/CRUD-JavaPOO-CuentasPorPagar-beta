@@ -45,6 +45,7 @@ public class ControladorGestorSolicitudesPago {
         model.addColumn("Metodo Pago");
         model.addColumn("IDCheque");
         model.addColumn("IDCanje");
+        model.addColumn("Monto Dinero");
         model.addColumn("Fecha Registro");
         model.addColumn("Estado solicitud");
 
@@ -59,7 +60,9 @@ public class ControladorGestorSolicitudesPago {
                 Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
                 Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
 
-                model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+                double montoDineroSolicitud = (u.getCheque() != null) ? u.getCheque().getMontoCheque(): u.getCanje().getEquivalenteDinero();
+                        
+                model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, montoDineroSolicitud, u.getFechaRegistro(), u.getEstadoSolicitud()});
             });
 
             return model;
@@ -73,7 +76,7 @@ public class ControladorGestorSolicitudesPago {
         if (table.getSelectedRow() > -1) {
             try {
                 //VALIDACION: el estado actual de la solicitud debe ser pendiente
-                String estadoActualSolicitud = (String) table.getValueAt(table.getSelectedRow(), 6);
+                String estadoActualSolicitud = (String) table.getValueAt(table.getSelectedRow(), 7);
                 if (estadoActualSolicitud.equals("Pendiente")) {
                     int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
                     dao.modificarEstadoSolicitudPagoPorId(requestId, "Aprobado");
@@ -93,7 +96,7 @@ public class ControladorGestorSolicitudesPago {
         if (table.getSelectedRow() > -1) {
             try {
                 //VALIDACION: el estado actual de la solicitud debe ser pendiente
-                String estadoActualSolicitud = (String) table.getValueAt(table.getSelectedRow(), 6);
+                String estadoActualSolicitud = (String) table.getValueAt(table.getSelectedRow(), 7);
                 if (estadoActualSolicitud.equals("Pendiente")) {
                     int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
                     dao.modificarEstadoSolicitudPagoPorId(requestId, "Desaprobado");
