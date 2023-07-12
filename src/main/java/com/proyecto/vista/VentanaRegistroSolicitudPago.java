@@ -573,9 +573,14 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         // TODO add your handling code here:
         String nombreCategoriaProductoSeleccionado = (String) categoriaProductoCBox.getSelectedItem();
         Producto productoSeleccionado = (Producto) productoCBox.getSelectedItem();
-        String nombreProductoSeleccionado = productoSeleccionado.getNombre();
         
-        controladorRegistroSolicitudPago.mostrarCantidadDispinibleProducto(nombreProductoSeleccionado, nombreCategoriaProductoSeleccionado, cantidadProductosInvLabel);
+        if(productoSeleccionado != null) {
+            String nombreProductoSeleccionado = productoSeleccionado.getNombre();
+            controladorRegistroSolicitudPago.mostrarCantidadDispinibleProducto(nombreProductoSeleccionado, nombreCategoriaProductoSeleccionado, cantidadProductosInvLabel);
+        } else {
+            cantidadProductosInvLabel.setText("Cantidad Productos: (invalido)");
+        }
+        
     }//GEN-LAST:event_productoCBoxActionPerformed
 
 
