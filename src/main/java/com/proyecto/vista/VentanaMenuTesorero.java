@@ -152,7 +152,7 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
 
     private void pagarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarFacturasBtnActionPerformed
         // TODO add your handling code here:
-        //VentanaDashboard.ShowJPanelWindows(new VentanaPagarFacturas(currentUser));
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorPagarFacturas(currentUser));
     }//GEN-LAST:event_pagarFacturasBtnActionPerformed
 
     private void expedienteProveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expedienteProveedoresBtnActionPerformed

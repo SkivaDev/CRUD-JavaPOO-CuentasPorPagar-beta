@@ -1014,4 +1014,35 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
+    @Override
+    public SolicitudPago obtenerSolicitudPagoPorId(int exchangeId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM solicitudes_pago WHERE id_solicitud  = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, exchangeId);
+            ResultSet resultSet = statement.executeQuery();
+
+            SolicitudPago solicitudPago = null;
+            if (resultSet.next()) {
+                int idSolicitudPago = resultSet.getInt("exchangeId");
+                int idFactura = resultSet.getInt("id_factura");
+                String metodoPago = resultSet.getString("metodo_pago");
+                int idCheque = resultSet.getInt("id_cheque");
+                int idCanje = resultSet.getInt("id_canje");
+                String estadoSolicitud = resultSet.getString("estado_solicitud");
+                Date fechaRegistro = resultSet.getDate("fecha_registro");
+
+                Factura factura = obtenerFacturaPorId(idFactura);
+                Cheque cheque = obtenerChequePorId(idCheque);
+                Canje canje = obtenerCanjePorId(idCanje);
+                
+                solicitudPago = new SolicitudPago(idSolicitudPago, factura, metodoPago, cheque, canje, estadoSolicitud, fechaRegistro);
+            }
+            return solicitudPago;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el producto por ID de la base de datos", e);
+        }
+    }
+
 }

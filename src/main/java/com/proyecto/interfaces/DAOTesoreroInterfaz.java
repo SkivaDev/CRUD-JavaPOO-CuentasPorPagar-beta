@@ -75,6 +75,8 @@ public interface DAOTesoreroInterfaz {
       public Canje obtenerCanjePorId(int exchangeId) throws Exception;
       public Producto obtenerProductoPorId(int productId) throws Exception;
       
+      public SolicitudPago obtenerSolicitudPagoPorId(int exchangeId) throws Exception;
+      
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     
