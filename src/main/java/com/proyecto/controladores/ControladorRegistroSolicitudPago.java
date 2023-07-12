@@ -75,7 +75,6 @@ public class ControladorRegistroSolicitudPago {
         return chequeRegistrado;
     }
 
-    
     public Canje registrarRegistroCanje(Factura invoice, Producto productoSelecionado, String detalleCanje, String categoriaProductoSeleccionado,
             String nombreproductoSeleccionado, int cantidadProductosSeleccionado) throws Exception {
 
@@ -87,7 +86,7 @@ public class ControladorRegistroSolicitudPago {
         String estadoCanje = "Emitido";
 
         Double equivalenteDinero = (productoSelecionado.getPrecioUnitario() * cantidadProductosSeleccionado);
-        
+
         exchange = new Canje(0, invoice, detalleCanje, productoSelecionado, cantidadProductosSeleccionado, equivalenteDinero, fechaRegistroDate, estadoCanje);
         int idCanjeRegistrado = dao.registrarCanje(exchange);
 
@@ -95,7 +94,7 @@ public class ControladorRegistroSolicitudPago {
 
         return canjeRegistrado;
     }
-    
+
     public void registrarSolicitud(Factura invoice, Cheque check, Canje exchange) throws Exception {
         SolicitudPago solicitudPago = null;
         String metodoPago;
@@ -193,6 +192,13 @@ public class ControladorRegistroSolicitudPago {
             ex.printStackTrace();
         }
 
+    }
+
+    public void mostrarCantidadDispinibleProducto(String nombreProducto, String nombreCategoriaProducto, JLabel cantidadProductosInvLabel) {
+
+        int cantidadDispinibleProducto = cantidadTotalDispinibleProducto(nombreProducto, nombreCategoriaProducto);
+        
+        cantidadProductosInvLabel.setText("Cantidad Productos: (max " + cantidadDispinibleProducto + ")");
     }
 
     public void agregarProductosCboxFildrados2(String categoriaProducto, JComboBox<String> comboBox) {
@@ -306,7 +312,7 @@ public class ControladorRegistroSolicitudPago {
 
     public boolean confirmarDatosSolicitudPagoPorCanje(String idFactura, String proveedor, String fechaRegistro,
             String fechaVencimiento, String montoTotal, String montoPagado, String montoPendiente,
-            String detalleCanje, String categoriaProductoSeleccionado, String productoSeleccionado, String cantidadProductosSeleccionado) {
+            String detalleCanje, String categoriaProductoSeleccionado, String productoSeleccionado, String cantidadProductosSeleccionado, double montoDineroEquivalente) {
         String message;
         String title = "Confirmación";
         int optionType = JOptionPane.YES_NO_OPTION;
@@ -325,6 +331,7 @@ public class ControladorRegistroSolicitudPago {
         message += "\ncategoria Producto: " + categoriaProductoSeleccionado;
         message += "\nProducto: " + productoSeleccionado;
         message += "\nCantidad Productos a canjear: " + cantidadProductosSeleccionado;
+        message += "\nMonto de dinero equivalente: " + montoDineroEquivalente;
         message += "\n";
         message += "\nLos datos son correctos?";
 

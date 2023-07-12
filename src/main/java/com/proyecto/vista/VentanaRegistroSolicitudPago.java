@@ -141,7 +141,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         detalleCanjeField = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         categoriaProductoCBox = new javax.swing.JComboBox<>();
-        jLabel22 = new javax.swing.JLabel();
+        cantidadProductosInvLabel = new javax.swing.JLabel();
         cantidadProductosField = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
@@ -194,6 +194,12 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
 
         jLabel20.setText("Seleccionar Categoría:");
 
+        productoCBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productoCBoxActionPerformed(evt);
+            }
+        });
+
         jLabel23.setText("ID:");
 
         jLabel24.setText("Nombre Proveedor:");
@@ -232,7 +238,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
             }
         });
 
-        jLabel22.setText("Cantidad Productos:");
+        cantidadProductosInvLabel.setText("Cantidad Productos:");
 
         jSeparator3.setForeground(new java.awt.Color(204, 204, 204));
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -277,7 +283,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                                     .addComponent(categoriaProductoCBox, 0, 200, Short.MAX_VALUE)
                                     .addComponent(cantidadProductosField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(cantidadProductosInvLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jSeparator2)
                             .addComponent(jSeparator4)
                             .addComponent(registrarSolicitudBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -376,7 +382,7 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                         .addGap(21, 21, 21)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(jLabel22)
+                            .addComponent(cantidadProductosInvLabel)
                             .addComponent(jLabel21))
                         .addGap(18, 18, 18)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,9 +535,10 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                     return;
                 }
 
+                double equivalenteDinero = (productoSeleccionado.getPrecioUnitario() * intCantidadProductosSeleccionado);
                 boolean confirmarDatosSolicitudPago = controladorRegistroSolicitudPago.confirmarDatosSolicitudPagoPorCanje(idFactura, nombreProveedor,
                         fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente,
-                        detalleCanje, categoriaProductoSeleccionado, productoSeleccionado.getNombre(), cantidadProductosSeleccionado);
+                        detalleCanje, categoriaProductoSeleccionado, productoSeleccionado.getNombre(), cantidadProductosSeleccionado, equivalenteDinero);
                 if (confirmarDatosSolicitudPago) {
 
                     Canje canjeRecienRegistrado = controladorRegistroSolicitudPago.registrarRegistroCanje(invoicePayment, productoSeleccionado,
@@ -562,11 +569,21 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
         controladorRegistroSolicitudPago.agregarProductosCboxFildrados(categoriaProductoSelecionado, productoCBox);
     }//GEN-LAST:event_categoriaProductoCBoxActionPerformed
 
+    private void productoCBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productoCBoxActionPerformed
+        // TODO add your handling code here:
+        String nombreCategoriaProductoSeleccionado = (String) categoriaProductoCBox.getSelectedItem();
+        Producto productoSeleccionado = (Producto) productoCBox.getSelectedItem();
+        String nombreProductoSeleccionado = productoSeleccionado.getNombre();
+        
+        controladorRegistroSolicitudPago.mostrarCantidadDispinibleProducto(nombreProductoSeleccionado, nombreCategoriaProductoSeleccionado, cantidadProductosInvLabel);
+    }//GEN-LAST:event_productoCBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> bancosCbox;
     private javax.swing.JPanel bg;
     private javax.swing.JTextField cantidadProductosField;
+    private javax.swing.JLabel cantidadProductosInvLabel;
     private javax.swing.JComboBox<String> categoriaProductoCBox;
     private javax.swing.JTextField descripcionField;
     private javax.swing.JTextField detalleCanjeField;
@@ -579,7 +596,6 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
