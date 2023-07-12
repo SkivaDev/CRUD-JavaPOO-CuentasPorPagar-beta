@@ -15,14 +15,16 @@ public class PagoFactura {
     private Factura factura;
     private String tipoPagoFactura;
     private SolicitudPago solicitudPago;
+    private PagoProgramado pagoProgramado;
     private double montoPago;
     private Date fechaPago;
 
-    public PagoFactura(int idPagoFactura, Factura factura, String tipoPagoFactura, SolicitudPago solicitudPago, double montoPago, Date fechaPago) {
+    public PagoFactura(int idPagoFactura, Factura factura, String tipoPagoFactura, SolicitudPago solicitudPago, PagoProgramado pagoProgramado, double montoPago, Date fechaPago) {
         this.idPagoFactura = idPagoFactura;
         this.factura = factura;
         this.tipoPagoFactura = tipoPagoFactura;
         this.solicitudPago = solicitudPago;
+        this.pagoProgramado = pagoProgramado;
         this.montoPago = montoPago;
         this.fechaPago = fechaPago;
     }
@@ -59,6 +61,14 @@ public class PagoFactura {
         this.solicitudPago = solicitudPago;
     }
 
+    public PagoProgramado getPagoProgramado() {
+        return pagoProgramado;
+    }
+
+    public void setPagoProgramado(PagoProgramado pagoProgramado) {
+        this.pagoProgramado = pagoProgramado;
+    }
+
     public double getMontoPago() {
         return montoPago;
     }
@@ -74,6 +84,8 @@ public class PagoFactura {
     public void setFechaPago(Date fechaPago) {
         this.fechaPago = fechaPago;
     }
+
+
     
     
 }

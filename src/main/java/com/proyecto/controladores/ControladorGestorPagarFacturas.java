@@ -7,6 +7,8 @@ package com.proyecto.controladores;
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.baseDatos.consultas.DAOJefeFinanzasImpl;
 import com.proyecto.baseDatos.consultas.DAOTesoreroImpl;
+import com.proyecto.entidades.Canje;
+import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.SolicitudPago;
 import com.proyecto.entidades.Usuario;
@@ -78,8 +80,8 @@ public class ControladorGestorPagarFacturas {
                 //VALIDACION: el estado actual de la solicitud debe ser pendiente
                 String estadoActualSolicitud = (String) table.getValueAt(table.getSelectedRow(), 6);
                 if (estadoActualSolicitud.equals("Aprobado")) {
-                    //int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
-                    //SolicitudPago solicitudPago = dao.obtenerSolicitudPagoPorId(requestId);
+                    int requestId = (int) table.getValueAt(table.getSelectedRow(), 0);
+                    SolicitudPago solicitudPago = dao.obtenerSolicitudPagoPorId(requestId);
                     
                     int invoiceId = (int) table.getValueAt(table.getSelectedRow(), 1);
                     Factura factura = dao.obtenerFacturaPorId(invoiceId);
@@ -89,10 +91,22 @@ public class ControladorGestorPagarFacturas {
                     
                     if(valorChequeRegistrado instanceof Integer && valorCanjeRegistrado.equals("null")){
                         int checkId = (int) table.getValueAt(table.getSelectedRow(), 3);
-                        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroPagoFactura(factura, dao.obtenerChequePorId(checkId)));
+                        Cheque check = dao.obtenerChequePorId(checkId);
+                        
+                        if(check.getEstadoCheque().equals("Emitido")){ //VALIDACION: Solo se puede pagar solicitudes que no han sido pagadas previamente
+                            VentanaDashboard.ShowJPanelWindows(new VentanaRegistroPagoFactura(factura, solicitudPago, check));
+                        } else {
+                            javax.swing.JOptionPane.showMessageDialog(null, "El pago del cheque de la solicitud de pago selecionada ya ha sido realizada.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        }
                     } else {
                         int exchangeId = (int) table.getValueAt(table.getSelectedRow(), 4);
-                        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroPagoFactura(factura, dao.obtenerCanjePorId(exchangeId)));
+                        Canje exchange = dao.obtenerCanjePorId(exchangeId);
+                        
+                        if(exchange.getEstadoCanje().equals("Emitido")){
+                            VentanaDashboard.ShowJPanelWindows(new VentanaRegistroPagoFactura(factura, solicitudPago, exchange));
+                        } else {
+                            javax.swing.JOptionPane.showMessageDialog(null, "El pago del canje de la solicitud de pago selecionada ya ha sido realizada.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        }                        
                     }
                 } else {
                     javax.swing.JOptionPane.showMessageDialog(null, "Solo puedes efectuar pago de solicitudes aprobadas.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);

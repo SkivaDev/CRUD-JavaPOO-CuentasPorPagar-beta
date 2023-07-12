@@ -13,6 +13,7 @@ import com.proyecto.entidades.Cheque;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Producto;
+import com.proyecto.entidades.SolicitudPago;
 import com.proyecto.entidades.Usuario;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -28,12 +29,14 @@ public class VentanaRegistroPagoFactura extends javax.swing.JPanel {
     private ControladorRegistroPagoFactura controladorRegistroPagoFactura;
     private boolean isCheck;
     private Factura invoicePayment;
+    private SolicitudPago paymentRequest;
     private Cheque checkPayment;
     private Canje exchangePayment;
 
-    public VentanaRegistroPagoFactura(Factura invoice, Cheque check) throws Exception {
+    public VentanaRegistroPagoFactura(Factura invoice, SolicitudPago paymentRequest, Cheque check) throws Exception {
         this.controladorRegistroPagoFactura = new ControladorRegistroPagoFactura();
         this.invoicePayment = invoice;
+        this.paymentRequest = paymentRequest;
         this.checkPayment = check;
         this.exchangePayment = null;
 
@@ -45,9 +48,10 @@ public class VentanaRegistroPagoFactura extends javax.swing.JPanel {
         ShowCheckData();
     }
 
-    public VentanaRegistroPagoFactura(Factura invoice, Canje exchange) throws Exception {
+    public VentanaRegistroPagoFactura(Factura invoice, SolicitudPago paymentRequest, Canje exchange) throws Exception {
         this.controladorRegistroPagoFactura = new ControladorRegistroPagoFactura();
         this.invoicePayment = invoice;
+        this.paymentRequest = paymentRequest;
         this.checkPayment = null;
         this.exchangePayment = exchange;
 
@@ -449,6 +453,19 @@ public class VentanaRegistroPagoFactura extends javax.swing.JPanel {
     }//GEN-LAST:event_porChequeBtnActionPerformed
 
     private void pagarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarFacturaBtnActionPerformed
+        
+        try {
+            controladorRegistroPagoFactura.registrarPagoFacturaSolicitud(invoicePayment, paymentRequest, checkPayment, exchangePayment);
+            
+            javax.swing.JOptionPane.showMessageDialog(this, "Pago de factura efectuada correctamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al pagar la factura. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.getMessage());
+
+        }
+        
+        
+        
         /*
         String idFactura = idFacturaField.getText();
         String nombreProveedor = nombreProveedorField.getText();
@@ -469,9 +486,11 @@ public class VentanaRegistroPagoFactura extends javax.swing.JPanel {
 
         String successMsg = isCheck ? "modificado" : "registrado";
         String errorMsg = isCheck ? "modificar" : "registrar";
+        
         // Validaciones para los campos
         if (isCheck) { // codigo donde se paga por cheque
             try {
+                
                 //VALIDACION: todos los campos completos
                 if (montoPagoPorCheque.isEmpty()) {
                     javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -558,9 +577,8 @@ public class VentanaRegistroPagoFactura extends javax.swing.JPanel {
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + "registrar" + " la solicitud por canje. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
-        }
+        }*/
 
-        */
     }//GEN-LAST:event_pagarFacturaBtnActionPerformed
 
     private void bancosCboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancosCboxActionPerformed

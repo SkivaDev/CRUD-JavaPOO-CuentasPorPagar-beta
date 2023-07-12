@@ -8,9 +8,11 @@ import com.proyecto.cuentasporpagarbeta.Main;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
@@ -31,6 +33,14 @@ public class Utils {
         Random random = new Random();
         int randomNumber = random.nextInt(1000);
         return String.format("%03d", randomNumber); // Formatear el número con tres dígitos
+    }
+
+    public static Date obtenerFechaActualDate() throws Exception {
+        String fechaActual = obtenerFechaActual();
+        // Convierte el String a LocalDate
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaRegistroDate = formato.parse(fechaActual);
+        return fechaRegistroDate;
     }
 
     public static String generateUsername(String nombre, String apellidoPaterno, String apellidoMaterno, String dni) {

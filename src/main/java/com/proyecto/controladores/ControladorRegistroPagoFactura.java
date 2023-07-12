@@ -17,6 +17,9 @@ import com.proyecto.entidades.EncargadoCompras;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Inventario;
 import com.proyecto.entidades.JefeFinanzas;
+import com.proyecto.entidades.MovimientoBancario;
+import com.proyecto.entidades.MovimientoInventario;
+import com.proyecto.entidades.PagoFactura;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.SolicitudPago;
@@ -24,6 +27,7 @@ import com.proyecto.entidades.Tesorero;
 import com.proyecto.entidades.Usuario;
 import static com.proyecto.utils.Utils.generarNumeroRandom;
 import static com.proyecto.utils.Utils.obtenerFechaActual;
+import static com.proyecto.utils.Utils.obtenerFechaActualDate;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -60,10 +64,7 @@ public class ControladorRegistroPagoFactura {
 
         CuentaBancaria cuentaBancaria = dao.obtenerCuentaBancariaPorNombre(nombreCuentaBancaria);
 
-        String fechaActual = obtenerFechaActual();
-        // Convierte el String a LocalDate
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaRegistroDate = formato.parse(fechaActual);
+        Date fechaRegistroDate = obtenerFechaActualDate();
 
         String estadoCheque = "Emitido";
 
@@ -78,10 +79,7 @@ public class ControladorRegistroPagoFactura {
     public Canje registrarRegistroCanje(Factura invoice, Producto productoSelecionado, String detalleCanje, String categoriaProductoSeleccionado,
             String nombreproductoSeleccionado, int cantidadProductosSeleccionado) throws Exception {
 
-        String fechaActual = obtenerFechaActual();
-        // Convierte el String a LocalDate
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaRegistroDate = formato.parse(fechaActual);
+        Date fechaRegistroDate = obtenerFechaActualDate();
 
         String estadoCanje = "Emitido";
 
@@ -100,10 +98,7 @@ public class ControladorRegistroPagoFactura {
         String metodoPago;
         String estadoSolicitud;
 
-        String fechaActual = obtenerFechaActual();
-        // Convierte el String a LocalDate
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaRegistroDate = formato.parse(fechaActual);
+        Date fechaRegistroDate = obtenerFechaActualDate();
 
         if (check != null) { //Registro por cheque
             metodoPago = "Cheque";
@@ -119,6 +114,173 @@ public class ControladorRegistroPagoFactura {
 
         int idSolicitudPagoRegistrada = dao.registrarSolicitudPago(solicitudPago);
 
+    }
+
+    public void registrarPagoFacturaSolicitud(Factura invoice, SolicitudPago paymentRequest, Cheque check, Canje exchange) throws Exception {
+        PagoFactura pagoFactura = null;
+        String tipoPago; // Manual
+
+        Date fechaRegistroDate = obtenerFechaActualDate();
+
+        if (check != null) { //Registro por cheque
+            tipoPago = "Manual";
+            double montoPago = check.getMontoCheque();
+            pagoFactura = new PagoFactura(0, invoice, tipoPago, paymentRequest, null, montoPago, fechaRegistroDate);
+
+            //Agregar monto pagado a la factura
+            try {
+                actualizarMontoPagadoFacturaPorPagoFactura(check);
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(null, "No se puede ejecutar el pago de la factura porque el monto a pagar supera el monto total de la factura.\n",
+                        "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+            //Descuesta el monto del cheque a la cuenta bancaria y actualiza sus datos
+            descontarSaldoCuentaBancariaPorPagoFactura(check);
+
+            //Registra el movimiento generado al descontar el monto de la cuenta bancaria
+            registrarMovimientoBancarioPorPagoFactura(check);
+
+            //Actualizar estado de cheque a Cobrado
+            actualizarEstadoChequePorPagoFactura(check);
+
+            //Actualizar monto cheque de los pagos programados de respaldo
+            
+        } else if (exchange != null) { // Registro por canje
+            tipoPago = "Manual";
+            double equivalenteDinero = exchange.getEquivalenteDinero();
+            pagoFactura = new PagoFactura(0, invoice, tipoPago, paymentRequest, null, equivalenteDinero, fechaRegistroDate);
+
+            //Agregar monto pagado a la factura
+            try {
+                actualizarMontoPagadoFacturaPorPagoFactura(exchange);
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(null, "No se puede ejecutar el pago de la factura porque el dinero equivalente a pagar supera el monto total de la factura.\n",
+                        "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+            //Descuenta la cantidad de productos en el inventario
+            descontarProductoInventarioPorPagoFactura(exchange);
+
+            //Registra el movimiento de inventario
+            registrarMovimientoInventarioPorPagoFactura(exchange);
+
+            //Actualizar estado de canje a Cobrado
+            actualizarEstadoCanjePorPagoFactura(exchange);
+        }
+
+        int idPagoFacturaRegistrado = dao.registrarPagoFactura(pagoFactura);
+
+    }
+
+    public void actualizarMontoPagadoFacturaPorPagoFactura(Cheque check) throws Exception {
+
+        Factura factura = check.getFactura();
+        double montoAPagar = check.getMontoCheque();
+
+        double montoTotal = factura.getMontoTotal();
+        double montoPagadoAntes = factura.getMontoPagado();
+        double montoPendienteAntes = factura.getMontoPendiente();
+
+        double montoPagadoDespues = (montoPagadoAntes + montoAPagar);
+        double montoPendienteDespues = (montoTotal - montoPagadoDespues);
+
+        //VALIDAR QUE EL montoPagadoDespues no supere el  montoTotal de la factua, si lo hace detener en ese punto la funcion y mostrar ventana de alerta.
+        if (montoPagadoDespues > montoTotal) {
+            throw new Exception("No se puede ejecutar el pago de la factura porque el monto a pagar supera el monto total de la factura.");
+        }
+
+        dao.modificarMontosPagadosFacturaPorId(factura.getIdFactura(), montoPagadoDespues, montoPendienteDespues);
+    }
+
+    public void actualizarMontoPagadoFacturaPorPagoFactura(Canje exchange) throws Exception {
+
+        Factura factura = exchange.getFactura();
+        double equivalenteDinero = exchange.getEquivalenteDinero();
+
+        double montoTotal = factura.getMontoTotal();
+        double montoPagadoAntes = factura.getMontoPagado();
+        double montoPendienteAntes = factura.getMontoPendiente();
+
+        double montoPagadoDespues = (montoPagadoAntes + equivalenteDinero);
+        double montoPendienteDespues = (montoTotal - montoPagadoDespues);
+
+        //VALIDAR QUE EL montoPagadoDespues no supere el  montoTotal de la factua, si lo hace detener en ese punto la funcion y mostrar ventana de alerta.
+        if (montoPagadoDespues > montoTotal) {
+            throw new Exception("No se puede ejecutar el pago de la factura porque el monto a pagar supera el monto total de la factura.");
+        }
+
+        dao.modificarMontosPagadosFacturaPorId(factura.getIdFactura(), montoPagadoDespues, montoPendienteDespues);
+    }
+
+    public void registrarMovimientoBancarioPorPagoFactura(Cheque check) throws Exception {
+        MovimientoBancario movimientoBancario = null;
+        //PagoFactura pagoFactura = dao.obtenerPagoFacturaPorId(idPagoFactura);
+
+        String tipoMovimiento = "Egreso"; // Manual
+
+        Date fechaRegistroDate = obtenerFechaActualDate();
+
+        CuentaBancaria cuentaBancaria = check.getCuentaBancaria();
+        double montoMovimiento = check.getMontoCheque();
+
+        movimientoBancario = new MovimientoBancario(0, cuentaBancaria, tipoMovimiento, montoMovimiento, fechaRegistroDate);
+
+        int idMovimientoBancarioRegistrado = dao.registrarMovimientoBancario(movimientoBancario);
+    }
+
+    public void descontarSaldoCuentaBancariaPorPagoFactura(Cheque check) throws Exception {
+
+        CuentaBancaria cuentaBancaria = check.getCuentaBancaria();
+        double saldoActualAntes = cuentaBancaria.getSaldoActual();
+        double saldoPrevioAntes = cuentaBancaria.getSaldoPrevio();
+
+        double saldoActualDespues = (saldoActualAntes - check.getMontoCheque());
+        double saldoPrevioDespues = saldoActualAntes;
+
+        dao.modificarSaldosCuentaBancariaPorId(cuentaBancaria.getIdCuentaBancaria(), saldoActualDespues, saldoPrevioDespues);
+    }
+
+    public void actualizarEstadoChequePorPagoFactura(Cheque check) throws Exception {
+
+        String nuevoEstadoCheque = "Cobrado";
+
+        dao.modificarEstadoChequePorId(check.getIdCheque(), nuevoEstadoCheque);
+    }
+
+    public void descontarProductoInventarioPorPagoFactura(Canje exchange) throws Exception {
+
+        Producto productoCanje = exchange.getProductoCanje();
+
+        Inventario inventario = dao.obtenerInventarioPorIdProducto(productoCanje.getIdProducto());
+        int cantidadProductosAntes = inventario.getCantidadProducto();
+
+        int cantidadProductosDespues = (cantidadProductosAntes - exchange.getCantidadProducto());
+
+        dao.modificarCantidadProductosInventarioPorIdProducto(productoCanje.getIdProducto(), cantidadProductosDespues);
+    }
+
+    public void registrarMovimientoInventarioPorPagoFactura(Canje exchange) throws Exception {
+        MovimientoInventario movimientoInventario = null;
+
+        Producto productoCanje = exchange.getProductoCanje();
+
+        Inventario inventario = dao.obtenerInventarioPorIdProducto(productoCanje.getIdProducto());
+
+        String tipoMovimiento = "Egreso";
+
+        Date fechaRegistroDate = obtenerFechaActualDate();
+        int cantidadProductos = exchange.getCantidadProducto();
+
+        movimientoInventario = new MovimientoInventario(0, inventario, productoCanje,
+                cantidadProductos, tipoMovimiento, fechaRegistroDate);
+
+        int idMovimientoInventarioRegistrado = dao.registrarMovimientoInventario(movimientoInventario);
+    }
+
+    public void actualizarEstadoCanjePorPagoFactura(Canje exchange) throws Exception {
+
+        String nuevoEstadoCanje = "Cobrado";
+
+        dao.modificarEstadoCanjePorId(exchange.getIdCanje(), nuevoEstadoCanje);
     }
 
     public void mostrarDatosFactura(int facturaId, JTextField idFacturaField, JTextField nombreProveedor, JTextField fechaRegistro,
@@ -178,10 +340,10 @@ public class ControladorRegistroPagoFactura {
 
             categoriaProductoCBox.removeAllItems();
             productoCBox.removeAllItems();
-            
+
             Producto producto = dao.obtenerProductoPorId(exchange.getProductoCanje().getIdProducto());
             String categoriaProducto = producto.getCategoriaProducto().getNombreCategoria();
-            
+
             detalleCanjeField.setText(exchange.getDetalleCanje());
             categoriaProductoCBox.addItem(categoriaProducto);
             productoCBox.addItem(producto.getNombre());

@@ -12,6 +12,10 @@ import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Inventario;
+import com.proyecto.entidades.MovimientoBancario;
+import com.proyecto.entidades.MovimientoInventario;
+import com.proyecto.entidades.PagoFactura;
+import com.proyecto.entidades.PagoProgramado;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.SolicitudPago;
@@ -983,7 +987,7 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             }
             return inventario;
         } catch (SQLException e) {
-            throw new SQLException("Error al obtener el producto por ID de la base de datos", e);
+            throw new SQLException("Error al obtener el inventario por ID de la base de datos", e);
         }
     }
 
@@ -1015,17 +1019,17 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
     }
 
     @Override
-    public SolicitudPago obtenerSolicitudPagoPorId(int exchangeId) throws Exception {
+    public SolicitudPago obtenerSolicitudPagoPorId(int paymentRequestId) throws Exception {
         try {
             this.Conectar();
             String consulta = "SELECT * FROM solicitudes_pago WHERE id_solicitud  = ?";
             PreparedStatement statement = this.conexion.prepareStatement(consulta);
-            statement.setInt(1, exchangeId);
+            statement.setInt(1, paymentRequestId);
             ResultSet resultSet = statement.executeQuery();
 
             SolicitudPago solicitudPago = null;
             if (resultSet.next()) {
-                int idSolicitudPago = resultSet.getInt("exchangeId");
+                int idSolicitudPago = resultSet.getInt("id_solicitud");
                 int idFactura = resultSet.getInt("id_factura");
                 String metodoPago = resultSet.getString("metodo_pago");
                 int idCheque = resultSet.getInt("id_cheque");
@@ -1036,12 +1040,236 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
                 Factura factura = obtenerFacturaPorId(idFactura);
                 Cheque cheque = obtenerChequePorId(idCheque);
                 Canje canje = obtenerCanjePorId(idCanje);
-                
+
                 solicitudPago = new SolicitudPago(idSolicitudPago, factura, metodoPago, cheque, canje, estadoSolicitud, fechaRegistro);
             }
             return solicitudPago;
         } catch (SQLException e) {
-            throw new SQLException("Error al obtener el producto por ID de la base de datos", e);
+            throw new SQLException("Error al obtener la solicitud por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public int registrarPagoFactura(PagoFactura invoicePayment) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO pagos_facturas (id_pago_factura, id_factura, tipo_pago, id_solicitud, id_pago_programado, monto_pago, fecha_pago) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, invoicePayment.getIdPagoFactura());
+            statement.setInt(2, invoicePayment.getFactura().getIdFactura());
+            statement.setString(3, invoicePayment.getTipoPagoFactura());
+
+            SolicitudPago solicitudPago = invoicePayment.getSolicitudPago();
+            if (solicitudPago != null) {
+                statement.setInt(4, solicitudPago.getIdSolicitudPago());
+            } else {
+                statement.setNull(4, Types.INTEGER);
+            }
+
+            PagoProgramado pagoProgramado = invoicePayment.getPagoProgramado();
+            if (pagoProgramado != null) {
+                statement.setInt(5, pagoProgramado.getIdPagoProgramado());
+            } else {
+                statement.setNull(5, Types.INTEGER);
+            }
+
+            statement.setDouble(6, invoicePayment.getMontoPago());
+            statement.setDate(7, new java.sql.Date(invoicePayment.getFechaPago().getTime()));
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idCanje = generatedKeys.getInt(1);
+                return idCanje;
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el pago de factura");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el pago de factura en la base de datos", e);
+        }
+    }
+
+    @Override
+    public PagoFactura obtenerPagoFacturaPorId(int invoicePaymentId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM pagos_facturas WHERE id_pago_factura  = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, invoicePaymentId);
+            ResultSet resultSet = statement.executeQuery();
+
+            PagoFactura pagoFactura = null;
+            if (resultSet.next()) {
+                int idPagoFactura = resultSet.getInt("id_pago_factura");
+                int idFactura = resultSet.getInt("id_factura");
+                String tipoPago = resultSet.getString("tipo_pago");
+                int idSolicitudPago = resultSet.getInt("id_solicitud");
+                int idPagoProgramado = resultSet.getInt("id_pago_programado");
+                double montoPago = resultSet.getDouble("monto_pago");
+                Date fechaPago = resultSet.getDate("fecha_pago");
+
+                Factura factura = obtenerFacturaPorId(idFactura);
+                SolicitudPago solicitudPago = obtenerSolicitudPagoPorId(idSolicitudPago);
+                PagoProgramado pagoProgramado = obtenerPagoProgramadoPorId(idPagoProgramado);
+
+                pagoFactura = new PagoFactura(idPagoFactura, factura, tipoPago, solicitudPago, pagoProgramado, montoPago, fechaPago);
+
+            }
+            return pagoFactura;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el PagoFactura por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public PagoProgramado obtenerPagoProgramadoPorId(int programmedPayment) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM pagos_programados WHERE id_pago_programado  = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, programmedPayment);
+            ResultSet resultSet = statement.executeQuery();
+
+            PagoProgramado pagoProgramado = null;
+            if (resultSet.next()) {
+                int idPagoProgramado = resultSet.getInt("id_pago_programado");
+                int idFactura = resultSet.getInt("id_factura");
+                String tipoPagoProgramado = resultSet.getString("tipo_pago_programado");
+                String metodoPago = resultSet.getString("metodo_pago");
+                int idCheque = resultSet.getInt("id_cheque");
+                Date fechaProgramada = resultSet.getDate("fecha_programada");
+
+                Factura factura = obtenerFacturaPorId(idFactura);
+                Cheque cheque = obtenerChequePorId(idCheque);
+
+                pagoProgramado = new PagoProgramado(idPagoProgramado, factura, tipoPagoProgramado, metodoPago, cheque, fechaProgramada);
+            }
+            return pagoProgramado;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el pagoProgramado por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public int registrarMovimientoBancario(MovimientoBancario bankingMovement) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO movimientos_bancarios (id_movimiento, id_cuenta, tipo_movimiento, monto, fecha_movimiento) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, bankingMovement.getIdMovimientoBancario());
+            statement.setInt(2, bankingMovement.getCuentaBancaria().getIdCuentaBancaria());
+            statement.setString(3, bankingMovement.getTipoMovimiento());
+            statement.setDouble(4, bankingMovement.getMontoMovimiento());
+            statement.setDate(5, new java.sql.Date(bankingMovement.getFechaMovimiento().getTime()));
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idMovimientoBancario = generatedKeys.getInt(1);
+                return idMovimientoBancario;
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el movimiento bancario");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el movimiento bancario en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarSaldosCuentaBancariaPorId(int bankAccountId, double saldoActualDespues, double saldoPrevioDespues) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE cuentas_bancarias SET saldo_actual = ?, saldo_previo = ? WHERE id_cuenta = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setDouble(1, saldoActualDespues);
+            statement.setDouble(2, saldoPrevioDespues);
+            statement.setInt(3, bankAccountId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar los sados de la cuenta bancaria en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarEstadoChequePorId(int checkId, String nuevoEstadoCheque) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE cheques SET estado_cheque = ? WHERE id_cheque = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, nuevoEstadoCheque);
+            statement.setInt(2, checkId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar el estado del cheque en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarCantidadProductosInventarioPorIdProducto(int productId, int cantidadProductosDespues) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE inventario SET cantidad_producto = ? WHERE id_producto_inventariado = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, cantidadProductosDespues);
+            statement.setInt(2, productId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar los sados de la cuenta bancaria en la base de datos", e);
+        }
+    }
+
+    @Override
+    public int registrarMovimientoInventario(MovimientoInventario inventoryMovement) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO movimientos_inventario (id_movimiento_inventario, id_inventario, id_producto, cantidad_producto, tipo_movimiento, fecha_movimiento) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, inventoryMovement.getIdMovimientoInventario());
+            statement.setInt(2, inventoryMovement.getInventario().getIdInventario());
+            statement.setInt(3, inventoryMovement.getProducto().getIdProducto());
+            statement.setInt(4, inventoryMovement.getCantidadProducto());
+            statement.setString(5, inventoryMovement.getTipoMovimiento());
+            statement.setDate(6, new java.sql.Date(inventoryMovement.getFechaMovimiento().getTime()));
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idMovimientoInventario = generatedKeys.getInt(1);
+                return idMovimientoInventario;
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el movimiento inventario");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el movimiento inventario en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarEstadoCanjePorId(int exchangeId, String nuevoEstadoCanje) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE canjes SET estado_canje = ? WHERE id_canje = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, nuevoEstadoCanje);
+            statement.setInt(2, exchangeId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar el estado del canje en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarMontosPagadosFacturaPorId(int invoiceId, double montoPagadoDespues, double montoPendienteDespues) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE facturas SET monto_pagado = ?, monto_pendiente = ? WHERE id_factura = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setDouble(1, montoPagadoDespues);
+            statement.setDouble(2, montoPendienteDespues);
+            statement.setInt(3, invoiceId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar los montos de la factura en la base de datos", e);
         }
     }
 

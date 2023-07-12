@@ -11,6 +11,10 @@ import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Inventario;
+import com.proyecto.entidades.MovimientoBancario;
+import com.proyecto.entidades.MovimientoInventario;
+import com.proyecto.entidades.PagoFactura;
+import com.proyecto.entidades.PagoProgramado;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.SolicitudPago;
@@ -75,7 +79,23 @@ public interface DAOTesoreroInterfaz {
       public Canje obtenerCanjePorId(int exchangeId) throws Exception;
       public Producto obtenerProductoPorId(int productId) throws Exception;
       
-      public SolicitudPago obtenerSolicitudPagoPorId(int exchangeId) throws Exception;
+      public SolicitudPago obtenerSolicitudPagoPorId(int paymentRequestId) throws Exception;
+      
+      public int registrarPagoFactura(PagoFactura invoicePayment) throws Exception; //devuelve el id del pago de factura cuando se registra
+      public PagoFactura obtenerPagoFacturaPorId(int invoicePaymentId) throws Exception;
+      
+      public PagoProgramado obtenerPagoProgramadoPorId(int programmedPayment) throws Exception;
+      
+      public int registrarMovimientoBancario(MovimientoBancario bankingMovement) throws Exception; //devuelve el id del movimiento bancario cuando se registra
+      
+      public void modificarSaldosCuentaBancariaPorId(int bankAccountId, double saldoActualDespues, double saldoPrevioDespues) throws Exception;
+      public void modificarEstadoChequePorId(int checkId, String nuevoEstadoCheque) throws Exception;
+      
+      public void modificarCantidadProductosInventarioPorIdProducto(int productId, int cantidadProductosDespues) throws Exception;
+      public int registrarMovimientoInventario(MovimientoInventario inventoryMovement) throws Exception; //devuelve el id del movimiento inventario cuando se registra
+      public void modificarEstadoCanjePorId(int exchangeId, String nuevoEstadoCanje) throws Exception;
+      
+      public void modificarMontosPagadosFacturaPorId(int invoiceId, double montoPagadoDespues, double montoPendienteDespues) throws Exception;
       
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
