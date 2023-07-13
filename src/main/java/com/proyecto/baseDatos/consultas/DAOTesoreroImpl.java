@@ -515,10 +515,11 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             while (resultSet.next()) {
                 int idCuenta = resultSet.getInt("id_cuenta");
                 String nombreBanco = resultSet.getString("nombre_banco");
+                String tipoCuenta = resultSet.getString("tipo_cuenta_bancaria");
                 Double saldoActual = resultSet.getDouble("saldo_actual");
                 Double saldoPrevio = resultSet.getDouble("saldo_previo");
 
-                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, nombreBanco, saldoActual, saldoPrevio);
+                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, nombreBanco, tipoCuenta, saldoActual, saldoPrevio);
                 cuentasBancarias.add(cuentaBancaria);
             }
 
@@ -540,10 +541,11 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             if (resultSet.next()) {
                 int idCuenta = resultSet.getInt("id_cuenta");
                 String nombreBanco = resultSet.getString("nombre_banco");
+                String tipoCuenta = resultSet.getString("tipo_cuenta_bancaria");
                 double saldoActual = resultSet.getDouble("saldo_actual");
                 double saldoPrevio = resultSet.getDouble("saldo_previo");
 
-                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, nombreBanco, saldoActual, saldoPrevio);
+                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, nombreBanco, tipoCuenta, saldoActual, saldoPrevio);
                 return cuentaBancaria;
             }
 
@@ -777,10 +779,11 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             if (resultSet.next()) {
                 int idCuentaBancaria = resultSet.getInt("id_cuenta");
                 String nombreBanco = resultSet.getString("nombre_banco");
+                String tipoCuenta = resultSet.getString("nombre_banco");
                 double saldoActual = resultSet.getDouble("saldo_actual");
                 double saldoPrevio = resultSet.getDouble("saldo_previo");
 
-                cuentaBancaria = new CuentaBancaria(idCuentaBancaria, nombreBanco, saldoActual, saldoPrevio);
+                cuentaBancaria = new CuentaBancaria(idCuentaBancaria, nombreBanco, tipoCuenta, saldoActual, saldoPrevio);
             }
 
             return cuentaBancaria;

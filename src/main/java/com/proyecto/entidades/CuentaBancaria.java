@@ -11,12 +11,14 @@ package com.proyecto.entidades;
 public class CuentaBancaria {
     private int idCuentaBancaria;
     private String nombreBanco;
+    private String tipoCuentaBancaria;
     private double saldoActual;
     private double saldoPrevio; 
 
-    public CuentaBancaria(int idCuentaBancaria, String nombreBanco, double saldoActual, double saldoPrevio) {
+    public CuentaBancaria(int idCuentaBancaria, String nombreBanco, String tipoCuentaBancaria, double saldoActual, double saldoPrevio) {
         this.idCuentaBancaria = idCuentaBancaria;
         this.nombreBanco = nombreBanco;
+        this.tipoCuentaBancaria = tipoCuentaBancaria;
         this.saldoActual = saldoActual;
         this.saldoPrevio = saldoPrevio;
     }
@@ -37,6 +39,14 @@ public class CuentaBancaria {
         this.nombreBanco = nombreBanco;
     }
 
+    public String getTipoCuentaBancaria() {
+        return tipoCuentaBancaria;
+    }
+
+    public void setTipoCuentaBancaria(String tipoCuentaBancaria) {
+        this.tipoCuentaBancaria = tipoCuentaBancaria;
+    }
+
     public double getSaldoActual() {
         return saldoActual;
     }
@@ -52,6 +62,6 @@ public class CuentaBancaria {
     public void setSaldoPrevio(double saldoPrevio) {
         this.saldoPrevio = saldoPrevio;
     }
-    
+
     
 }
