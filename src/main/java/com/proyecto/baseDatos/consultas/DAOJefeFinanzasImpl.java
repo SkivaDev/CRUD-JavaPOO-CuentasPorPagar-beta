@@ -501,10 +501,11 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
 
      */
     @Override
-    public List<CuentaBancaria> obtenerListaCuentasBancarias() throws Exception {
+    public List<CuentaBancaria> obtenerListaCuentasBancarias(String bankName) throws Exception {
         try {
             this.Conectar();
-            String consulta = "SELECT * FROM cuentas_bancarias";
+            //String consulta = "SELECT * FROM cuentas_bancarias";
+            String consulta = bankName.isEmpty() ? "SELECT * FROM cuentas_bancarias" : "SELECT * FROM cuentas_bancarias WHERE nombre_banco LIKE '%" + bankName + "%';";
             Statement statement = conexion.createStatement();
             ResultSet resultSet = statement.executeQuery(consulta);
 
@@ -516,7 +517,7 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
                 Double saldoActual = resultSet.getDouble("saldo_actual");
                 Double saldoPrevio = resultSet.getDouble("saldo_previo");
 
-                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta,tipoCuenta, nombreBanco, saldoActual, saldoPrevio);
+                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, tipoCuenta, nombreBanco, saldoActual, saldoPrevio);
                 cuentasBancarias.add(cuentaBancaria);
             }
 
@@ -780,7 +781,7 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
                 double saldoActual = resultSet.getDouble("saldo_actual");
                 double saldoPrevio = resultSet.getDouble("saldo_previo");
 
-                cuentaBancaria = new CuentaBancaria(idCuentaBancaria, tipoCuenta,nombreBanco, saldoActual, saldoPrevio);
+                cuentaBancaria = new CuentaBancaria(idCuentaBancaria, tipoCuenta, nombreBanco, saldoActual, saldoPrevio);
             }
 
             return cuentaBancaria;
@@ -1029,6 +1030,30 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error al editar estado de la solicitud de pago en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void registrarCuentaBancaria(CuentaBancaria banckAccount) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO cuentas_bancarias (nombre_banco, tipo_cuenta_bancaria, saldo_actual, saldo_previo) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, banckAccount.getNombreBanco());
+            statement.setString(2, banckAccount.getTipoCuentaBancaria());
+            statement.setDouble(3, banckAccount.getSaldoActual());
+            statement.setDouble(4, banckAccount.getSaldoPrevio());
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idCuentaBancaria = generatedKeys.getInt(1);
+                banckAccount.setIdCuentaBancaria(idCuentaBancaria);
+            } else {
+                throw new SQLException("Error al obtener el ID generado para la cuenta bancaria");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar la cuenta bancaria en la base de datos", e);
         }
     }
 

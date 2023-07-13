@@ -5,6 +5,7 @@
 package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
+import com.proyecto.baseDatos.consultas.DAOJefeFinanzasImpl;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
 import com.proyecto.vista.VentanaBETAAAExpedienteProveedor;
@@ -20,11 +21,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ControladorGestorCuentasBancarias {
 
-    private DAOEncargadoComprasImpl dao;
+    private DAOJefeFinanzasImpl dao;
 
     //private Usuario user;
     public ControladorGestorCuentasBancarias() {
-        this.dao = new DAOEncargadoComprasImpl();
+        this.dao = new DAOJefeFinanzasImpl();
     }
 
     public DefaultTableModel listarCuentasBancarias(JTable table) {
@@ -33,16 +34,16 @@ public class ControladorGestorCuentasBancarias {
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
         table.setModel(model);
-*******************
-        model.addColumn("ID");
-        model.addColumn("Nombre");
-        model.addColumn("Dirección");
-        model.addColumn("Teléfono");
-        model.addColumn("Linea de Credito");
+
+        model.addColumn("IDCuentaBancaria");
+        model.addColumn("Entidad Bancaria");
+        model.addColumn("Tipo Cuenta Bancaria");
+        model.addColumn("Saldo Actual");
+        model.addColumn("Saldo Previo");
 
         try {
             //DAOUsers dao = new DAOUsersImpl();
-            dao.obtenerListaProveedores("").forEach((u) -> model.addRow(new Object[]{u.getIdProveedor(), u.getNombre(), u.getDireccion(), u.getTelefono(), u.getLineaCredito()}));
+            dao.obtenerListaCuentasBancarias("").forEach((u) -> model.addRow(new Object[]{u.getIdCuentaBancaria(), u.getNombreBanco(), u.getTipoCuentaBancaria(), u.getSaldoActual(), u.getSaldoPrevio()}));
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -50,29 +51,8 @@ public class ControladorGestorCuentasBancarias {
         return null;
     }
 
-    public DefaultTableModel listarProveedores(JTable table) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        // Limpiar el modelo de la tabla
-        model.setRowCount(0);
-        table.setModel(model);
-
-        model.addColumn("ID");
-        model.addColumn("Nombre");
-        model.addColumn("Dirección");
-        model.addColumn("Teléfono");
-        model.addColumn("Linea de Credito");
-
-        try {
-            //DAOUsers dao = new DAOUsersImpl();
-            dao.obtenerListaProveedores("").forEach((u) -> model.addRow(new Object[]{u.getIdProveedor(), u.getNombre(), u.getDireccion(), u.getTelefono(), u.getLineaCredito()}));
-            return model;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
+    /*
     public DefaultTableModel eliminarProveedores(JTable table) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -92,49 +72,36 @@ public class ControladorGestorCuentasBancarias {
             }
         }
         return null;
-    }
+    }*/
 
-    public void editarProveedores(JTable table) {
+    /*
+    public void editarCuentaBancaria(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
-                int supplierId = (int) table.getValueAt(table.getSelectedRow(), 0);
+                int bankAccountId = (int) table.getValueAt(table.getSelectedRow(), 0);
 
-                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroProveedor(dao.obtenerProveedorPorId(supplierId)));
+                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroCuentaBancaria(dao.obtenerCuentaBancariaPorId(bankAccountId)));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar la cuenta bancaria a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }*/
 
-    public DefaultTableModel buscarProveedores(JTable table, String name) {
+    public DefaultTableModel buscarEntidadesBancarias(JTable table, String name) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
         try {
-            dao.obtenerListaProveedores(name).forEach((u) -> model.addRow(new Object[]{u.getIdProveedor(), u.getNombre(), u.getDireccion(), u.getTelefono(), u.getLineaCredito()}));
+            dao.obtenerListaCuentasBancarias(name).forEach((u) -> model.addRow(new Object[]{u.getIdCuentaBancaria(), u.getNombreBanco(), u.getTipoCuentaBancaria(), u.getSaldoActual(), u.getSaldoPrevio()}));
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         return null;
-    }
-
-    public void mostrarExpedienteProveedor(JTable table, Usuario currentUser) {
-        if (table.getSelectedRow() > -1) {
-            try {
-                int supplierId = (int) table.getValueAt(table.getSelectedRow(), 0);
-
-                VentanaDashboard.ShowJPanelWindows(new VentanaDetalleExpedienteProveedor(dao.obtenerProveedorPorId(supplierId), currentUser));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar el proveedor para mostrar su expediente.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
     }
 
 }

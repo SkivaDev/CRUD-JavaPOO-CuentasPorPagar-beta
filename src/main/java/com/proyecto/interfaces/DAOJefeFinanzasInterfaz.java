@@ -54,7 +54,7 @@ public interface DAOJefeFinanzasInterfaz {
       public List<Factura> obtenerListaFacturasPorProveedorId(int supplierId) throws Exception;
       
       
-      public List<CuentaBancaria> obtenerListaCuentasBancarias() throws Exception;
+      public List<CuentaBancaria> obtenerListaCuentasBancarias(String bankName) throws Exception;
       public CuentaBancaria obtenerCuentaBancariaPorNombre(String name) throws Exception;
       public CuentaBancaria obtenerCuentaBancariaPorId(int bankAccountId) throws Exception;
       
@@ -77,6 +77,7 @@ public interface DAOJefeFinanzasInterfaz {
       
       public void modificarEstadoSolicitudPagoPorId(int requestId, String estadoSolicitud) throws Exception;
       
+      public void registrarCuentaBancaria(CuentaBancaria banckAccount) throws Exception;
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     
