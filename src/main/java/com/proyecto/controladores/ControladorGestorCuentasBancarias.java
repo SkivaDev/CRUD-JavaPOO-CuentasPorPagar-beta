@@ -76,7 +76,7 @@ public class ControladorGestorCuentasBancarias {
     }*/
 
     
-    public void agregarCreditoCuentaBancaria(JTable table) {
+    public void agregarFondosCuentaBancaria(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
                 int bankAccountId = (int) table.getValueAt(table.getSelectedRow(), 0);
@@ -86,7 +86,7 @@ public class ControladorGestorCuentasBancarias {
                 System.out.println(e.getMessage());
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar la cuenta bancaria a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar la cuenta bancaria para añadir fondos.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
 

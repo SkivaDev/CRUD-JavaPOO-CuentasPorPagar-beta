@@ -59,7 +59,7 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
         searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        editarCuentaBtn = new javax.swing.JButton();
+        añadirFondosCuentaBtn = new javax.swing.JButton();
         agregarCuentaBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -112,15 +112,15 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        editarCuentaBtn.setBackground(new java.awt.Color(255, 0, 51));
-        editarCuentaBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        editarCuentaBtn.setForeground(new java.awt.Color(255, 255, 255));
-        editarCuentaBtn.setText("Añadir Fondos");
-        editarCuentaBtn.setBorderPainted(false);
-        editarCuentaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        editarCuentaBtn.addActionListener(new java.awt.event.ActionListener() {
+        añadirFondosCuentaBtn.setBackground(new java.awt.Color(255, 0, 51));
+        añadirFondosCuentaBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        añadirFondosCuentaBtn.setForeground(new java.awt.Color(255, 255, 255));
+        añadirFondosCuentaBtn.setText("Añadir Fondos");
+        añadirFondosCuentaBtn.setBorderPainted(false);
+        añadirFondosCuentaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        añadirFondosCuentaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarCuentaBtnActionPerformed(evt);
+                añadirFondosCuentaBtnActionPerformed(evt);
             }
         });
 
@@ -150,7 +150,7 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(editarCuentaBtn)
+                                .addComponent(añadirFondosCuentaBtn)
                                 .addGap(18, 18, 18)
                                 .addComponent(agregarCuentaBtn))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,7 +174,7 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agregarCuentaBtn)
-                    .addComponent(editarCuentaBtn))
+                    .addComponent(añadirFondosCuentaBtn))
                 .addGap(25, 25, 25))
         );
 
@@ -198,12 +198,12 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
         VentanaDashboard.ShowJPanelWindows(new VentanaRegistroCuentaBancaria());
     }//GEN-LAST:event_agregarCuentaBtnActionPerformed
 
-    private void editarCuentaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarCuentaBtnActionPerformed
+    private void añadirFondosCuentaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadirFondosCuentaBtnActionPerformed
         
-        controladorGestorCuentasBancarias.agregarCreditoCuentaBancaria(jTable1);
+        controladorGestorCuentasBancarias.agregarFondosCuentaBancaria(jTable1);
         
 
-    }//GEN-LAST:event_editarCuentaBtnActionPerformed
+    }//GEN-LAST:event_añadirFondosCuentaBtnActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         
@@ -216,9 +216,9 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarCuentaBtn;
+    private javax.swing.JButton añadirFondosCuentaBtn;
     private javax.swing.JTextField banckAccountSearchField;
     private javax.swing.JPanel bg;
-    private javax.swing.JButton editarCuentaBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton searchButton;

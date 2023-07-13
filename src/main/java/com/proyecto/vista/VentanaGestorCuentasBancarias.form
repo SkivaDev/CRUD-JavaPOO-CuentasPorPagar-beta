@@ -52,7 +52,7 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="editarCuentaBtn" min="-2" max="-2" attributes="0"/>
+                                  <Component id="añadirFondosCuentaBtn" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="agregarCuentaBtn" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -84,7 +84,7 @@
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="agregarCuentaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="editarCuentaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="añadirFondosCuentaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
@@ -186,7 +186,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="editarCuentaBtn">
+        <Component class="javax.swing.JButton" name="a&#xf1;adirFondosCuentaBtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="0" red="ff" type="rgb"/>
@@ -204,7 +204,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editarCuentaBtnActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="a&#xf1;adirFondosCuentaBtnActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="agregarCuentaBtn">

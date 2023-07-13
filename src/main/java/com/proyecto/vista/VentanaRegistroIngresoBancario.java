@@ -42,6 +42,7 @@ public class VentanaRegistroIngresoBancario extends javax.swing.JPanel {
         montoIngresoField.putClientProperty("JTextField.placeholderText", "20,000");
         
         nombreCuentaField.setEditable(false);
+        nombreCuentaField.setText(bankAccount.getNombreBanco());
         
         //saldoInicialField.putClientProperty("JTextField.placeholderText", "Ingrese teléfono del proveedor.");
 
