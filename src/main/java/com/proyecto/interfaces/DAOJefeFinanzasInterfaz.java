@@ -11,6 +11,7 @@ import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Inventario;
+import com.proyecto.entidades.MovimientoBancario;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.SolicitudPago;
@@ -78,6 +79,10 @@ public interface DAOJefeFinanzasInterfaz {
       public void modificarEstadoSolicitudPagoPorId(int requestId, String estadoSolicitud) throws Exception;
       
       public void registrarCuentaBancaria(CuentaBancaria banckAccount) throws Exception;
+      
+      public void modificarSaldosCuentaBancariaPorId(int bankAccountId, double saldoActualDespues, double saldoPrevioDespues) throws Exception;
+      
+      public int registrarMovimientoBancario(MovimientoBancario bankingMovement) throws Exception; //devuelve el id del movimiento bancario cuando se registra
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     

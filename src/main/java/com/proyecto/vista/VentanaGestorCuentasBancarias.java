@@ -115,7 +115,7 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
         editarCuentaBtn.setBackground(new java.awt.Color(255, 0, 51));
         editarCuentaBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         editarCuentaBtn.setForeground(new java.awt.Color(255, 255, 255));
-        editarCuentaBtn.setText("Editar Cuenta");
+        editarCuentaBtn.setText("Añadir Fondos");
         editarCuentaBtn.setBorderPainted(false);
         editarCuentaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         editarCuentaBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +149,7 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(bgLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(editarCuentaBtn)
                                 .addGap(18, 18, 18)
                                 .addComponent(agregarCuentaBtn))
@@ -171,9 +172,9 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editarCuentaBtn)
-                    .addComponent(agregarCuentaBtn))
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(agregarCuentaBtn)
+                    .addComponent(editarCuentaBtn))
                 .addGap(25, 25, 25))
         );
 
@@ -198,9 +199,9 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
     }//GEN-LAST:event_agregarCuentaBtnActionPerformed
 
     private void editarCuentaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarCuentaBtnActionPerformed
-        /*
-        controladorGestorCuentasBancarias.editarCuentaBancaria(jTable1);
-        */
+        
+        controladorGestorCuentasBancarias.agregarCreditoCuentaBancaria(jTable1);
+        
 
     }//GEN-LAST:event_editarCuentaBtnActionPerformed
 

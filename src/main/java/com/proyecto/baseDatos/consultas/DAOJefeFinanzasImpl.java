@@ -12,6 +12,7 @@ import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Inventario;
+import com.proyecto.entidades.MovimientoBancario;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.SolicitudPago;
@@ -1074,6 +1075,46 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
             return false;
         } catch (SQLException e) {
             throw new SQLException("Error al verificar los registros de pago en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarSaldosCuentaBancariaPorId(int bankAccountId, double saldoActualDespues, double saldoPrevioDespues) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE cuentas_bancarias SET saldo_actual = ?, saldo_previo = ? WHERE id_cuenta = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setDouble(1, saldoActualDespues);
+            statement.setDouble(2, saldoPrevioDespues);
+            statement.setInt(3, bankAccountId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar los sados de la cuenta bancaria en la base de datos", e);
+        }
+    }
+
+    @Override
+    public int registrarMovimientoBancario(MovimientoBancario bankingMovement) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO movimientos_bancarios (id_movimiento, id_cuenta, tipo_movimiento, monto, fecha_movimiento) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, bankingMovement.getIdMovimientoBancario());
+            statement.setInt(2, bankingMovement.getCuentaBancaria().getIdCuentaBancaria());
+            statement.setString(3, bankingMovement.getTipoMovimiento());
+            statement.setDouble(4, bankingMovement.getMontoMovimiento());
+            statement.setDate(5, new java.sql.Date(bankingMovement.getFechaMovimiento().getTime()));
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idMovimientoBancario = generatedKeys.getInt(1);
+                return idMovimientoBancario;
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el movimiento bancario");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el movimiento bancario en la base de datos", e);
         }
     }
 

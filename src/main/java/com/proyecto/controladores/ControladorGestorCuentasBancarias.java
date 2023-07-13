@@ -10,6 +10,7 @@ import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
 import com.proyecto.vista.VentanaBETAAAExpedienteProveedor;
 import com.proyecto.vista.VentanaDetalleExpedienteProveedor;
+import com.proyecto.vista.VentanaRegistroIngresoBancario;
 import com.proyecto.vista.VentanaRegistroProveedor;
 import com.proyecto.vista.VentanaRegistroUsuario;
 import javax.swing.JTable;
@@ -74,20 +75,20 @@ public class ControladorGestorCuentasBancarias {
         return null;
     }*/
 
-    /*
-    public void editarCuentaBancaria(JTable table) {
+    
+    public void agregarCreditoCuentaBancaria(JTable table) {
         if (table.getSelectedRow() > -1) {
             try {
                 int bankAccountId = (int) table.getValueAt(table.getSelectedRow(), 0);
 
-                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroCuentaBancaria(dao.obtenerCuentaBancariaPorId(bankAccountId)));
+                VentanaDashboard.ShowJPanelWindows(new VentanaRegistroIngresoBancario(dao.obtenerCuentaBancariaPorId(bankAccountId)));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar la cuenta bancaria a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-    }*/
+    }
 
     public DefaultTableModel buscarEntidadesBancarias(JTable table, String name) {
 
