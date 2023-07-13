@@ -84,5 +84,6 @@ public interface DAOJefeFinanzasInterfaz {
    public Inventario obtenerInventarioPorIdProducto(int productId) throws Exception;
    
     //VERIFICACIONES
+   public boolean existeEntidadBancaria(String bankName) throws Exception;
    // public boolean existeRegistroPago(int idFactura) throws Exception;
 }

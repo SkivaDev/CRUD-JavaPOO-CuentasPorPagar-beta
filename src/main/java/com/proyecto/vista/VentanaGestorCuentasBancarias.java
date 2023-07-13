@@ -149,7 +149,6 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(editarCuentaBtn)
                                 .addGap(18, 18, 18)
                                 .addComponent(agregarCuentaBtn))
@@ -172,7 +171,7 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(editarCuentaBtn)
                     .addComponent(agregarCuentaBtn))
                 .addGap(25, 25, 25))
@@ -199,9 +198,9 @@ public class VentanaGestorCuentasBancarias extends javax.swing.JPanel {
     }//GEN-LAST:event_agregarCuentaBtnActionPerformed
 
     private void editarCuentaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarCuentaBtnActionPerformed
-        
+        /*
         controladorGestorCuentasBancarias.editarCuentaBancaria(jTable1);
-        
+        */
 
     }//GEN-LAST:event_editarCuentaBtnActionPerformed
 

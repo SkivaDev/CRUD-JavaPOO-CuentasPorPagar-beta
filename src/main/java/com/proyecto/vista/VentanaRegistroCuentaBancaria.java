@@ -38,12 +38,18 @@ public class VentanaRegistroCuentaBancaria extends javax.swing.JPanel {
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
-        nombreCuentaField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del proveedor.");
-        tipoCuentaField.putClientProperty("JTextField.placeholderText", "Ingrese la dirección del proveedor.");
-        saldoInicialField.putClientProperty("JTextField.placeholderText", "Ingrese teléfono del proveedor.");
-        creditLineField.putClientProperty("JTextField.placeholderText", "Ingrese la linea de credito del proveedor.");
+        nombreCuentaField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de la entidad.");
+        tipoCuentaField.putClientProperty("JTextField.placeholderText", "Ingrese el tipo de la cuenta.");
+        
+        tipoCuentaField.setEditable(false);
+        saldoInicialField.setEditable(false);
+        
+        tipoCuentaField.setText("Ahorros");
+        saldoInicialField.setText("0");
+        
+        //saldoInicialField.putClientProperty("JTextField.placeholderText", "Ingrese teléfono del proveedor.");
 
-        if (isEdition) {
+        /*if (isEdition) {
             title.setText("Editar Proveedor");
             registerButton.setText("Guardar");
 
@@ -53,7 +59,7 @@ public class VentanaRegistroCuentaBancaria extends javax.swing.JPanel {
                 saldoInicialField.setText(supplierEdition.getTelefono());
                 creditLineField.setText((String.valueOf(supplierEdition.getLineaCredito())));
             }
-        }
+        }*/
     }
 
     /**
@@ -182,20 +188,28 @@ public class VentanaRegistroCuentaBancaria extends javax.swing.JPanel {
         } else if (!isEdition) { // codigo donde se agrega
             
             try {
-
+                //VALIDAR: El nombre de la nueva cuenta no debe estar registrado en la base de datos.
+                boolean nombreEntidadEnUso = controladorRegistroCuentaBancaria.validarNombreCuentaBancariaEnUso(nombreCuenta);
+                if(nombreEntidadEnUso){
+                    javax.swing.JOptionPane.showMessageDialog(this, "Al parecer el nombre de la entidad bancaria: " + nombreCuenta 
+                            + " ya esta registrada.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    nombreCuentaField.requestFocus();
+                    return;
+                }
+                
                 boolean confirmarDatosCuentaBancaria = controladorRegistroCuentaBancaria.confirmarDatosCuentaBancaria(nombreCuenta, tipoCuenta, saldoInicial);
                 if (confirmarDatosCuentaBancaria) {
-                    controladorRegistroCuentaBancaria.registrarCuentaBancaria(nombre, direccion, telefono, Double.valueOf(lineaCredito));
+                    controladorRegistroCuentaBancaria.registrarCuentaBancaria(nombreCuenta, "Ahorros", 0);
                 } else {
                     return;
                 }
-                javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Cuenta bancaria " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " la cuenta bancaria. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
 
         } else { // codigo donde se edita
-            
+            /*
             try {
                 int idProveedor = supplierEdition.getIdProveedor();
                 
@@ -212,7 +226,7 @@ public class VentanaRegistroCuentaBancaria extends javax.swing.JPanel {
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
-            
+            */
         }
 
     }//GEN-LAST:event_registerButtonActionPerformed

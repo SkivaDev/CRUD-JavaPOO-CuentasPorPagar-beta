@@ -513,11 +513,11 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
             while (resultSet.next()) {
                 int idCuenta = resultSet.getInt("id_cuenta");
                 String nombreBanco = resultSet.getString("nombre_banco");
-                String tipoCuenta = resultSet.getString("nombre_banco");
+                String tipoCuenta = resultSet.getString("tipo_cuenta_bancaria");
                 Double saldoActual = resultSet.getDouble("saldo_actual");
                 Double saldoPrevio = resultSet.getDouble("saldo_previo");
 
-                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, tipoCuenta, nombreBanco, saldoActual, saldoPrevio);
+                CuentaBancaria cuentaBancaria = new CuentaBancaria(idCuenta, nombreBanco, tipoCuenta, saldoActual, saldoPrevio);
                 cuentasBancarias.add(cuentaBancaria);
             }
 
@@ -1054,6 +1054,26 @@ public class DAOJefeFinanzasImpl extends GestorBaseDatos implements DAOJefeFinan
             }
         } catch (SQLException e) {
             throw new SQLException("Error al registrar la cuenta bancaria en la base de datos", e);
+        }
+    }
+
+    @Override
+    public boolean existeEntidadBancaria(String bankName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT COUNT(*) AS total FROM cuentas_bancarias WHERE nombre_banco = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setString(1, bankName);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int totalRegistros = resultSet.getInt("total");
+                return totalRegistros > 0;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            throw new SQLException("Error al verificar los registros de pago en la base de datos", e);
         }
     }
 

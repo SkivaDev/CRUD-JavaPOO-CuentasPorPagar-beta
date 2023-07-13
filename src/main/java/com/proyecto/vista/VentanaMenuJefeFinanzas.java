@@ -43,7 +43,7 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
         cerrarSesionBtn = new javax.swing.JButton();
         aprobarRechazarBtn = new javax.swing.JButton();
         gentionarFacturasBtn = new javax.swing.JButton();
-        gentionarFacturasBtn1 = new javax.swing.JButton();
+        gestionarCuentasBancarias = new javax.swing.JButton();
         gentionarFacturasBtn2 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
@@ -117,22 +117,22 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
         });
         add(gentionarFacturasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
 
-        gentionarFacturasBtn1.setBackground(new java.awt.Color(255, 0, 51));
-        gentionarFacturasBtn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        gentionarFacturasBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        gentionarFacturasBtn1.setText("Registrar cajas y bancos");
-        gentionarFacturasBtn1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        gentionarFacturasBtn1.setBorderPainted(false);
-        gentionarFacturasBtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        gentionarFacturasBtn1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gentionarFacturasBtn1.setIconTextGap(13);
-        gentionarFacturasBtn1.setInheritsPopupMenu(true);
-        gentionarFacturasBtn1.addActionListener(new java.awt.event.ActionListener() {
+        gestionarCuentasBancarias.setBackground(new java.awt.Color(255, 0, 51));
+        gestionarCuentasBancarias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        gestionarCuentasBancarias.setForeground(new java.awt.Color(255, 255, 255));
+        gestionarCuentasBancarias.setText("Gestionar cuentas bancarias");
+        gestionarCuentasBancarias.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        gestionarCuentasBancarias.setBorderPainted(false);
+        gestionarCuentasBancarias.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        gestionarCuentasBancarias.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        gestionarCuentasBancarias.setIconTextGap(13);
+        gestionarCuentasBancarias.setInheritsPopupMenu(true);
+        gestionarCuentasBancarias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gentionarFacturasBtn1ActionPerformed(evt);
+                gestionarCuentasBancariasActionPerformed(evt);
             }
         });
-        add(gentionarFacturasBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
+        add(gestionarCuentasBancarias, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
 
         gentionarFacturasBtn2.setBackground(new java.awt.Color(255, 0, 51));
         gentionarFacturasBtn2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -173,9 +173,10 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
         //VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
     }//GEN-LAST:event_gentionarFacturasBtnActionPerformed
 
-    private void gentionarFacturasBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtn1ActionPerformed
+    private void gestionarCuentasBancariasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionarCuentasBancariasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gentionarFacturasBtn1ActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorCuentasBancarias(currentUser));
+    }//GEN-LAST:event_gestionarCuentasBancariasActionPerformed
 
     private void gentionarFacturasBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtn2ActionPerformed
         // TODO add your handling code here:
@@ -186,8 +187,8 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
     private javax.swing.JButton aprobarRechazarBtn;
     private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton gentionarFacturasBtn;
-    private javax.swing.JButton gentionarFacturasBtn1;
     private javax.swing.JButton gentionarFacturasBtn2;
+    private javax.swing.JButton gestionarCuentasBancarias;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables
 }

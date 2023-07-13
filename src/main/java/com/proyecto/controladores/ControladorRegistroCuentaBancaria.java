@@ -36,7 +36,13 @@ public class ControladorRegistroCuentaBancaria {
 
         bankAccount = new CuentaBancaria(0, nombreCuenta, tipoCuenta, saldoInicial, saldoInicial);
         dao.registrarCuentaBancaria(bankAccount);
-        
+
+    }
+
+    public boolean validarNombreCuentaBancariaEnUso(String nombreCuenta) throws Exception {
+
+        return dao.existeEntidadBancaria(nombreCuenta);
+
     }
 
     /*
@@ -46,8 +52,6 @@ public class ControladorRegistroCuentaBancaria {
         dao.modificarProveedor(supplier);
         
     }*/
-
-
     public boolean confirmarDatosCuentaBancaria(String nombreCuenta, String tipoCuenta, String saldoInicial) {
         String message;
         String title = "Confirmación";
@@ -56,7 +60,7 @@ public class ControladorRegistroCuentaBancaria {
         message = "***** Datos de la cuenta bancaria *****";
         message += "\nNombre Entidad Bancaria: " + nombreCuenta;
         message += "\nTipo de cuenta bancaria: " + tipoCuenta;
-        message += "\nSaldoInicial: " + saldoInicial;
+        message += "\nSaldo Inicial: " + saldoInicial;
         message += "\n";
         message += "\nLos datos son correctos?";
 
