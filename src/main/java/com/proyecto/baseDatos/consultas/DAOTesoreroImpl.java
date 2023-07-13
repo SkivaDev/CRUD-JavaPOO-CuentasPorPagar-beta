@@ -1273,4 +1273,53 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
+    @Override
+    public Cheque obtenerChequeRespaldoPagoProgramadoPorIdFactura(int invoiceId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT c.* FROM cheques c "
+                    + "INNER JOIN pagos_programados pp ON c.id_cheque = pp.id_cheque "
+                    + "WHERE pp.id_factura = ? "
+                    + "AND pp.tipo_pago_programado = 'Respaldo'";
+
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, invoiceId);
+            ResultSet resultSet = statement.executeQuery();
+
+            Cheque cheque = null;
+            if (resultSet.next()) {
+                int idCheque = resultSet.getInt("id_cheque");
+                int idFactura = resultSet.getInt("id_factura");
+                double montoCheque = resultSet.getDouble("monto_cheque");
+                int idCuentaBancaria = resultSet.getInt("id_cuenta_bancaria");
+                Date fechaEmicion = resultSet.getDate("fecha_emicion");
+                String estadoCheque = resultSet.getString("estado_cheque");
+
+                // Aquí debes obtener la factura y la cuenta bancaria correspondientes utilizando los métodos adecuados
+                Factura factura = obtenerFacturaPorId(idFactura); // Utiliza el método adecuado para obtener la factura por su ID
+                CuentaBancaria cuentaBancaria = obtenerCuentaBancariaPorId(idCuentaBancaria); // Utiliza el método adecuado para obtener la cuenta bancaria por su ID
+
+                cheque = new Cheque(idCheque, factura, montoCheque, cuentaBancaria, fechaEmicion, estadoCheque);
+            }
+
+            return cheque;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el cheque por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarMontoChequeRespaldoProgramadoPorIdCheque(int checkId, double nuevoMontoCheque) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE cheques SET monto_cheque = ? WHERE id_cheque = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setDouble(1, nuevoMontoCheque);
+            statement.setInt(2, checkId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar los montos de la factura en la base de datos", e);
+        }
+    }
+
 }

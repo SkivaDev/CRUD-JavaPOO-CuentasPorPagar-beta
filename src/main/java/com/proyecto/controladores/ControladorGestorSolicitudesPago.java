@@ -60,8 +60,8 @@ public class ControladorGestorSolicitudesPago {
                 Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
                 Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
 
-                double montoDineroSolicitud = (u.getCheque() != null) ? u.getCheque().getMontoCheque(): u.getCanje().getEquivalenteDinero();
-                        
+                double montoDineroSolicitud = (u.getCheque() != null) ? u.getCheque().getMontoCheque() : u.getCanje().getEquivalenteDinero();
+
                 model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, montoDineroSolicitud, u.getFechaRegistro(), u.getEstadoSolicitud()});
             });
 
@@ -124,7 +124,10 @@ public class ControladorGestorSolicitudesPago {
                     try {
                         Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
                         Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
-                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+
+                        double montoDineroSolicitud = (u.getCheque() != null) ? u.getCheque().getMontoCheque() : u.getCanje().getEquivalenteDinero();
+
+                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, montoDineroSolicitud, u.getFechaRegistro(), u.getEstadoSolicitud()});
                     } catch (Exception ex) {
                         Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -149,7 +152,10 @@ public class ControladorGestorSolicitudesPago {
                     try {
                         Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
                         Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
-                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+
+                        double montoDineroSolicitud = (u.getCheque() != null) ? u.getCheque().getMontoCheque() : u.getCanje().getEquivalenteDinero();
+
+                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, montoDineroSolicitud, u.getFechaRegistro(), u.getEstadoSolicitud()});
                     } catch (Exception ex) {
                         Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -174,7 +180,10 @@ public class ControladorGestorSolicitudesPago {
                     try {
                         Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
                         Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
-                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+
+                        double montoDineroSolicitud = (u.getCheque() != null) ? u.getCheque().getMontoCheque() : u.getCanje().getEquivalenteDinero();
+
+                        model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, montoDineroSolicitud, u.getFechaRegistro(), u.getEstadoSolicitud()});
                     } catch (Exception ex) {
                         Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -198,7 +207,10 @@ public class ControladorGestorSolicitudesPago {
                 try {
                     Object idCheque = (u.getCheque() != null) ? u.getCheque().getIdCheque() : "null";
                     Object idCanje = (u.getCanje() != null) ? u.getCanje().getIdCanje() : "null";
-                    model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, u.getFechaRegistro(), u.getEstadoSolicitud()});
+
+                    double montoDineroSolicitud = (u.getCheque() != null) ? u.getCheque().getMontoCheque() : u.getCanje().getEquivalenteDinero();
+
+                    model.addRow(new Object[]{u.getIdSolicitudPago(), u.getFactura().getIdFactura(), u.getMetodoPago(), idCheque, idCanje, montoDineroSolicitud, u.getFechaRegistro(), u.getEstadoSolicitud()});
                 } catch (Exception ex) {
                     Logger.getLogger(ControladorGestorFacturas.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -144,7 +144,8 @@ public class ControladorRegistroPagoFactura {
             actualizarEstadoChequePorPagoFactura(check);
 
             //Actualizar monto cheque de los pagos programados de respaldo
-            
+            actualizarMontoChequeEmitidoRespaldoPorPagoFactura(check);
+
         } else if (exchange != null) { // Registro por canje
             tipoPago = "Manual";
             double equivalenteDinero = exchange.getEquivalenteDinero();
@@ -169,6 +170,21 @@ public class ControladorRegistroPagoFactura {
 
         int idPagoFacturaRegistrado = dao.registrarPagoFactura(pagoFactura);
 
+    }
+
+    public void actualizarMontoChequeEmitidoRespaldoPorPagoFactura(Cheque check) throws Exception {
+
+        
+        Factura factura = check.getFactura();
+        Cheque chequeRespaldo = dao.obtenerChequeRespaldoPagoProgramadoPorIdFactura(factura.getIdFactura());
+        
+        double montoAPagar = check.getMontoCheque();
+        
+        double montoChequeRespaldoAntes = chequeRespaldo.getMontoCheque();
+        
+        double montoChequeRespaldoDespues = (montoChequeRespaldoAntes - montoAPagar);
+
+        dao.modificarMontoChequeRespaldoProgramadoPorIdCheque(chequeRespaldo.getIdCheque(), montoChequeRespaldoDespues);
     }
 
     public void actualizarMontoPagadoFacturaPorPagoFactura(Cheque check) throws Exception {

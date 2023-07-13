@@ -97,6 +97,9 @@ public interface DAOTesoreroInterfaz {
       
       public void modificarMontosPagadosFacturaPorId(int invoiceId, double montoPagadoDespues, double montoPendienteDespues) throws Exception;
       
+      public Cheque obtenerChequeRespaldoPagoProgramadoPorIdFactura(int invoiceId) throws Exception;
+      public void modificarMontoChequeRespaldoProgramadoPorIdCheque(int checkId, double nuevoMontoCheque) throws Exception;
+      
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     
