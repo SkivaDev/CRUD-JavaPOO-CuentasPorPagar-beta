@@ -42,7 +42,7 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         principalBtn = new javax.swing.JButton();
         cerrarSesionBtn = new javax.swing.JButton();
         gestionarInventarioBtn = new javax.swing.JButton();
-        gentionarFacturasBtn = new javax.swing.JButton();
+        ingresarProductosBtn = new javax.swing.JButton();
         gestionarCategoriasBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
@@ -99,22 +99,22 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         });
         add(gestionarInventarioBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 270, 60));
 
-        gentionarFacturasBtn.setBackground(new java.awt.Color(255, 0, 51));
-        gentionarFacturasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        gentionarFacturasBtn.setForeground(new java.awt.Color(255, 255, 255));
-        gentionarFacturasBtn.setText("Actualizar informacion Productos");
-        gentionarFacturasBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        gentionarFacturasBtn.setBorderPainted(false);
-        gentionarFacturasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        gentionarFacturasBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gentionarFacturasBtn.setIconTextGap(13);
-        gentionarFacturasBtn.setInheritsPopupMenu(true);
-        gentionarFacturasBtn.addActionListener(new java.awt.event.ActionListener() {
+        ingresarProductosBtn.setBackground(new java.awt.Color(255, 0, 51));
+        ingresarProductosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ingresarProductosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        ingresarProductosBtn.setText("Ingresar Productos Inventario");
+        ingresarProductosBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        ingresarProductosBtn.setBorderPainted(false);
+        ingresarProductosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        ingresarProductosBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ingresarProductosBtn.setIconTextGap(13);
+        ingresarProductosBtn.setInheritsPopupMenu(true);
+        ingresarProductosBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gentionarFacturasBtnActionPerformed(evt);
+                ingresarProductosBtnActionPerformed(evt);
             }
         });
-        add(gentionarFacturasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
+        add(ingresarProductosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
 
         gestionarCategoriasBtn.setBackground(new java.awt.Color(255, 0, 51));
         gestionarCategoriasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -131,7 +131,7 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
                 gestionarCategoriasBtnActionPerformed(evt);
             }
         });
-        add(gestionarCategoriasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
+        add(gestionarCategoriasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -150,10 +150,10 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         VentanaDashboard.ShowJPanelWindows(new VentanaGestorInventario(currentUser));
     }//GEN-LAST:event_gestionarInventarioBtnActionPerformed
 
-    private void gentionarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtnActionPerformed
+    private void ingresarProductosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarProductosBtnActionPerformed
         // TODO add your handling code here:
         //VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
-    }//GEN-LAST:event_gentionarFacturasBtnActionPerformed
+    }//GEN-LAST:event_ingresarProductosBtnActionPerformed
 
     private void gestionarCategoriasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionarCategoriasBtnActionPerformed
         // TODO add your handling code here:
@@ -163,9 +163,9 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cerrarSesionBtn;
-    private javax.swing.JButton gentionarFacturasBtn;
     private javax.swing.JButton gestionarCategoriasBtn;
     private javax.swing.JButton gestionarInventarioBtn;
+    private javax.swing.JButton ingresarProductosBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables
 }
