@@ -52,6 +52,11 @@ public interface DAOAlmaceneroInterfaz {
     public void modificarCategoriaProducto(CategoriaProducto productCategory) throws Exception;
      
     public List<Producto> obtenerListaProductos(String productName) throws Exception;
+    public Inventario obtenerInventarioPorIdProducto(int productId) throws Exception;
+    public void modificarCantidadProductoInventarioPorId(int inventoryId, int cantidadEnInventarioDespues) throws Exception;
+    public void registrarInventario(Inventario inventory) throws Exception;
+    
+    public void modificarIdCategoriaEstablecidaProductoPorId(int productId, int categoryId) throws Exception;
     //EXTRAS
     //publ2ic String buscarNombreProveedorPorFactura(int idFactura) throws Exception;
     

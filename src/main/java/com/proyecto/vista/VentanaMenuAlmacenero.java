@@ -152,7 +152,7 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
 
     private void ingresarProductosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarProductosBtnActionPerformed
         // TODO add your handling code here:
-        //VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
+        VentanaDashboard.ShowJPanelWindows(new VentanaRegistroIngresoInventario(currentUser));
     }//GEN-LAST:event_ingresarProductosBtnActionPerformed
 
     private void gestionarCategoriasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionarCategoriasBtnActionPerformed

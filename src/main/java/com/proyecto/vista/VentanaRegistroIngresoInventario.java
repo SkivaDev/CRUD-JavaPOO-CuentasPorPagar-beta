@@ -45,7 +45,10 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
         productosPendientesField.setEditable(false);
 
         controladorRegistroIngresoInventario.llenarComboBoxCategoriasProducto(categoryCBox);
-
+        
+        if(selectedProduct != null) {
+            categoryCBox.setSelectedItem(selectedProduct.getCategoriaProducto());
+        }
     }
 
     private void LoadProducts() {
@@ -205,8 +208,6 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel20.setText("CATEGORIZAR:");
 
-        categoryCBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         registrarFacturaBtn.setBackground(new java.awt.Color(255, 0, 51));
         registrarFacturaBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         registrarFacturaBtn.setForeground(new java.awt.Color(255, 255, 255));
@@ -356,7 +357,11 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
         selectedProduct = productoSeleccionado;
 
         nombreProductoField.setText(selectedProduct.getNombre());
-        categoriaPreviaField.setText(selectedProduct.getCategoriaProducto().getNombreCategoria());
+        if(selectedProduct.getCategoriaProducto() == null) {
+            categoriaPreviaField.setText("Ninguna");
+        } else {
+            categoriaPreviaField.setText(selectedProduct.getCategoriaProducto().getNombreCategoria());
+        }
         descripcionField.setText(selectedProduct.getDescripcion());
         productosTotalesField.setText(Integer.toString(selectedProduct.getCantidadTotal()));
         productosEntregadosField.setText(Integer.toString(selectedProduct.getCantidadIngresada()));
@@ -410,63 +415,18 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
                 //CONFIRMACION: confirmar los datos a registrar.
                 boolean confirmarDatosIngresoInventario = controladorRegistroIngresoInventario.confirmarDatosIngresoInventario(selectedProduct, cantidadProductosParaIngresarInt);
                 if (confirmarDatosIngresoInventario) {
-                    controladorRegistroIngresoInventario.registrarFacturaConProductos(productosTemporales, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
-                            descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
+                    controladorRegistroIngresoInventario.registrarIngresoInventario(selectedProduct, categoriaSeleccionadaRegistrar, cantidadProductosParaIngresarInt);
                 } else {
                     return;
                 }
-                javax.swing.JOptionPane.showMessageDialog(this, "Factura " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Producto ingresado a inventario exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el factura. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al ingresar el producto a inventario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
 
         }
-        **
-        /*
-        else { // codigo donde se edita
 
-            try {
-                //CONDICIONAL fechaRegistro < fechaVencimiento"yyyy-MM-dd"
-
-                // Convierte el String a LocalDate
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-                Date fechaRegistroDate = formato.parse(fechaRegistro);
-                Date fechaVencimientoDate = formato.parse(fechaVencimiento);
-
-                // valida que la fecha registro sea menor a la fecha vencimiento
-                if (!controladorRegistroFactura.validarFechas(fechaRegistroDate, fechaVencimientoDate)) {
-                    fechaRegistroField.requestFocus();
-                    return;
-                }
-
-                // valida que el monto total de la factura no haga que supere la linea de credito del proveedor.
-                double montoTotalCalculado = controladorRegistroFactura.calcularMontoTotal(productosTemporales);
-                int idProveedorSelecionado = controladorRegistroFactura.buscarIdProveedorPorNombre(proveedor);
-
-                if (!controladorRegistroFactura.validarMontoLineaCredito(montoTotalCalculado, idProveedorSelecionado, invoiceEdition.getIdFactura())) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "El monto total de la factura supera a la linea de credito del proveedor selecionado. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-                    fechaVencimientoField.requestFocus();
-                    return;
-                }
-
-                boolean confirmarDatosProveedores = controladorRegistroFactura.confirmarDatosFactura(productosTemporales, proveedor, fechaRegistro, fechaVencimiento, montoTotal, montoPagado, montoPendiente);
-
-                if (confirmarDatosProveedores) {
-                    int idFactura = invoiceEdition.getIdFactura();
-                    controladorRegistroFactura.editarFacturaConProductos(productosTemporales, idFactura, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
-                        descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
-                } else {
-                    return;
-                }
-
-                javax.swing.JOptionPane.showMessageDialog(this, "Factura " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " la factura. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-
-        }*/
     }//GEN-LAST:event_registrarFacturaBtnActionPerformed
 
 

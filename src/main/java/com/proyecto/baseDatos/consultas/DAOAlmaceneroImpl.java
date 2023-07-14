@@ -259,4 +259,79 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
             throw new SQLException("Error al obtener la lista de productos de la base de datos", e);
         }
     }
+
+    @Override
+    public Inventario obtenerInventarioPorIdProducto(int productId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM inventario WHERE id_producto_inventariado  = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, productId);
+            ResultSet resultSet = statement.executeQuery();
+
+            Inventario inventario = null;
+            if (resultSet.next()) {
+                int idInventario = resultSet.getInt("id_inventario");
+                int idProductoInventariado = resultSet.getInt("id_producto_inventariado");
+                String nombreProducto = resultSet.getString("nombre_producto");
+                int cantidadProducto = resultSet.getInt("cantidad_producto");
+
+                inventario = new Inventario(idInventario, idProductoInventariado, nombreProducto, cantidadProducto);
+            }
+            return inventario;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener el inventario por ID de la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarCantidadProductoInventarioPorId(int inventoryId, int cantidadEnInventarioDespues) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE inventario SET cantidad_producto = ? WHERE id_inventario = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setDouble(1, cantidadEnInventarioDespues);
+            statement.setInt(2, inventoryId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar la cantidad de productos en inventario en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void registrarInventario(Inventario inventory) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO inventario (id_producto_inventariado, nombre_producto, cantidad_producto) VALUES (?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, inventory.getIdProductoInventariado());
+            statement.setString(2, inventory.getNombreProducto());
+            statement.setInt(3, inventory.getCantidadProducto());
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idInventario = generatedKeys.getInt(1);
+                inventory.setIdInventario(idInventario);
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el inventario");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el inventario en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarIdCategoriaEstablecidaProductoPorId(int productId, int categoryId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE productos SET id_categoria_producto = ? WHERE id_producto = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setDouble(1, categoryId);
+            statement.setInt(2, productId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar el id de la categoria del producto en la base de datos", e);
+        }
+    }
 }

@@ -7,6 +7,7 @@ package com.proyecto.controladores;
 import com.proyecto.baseDatos.consultas.DAOAlmaceneroImpl;
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.entidades.CategoriaProducto;
+import com.proyecto.entidades.Inventario;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
@@ -55,13 +56,48 @@ public class ControladorRegistroIngresoInventario {
         model.addColumn("Cant. Pendiente");
 
         try {
-            dao.obtenerListaProductos("").forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getNombre(), u.getDescripcion(),
-                u.getCategoriaProducto().getNombreCategoria(), u.getCantidadTotal(), u.getCantidadIngresada(), u.getCantidadPendiente()}));
+
+            dao.obtenerListaProductos("").forEach((u) -> {
+                Object nombreCategoria = (u.getCategoriaProducto().getNombreCategoria() != null) ? u.getCategoriaProducto().getNombreCategoria() : "ninguna";
+
+
+                model.addRow(new Object[]{u.getIdProducto(), u.getNombre(), u.getDescripcion(),
+                nombreCategoria, u.getCantidadTotal(), u.getCantidadIngresada(), u.getCantidadPendiente()});
+            });
+
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public void registrarIngresoInventario(Producto productoSeleccionado, CategoriaProducto categoriaProductoSeleccionada, int cantidadProductosIngresoInventario) throws Exception {
+
+        //Buscar si existe en el inventario un producto ya registrado con el idProducto
+        List<Producto> listaProductos = dao.obtenerListaProductos("");
+
+        //boolean productaYaRegistrado = false;
+        for (Producto producto : listaProductos) {
+            if (producto.getIdProducto() == productoSeleccionado.getIdProducto()) { //Si existe aumentar la cantidad en inventario de ese producto
+
+                Inventario inventarioDelProducto = dao.obtenerInventarioPorIdProducto(producto.getIdProducto());
+                int cantidadEnInventarioAntes = inventarioDelProducto.getCantidadProducto();
+                int cantidadEnInventarioDespues = (cantidadEnInventarioAntes + cantidadProductosIngresoInventario);
+
+                dao.modificarCantidadProductoInventarioPorId(inventarioDelProducto.getIdInventario(), cantidadEnInventarioDespues);
+
+            } else { //Si NO existe registrar un nuevo idInventario con el id del producto, su nombre, y la cantidad que se esta ingresando.
+                Inventario nuevoInventario = new Inventario(0, productoSeleccionado.getIdProducto(),
+                        productoSeleccionado.getNombre(), cantidadProductosIngresoInventario);
+
+                dao.registrarInventario(nuevoInventario);
+            }
+        }
+
+        //MODIFICAR LA CATEGORIA DEL PRODUCTO
+        dao.modificarIdCategoriaEstablecidaProductoPorId(productoSeleccionado.getIdProducto(), categoriaProductoSeleccionada.getIdCategoriaProducto());
+
     }
 
     public Producto seleccionarProducto(JTable table) {
@@ -77,15 +113,20 @@ public class ControladorRegistroIngresoInventario {
         }
         return null;
     }
-***
+
     public DefaultTableModel buscarProductos(JTable table, String name) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
         try {
-            dao.obtenerListaProductos(name).forEach((u) -> model.addRow(new Object[]{u.getIdProducto(), u.getNombre(), u.getDescripcion(),
-                u.getCategoriaProducto().getNombreCategoria(), u.getCantidadTotal(), u.getCantidadIngresada(), u.getCantidadPendiente()}));
+            dao.obtenerListaProductos(name).forEach((u) -> {
+                Object nombreCategoria = (u.getCategoriaProducto().getNombreCategoria() != null) ? u.getCategoriaProducto().getNombreCategoria() : "ninguna";
+
+
+                model.addRow(new Object[]{u.getIdProducto(), u.getNombre(), u.getDescripcion(),
+                nombreCategoria, u.getCantidadTotal(), u.getCantidadIngresada(), u.getCantidadPendiente()});
+            });
             return model;
         } catch (Exception e) {
             System.out.println(e.getMessage());
