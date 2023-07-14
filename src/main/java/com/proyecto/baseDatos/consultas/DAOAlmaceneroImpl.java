@@ -227,4 +227,36 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
             throw new SQLException("Error al editar la categoria de producto en la base de datos", e);
         }
     }
+
+    @Override
+    public List<Producto> obtenerListaProductos(String productName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = productName.isEmpty() ? "SELECT * FROM productos" : "SELECT * FROM productos WHERE nombre LIKE '%" + productName + "%';";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<Producto> productos = new ArrayList<>();
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                int idFactura = resultSet.getInt("id_factura");
+                String nombreProducto = resultSet.getString("nombre");
+                String descripcionProducto = resultSet.getString("descripcion");
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                int cantidadTotal = resultSet.getInt("cantidad_total");
+                int cantidadIngresada = resultSet.getInt("cantidad_ingresada");
+                int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
+                double precioUnitario = resultSet.getDouble("precio_unitario");
+                double subtotal = resultSet.getDouble("subtotal");
+
+                CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
+                Producto producto = new Producto(idProducto, idFactura, nombreProducto, descripcionProducto, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
+                productos.add(producto);
+            }
+
+            return productos;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de productos de la base de datos", e);
+        }
+    }
 }
