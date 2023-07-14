@@ -97,7 +97,7 @@ public class VentanaDashboard extends javax.swing.JFrame {
     }
 
     public static void ShowJPanelButtons(JPanel p) {
-        p.setSize(270, 370);
+        p.setSize(270, 420);
         p.setLocation(0, 0);
 
         buttonsContent.removeAll();
@@ -169,8 +169,8 @@ public class VentanaDashboard extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(buttonsContent, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addComponent(buttonsContent, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(232, Short.MAX_VALUE))
         );
 
         buttonsContent.getAccessibleContext().setAccessibleParent(background);
