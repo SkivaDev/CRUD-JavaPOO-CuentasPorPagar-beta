@@ -408,4 +408,33 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
             throw new SQLException("Error al obtener la lista de inventarios de la base de datos", e);
         }
     }
+
+    @Override
+    public List<MovimientoInventario> obtenerListaMovimientosInventario(String productName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = productName.isEmpty() ? "SELECT * FROM movimientos_inventario" : "SELECT * FROM movimientos_inventario WHERE id_producto IN (SELECT id_producto FROM productos WHERE nombre LIKE '%" + productName + "%' )";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<MovimientoInventario> movimientos = new ArrayList<>();
+            while (resultSet.next()) {
+                int idMovimientoInventario = resultSet.getInt("id_movimiento_inventario");
+                int idInventario = resultSet.getInt("id_inventario");
+                int idProducto = resultSet.getInt("id_producto");
+                int cantidadProducto = resultSet.getInt("cantidad_producto");
+                String tipoMovimiento = resultSet.getString("tipo_movimiento");
+                Date fechaMovimiento = resultSet.getDate("fecha_movimiento");
+
+                Inventario inventario = obtenerInventarioPorIdProducto(idProducto);
+                Producto producto = obtenerProductoPorId(idProducto);
+                MovimientoInventario movimiento = new MovimientoInventario(idMovimientoInventario, inventario, producto, cantidadProducto, tipoMovimiento, fechaMovimiento);
+                movimientos.add(movimiento);
+            }
+
+            return movimientos;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de movimientos de inventario de la base de datos", e);
+        }
+    }
 }

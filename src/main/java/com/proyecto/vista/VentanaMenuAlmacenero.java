@@ -44,6 +44,7 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         gestionarInventarioBtn = new javax.swing.JButton();
         ingresarProductosBtn = new javax.swing.JButton();
         gestionarCategoriasBtn = new javax.swing.JButton();
+        movimientosInventarioBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -80,7 +81,7 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
                 cerrarSesionBtnActionPerformed(evt);
             }
         });
-        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
+        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 270, 60));
 
         gestionarInventarioBtn.setBackground(new java.awt.Color(255, 0, 51));
         gestionarInventarioBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -132,6 +133,23 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
             }
         });
         add(gestionarCategoriasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
+
+        movimientosInventarioBtn.setBackground(new java.awt.Color(255, 0, 51));
+        movimientosInventarioBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        movimientosInventarioBtn.setForeground(new java.awt.Color(255, 255, 255));
+        movimientosInventarioBtn.setText("Historial Movimientos Inventario");
+        movimientosInventarioBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        movimientosInventarioBtn.setBorderPainted(false);
+        movimientosInventarioBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        movimientosInventarioBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        movimientosInventarioBtn.setIconTextGap(13);
+        movimientosInventarioBtn.setInheritsPopupMenu(true);
+        movimientosInventarioBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                movimientosInventarioBtnActionPerformed(evt);
+            }
+        });
+        add(movimientosInventarioBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -160,12 +178,18 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         VentanaDashboard.ShowJPanelWindows(new VentanaGestorCategoriasProducto(currentUser));
     }//GEN-LAST:event_gestionarCategoriasBtnActionPerformed
 
+    private void movimientosInventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movimientosInventarioBtnActionPerformed
+        // TODO add your handling code here:
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorMovimientosInventario(currentUser));
+    }//GEN-LAST:event_movimientosInventarioBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton gestionarCategoriasBtn;
     private javax.swing.JButton gestionarInventarioBtn;
     private javax.swing.JButton ingresarProductosBtn;
+    private javax.swing.JButton movimientosInventarioBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables
 }
