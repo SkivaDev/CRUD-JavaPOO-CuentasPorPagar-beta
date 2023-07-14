@@ -43,6 +43,7 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
         cerrarSesionBtn = new javax.swing.JButton();
         aprobarRechazarBtn = new javax.swing.JButton();
         gestionarCuentasBancarias = new javax.swing.JButton();
+        movimientosBancariosBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -79,7 +80,7 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
                 cerrarSesionBtnActionPerformed(evt);
             }
         });
-        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
+        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
 
         aprobarRechazarBtn.setBackground(new java.awt.Color(255, 0, 51));
         aprobarRechazarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -114,6 +115,23 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
             }
         });
         add(gestionarCuentasBancarias, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
+
+        movimientosBancariosBtn.setBackground(new java.awt.Color(255, 0, 51));
+        movimientosBancariosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        movimientosBancariosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        movimientosBancariosBtn.setText("Historial Movimientos Bancarios");
+        movimientosBancariosBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        movimientosBancariosBtn.setBorderPainted(false);
+        movimientosBancariosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        movimientosBancariosBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        movimientosBancariosBtn.setIconTextGap(13);
+        movimientosBancariosBtn.setInheritsPopupMenu(true);
+        movimientosBancariosBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                movimientosBancariosBtnActionPerformed(evt);
+            }
+        });
+        add(movimientosBancariosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -137,11 +155,17 @@ public class VentanaMenuJefeFinanzas extends javax.swing.JPanel {
         VentanaDashboard.ShowJPanelWindows(new VentanaGestorCuentasBancarias(currentUser));
     }//GEN-LAST:event_gestionarCuentasBancariasActionPerformed
 
+    private void movimientosBancariosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movimientosBancariosBtnActionPerformed
+        // TODO add your handling code here:
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorMovimientosBancarios(currentUser));
+    }//GEN-LAST:event_movimientosBancariosBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aprobarRechazarBtn;
     private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton gestionarCuentasBancarias;
+    private javax.swing.JButton movimientosBancariosBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables
 }
