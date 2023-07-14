@@ -10,6 +10,7 @@ import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.baseDatos.consultas.DAOJefeFinanzasImpl;
 import com.proyecto.entidades.Administrador;
 import com.proyecto.entidades.Almacenero;
+import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.CuentaBancaria;
 import com.proyecto.entidades.EncargadoCompras;
 import com.proyecto.entidades.JefeFinanzas;
@@ -27,16 +28,16 @@ import javax.swing.UIManager;
 public class ControladorRegistroCategoriaProducto {
 
     private DAOAlmaceneroImpl dao;
-    private CuentaBancaria bankAccount;
+    private CategoriaProducto productCategory;
 
     public ControladorRegistroCategoriaProducto() {
         this.dao = new DAOAlmaceneroImpl();
     }
 
-    public void registrarCuentaBancaria(String nombreCuenta, String tipoCuenta, double saldoInicial) throws Exception {
+    public void registrarCategoriaProducto(String nombreCategoria, String descripcionCategoria) throws Exception {
 
-        bankAccount = new CuentaBancaria(0, nombreCuenta, tipoCuenta, saldoInicial, saldoInicial);
-        dao.registrarCuentaBancaria(bankAccount);
+        productCategory = new CategoriaProducto(0, nombreCategoria, descripcionCategoria);
+        dao.registrarCategoriaProducto(productCategory);
 
     }
 
@@ -53,15 +54,14 @@ public class ControladorRegistroCategoriaProducto {
         dao.modificarProveedor(supplier);
         
     }*/
-    public boolean confirmarDatosCuentaBancaria(String nombreCuenta, String tipoCuenta, String saldoInicial) {
+    public boolean confirmarDatosCategoriaProducto(String nombreCategoria, String descripcionCategoria) {
         String message;
         String title = "Confirmación";
         int optionType = JOptionPane.YES_NO_OPTION;
 
-        message = "***** Datos de la cuenta bancaria *****";
-        message += "\nNombre Entidad Bancaria: " + nombreCuenta;
-        message += "\nTipo de cuenta bancaria: " + tipoCuenta;
-        message += "\nSaldo Inicial: " + saldoInicial;
+        message = "***** Datos de la categoría producto *****";
+        message += "\nNombre de la Categoría: " + nombreCategoria;
+        message += "\nDescripción: " + descripcionCategoria;
         message += "\n";
         message += "\nLos datos son correctos?";
 

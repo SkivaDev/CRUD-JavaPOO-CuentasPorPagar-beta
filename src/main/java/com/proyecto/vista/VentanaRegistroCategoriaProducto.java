@@ -179,15 +179,15 @@ public class VentanaRegistroCategoriaProducto extends javax.swing.JPanel {
                     return;
                 }
                 
-                boolean confirmarDatosCuentaBancaria = controladorRegistroCuentaBancaria.confirmarDatosCuentaBancaria(nombreCuenta, tipoCuenta, saldoInicial);
-                if (confirmarDatosCuentaBancaria) {
-                    controladorRegistroCuentaBancaria.registrarCuentaBancaria(nombreCuenta, "Ahorros", 0);
+                boolean confirmarDatosCategoriaProducto = controladorRegistroCategoriaProducto.confirmarDatosCategoriaProducto(nombreCategoria, descripcionCategoria);
+                if (confirmarDatosCategoriaProducto) {
+                    controladorRegistroCategoriaProducto.registrarCategoriaProducto(nombreCategoria, descripcionCategoria);
                 } else {
                     return;
                 }
-                javax.swing.JOptionPane.showMessageDialog(this, "Cuenta bancaria " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Categoría Producto " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " la cuenta bancaria. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " la categoría producto. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
 
         } else { // codigo donde se edita

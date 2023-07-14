@@ -43,7 +43,7 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         cerrarSesionBtn = new javax.swing.JButton();
         gestionarInventarioBtn = new javax.swing.JButton();
         gentionarFacturasBtn = new javax.swing.JButton();
-        gentionarFacturasBtn1 = new javax.swing.JButton();
+        gestionarCategoriasBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -116,22 +116,22 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         });
         add(gentionarFacturasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 270, 60));
 
-        gentionarFacturasBtn1.setBackground(new java.awt.Color(255, 0, 51));
-        gentionarFacturasBtn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        gentionarFacturasBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        gentionarFacturasBtn1.setText("Gestionar Categoría Productos");
-        gentionarFacturasBtn1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        gentionarFacturasBtn1.setBorderPainted(false);
-        gentionarFacturasBtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        gentionarFacturasBtn1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gentionarFacturasBtn1.setIconTextGap(13);
-        gentionarFacturasBtn1.setInheritsPopupMenu(true);
-        gentionarFacturasBtn1.addActionListener(new java.awt.event.ActionListener() {
+        gestionarCategoriasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        gestionarCategoriasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        gestionarCategoriasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        gestionarCategoriasBtn.setText("Gestionar Categoría Productos");
+        gestionarCategoriasBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        gestionarCategoriasBtn.setBorderPainted(false);
+        gestionarCategoriasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        gestionarCategoriasBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        gestionarCategoriasBtn.setIconTextGap(13);
+        gestionarCategoriasBtn.setInheritsPopupMenu(true);
+        gestionarCategoriasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gentionarFacturasBtn1ActionPerformed(evt);
+                gestionarCategoriasBtnActionPerformed(evt);
             }
         });
-        add(gentionarFacturasBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
+        add(gestionarCategoriasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -155,15 +155,16 @@ public class VentanaMenuAlmacenero extends javax.swing.JPanel {
         //VentanaDashboard.ShowJPanelWindows(new VentanaGestorFacturas(currentUser));
     }//GEN-LAST:event_gentionarFacturasBtnActionPerformed
 
-    private void gentionarFacturasBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gentionarFacturasBtn1ActionPerformed
+    private void gestionarCategoriasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionarCategoriasBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gentionarFacturasBtn1ActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorCategoriasProducto(currentUser));
+    }//GEN-LAST:event_gestionarCategoriasBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton gentionarFacturasBtn;
-    private javax.swing.JButton gentionarFacturasBtn1;
+    private javax.swing.JButton gestionarCategoriasBtn;
     private javax.swing.JButton gestionarInventarioBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables
