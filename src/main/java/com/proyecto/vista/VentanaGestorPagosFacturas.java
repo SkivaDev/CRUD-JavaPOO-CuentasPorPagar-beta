@@ -12,13 +12,13 @@ import com.proyecto.entidades.Usuario;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 
-public class VentanaGestorMovimientosBancarios extends javax.swing.JPanel {
+public class VentanaGestorPagosFacturas extends javax.swing.JPanel {
 
     private Usuario currentUser;
     private ControladorGestorMovimientosBancarios controladorGestorMovimientosBancarios;
     private DefaultTableModel modeloTabla;
 
-    public VentanaGestorMovimientosBancarios(Usuario currentUser) {
+    public VentanaGestorPagosFacturas(Usuario currentUser) {
         this.controladorGestorMovimientosBancarios = new ControladorGestorMovimientosBancarios();
         this.currentUser = currentUser;
         this.modeloTabla = new DefaultTableModel();
