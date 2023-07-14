@@ -8,6 +8,7 @@ import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Inventario;
+import com.proyecto.entidades.MovimientoInventario;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 
@@ -54,9 +55,14 @@ public interface DAOAlmaceneroInterfaz {
     public List<Producto> obtenerListaProductos(String productName) throws Exception;
     public Inventario obtenerInventarioPorIdProducto(int productId) throws Exception;
     public void modificarCantidadProductoInventarioPorId(int inventoryId, int cantidadEnInventarioDespues) throws Exception;
-    public void registrarInventario(Inventario inventory) throws Exception;
+    public int registrarInventario(Inventario inventory) throws Exception;
     
     public void modificarIdCategoriaEstablecidaProductoPorId(int productId, int categoryId) throws Exception;
+    
+    public void registrarMovimientoInventario(MovimientoInventario inventoryMovement) throws Exception;
+    public void modificarCantidadesProductoPorId(int productId, int cantidadIngresadaDespues, int cantidadPendienteDespues) throws Exception;
+    
+    public List<Producto> obtenerListaProductosEnInventario() throws Exception;
     //EXTRAS
     //publ2ic String buscarNombreProveedorPorFactura(int idFactura) throws Exception;
     

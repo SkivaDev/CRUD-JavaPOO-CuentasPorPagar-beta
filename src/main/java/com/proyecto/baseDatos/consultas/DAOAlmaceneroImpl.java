@@ -9,6 +9,7 @@ import com.proyecto.entidades.CategoriaProducto;
 import com.proyecto.entidades.DetalleFactura;
 import com.proyecto.entidades.Factura;
 import com.proyecto.entidades.Inventario;
+import com.proyecto.entidades.MovimientoInventario;
 import com.proyecto.entidades.Producto;
 import com.proyecto.entidades.Proveedor;
 import com.proyecto.interfaces.DAOAlmaceneroInterfaz;
@@ -299,7 +300,7 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
     }
 
     @Override
-    public void registrarInventario(Inventario inventory) throws Exception {
+    public int registrarInventario(Inventario inventory) throws Exception {
         try {
             this.Conectar();
             String consulta = "INSERT INTO inventario (id_producto_inventariado, nombre_producto, cantidad_producto) VALUES (?, ?, ?)";
@@ -313,6 +314,7 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
             if (generatedKeys.next()) {
                 int idInventario = generatedKeys.getInt(1);
                 inventory.setIdInventario(idInventario);
+                return idInventario;
             } else {
                 throw new SQLException("Error al obtener el ID generado para el inventario");
             }
@@ -332,6 +334,78 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error al editar el id de la categoria del producto en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void registrarMovimientoInventario(MovimientoInventario inventoryMovement) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "INSERT INTO movimientos_inventario (id_inventario, id_producto, cantidad_producto, tipo_movimiento, fecha_movimiento) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, inventoryMovement.getInventario().getIdInventario());
+            statement.setInt(2, inventoryMovement.getProducto().getIdProducto());
+            statement.setInt(3, inventoryMovement.getCantidadProducto());
+            statement.setString(4, inventoryMovement.getTipoMovimiento());
+            statement.setDate(5, new java.sql.Date(inventoryMovement.getFechaMovimiento().getTime()));
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idMovimiento = generatedKeys.getInt(1);
+                inventoryMovement.setIdMovimientoInventario(idMovimiento);
+            } else {
+                throw new SQLException("Error al obtener el ID generado para el inventario");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al registrar el inventario en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void modificarCantidadesProductoPorId(int productId, int cantidadIngresadaDespues, int cantidadPendienteDespues) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE productos SET cantidad_ingresada = ?, cantidad_pendiente = ? WHERE id_producto = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, cantidadIngresadaDespues);
+            statement.setInt(2, cantidadPendienteDespues);
+            statement.setInt(3, productId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar la cantidades ingresadas y pendientes del producto en la base de datos", e);
+        }
+    }
+
+    @Override
+    public List<Producto> obtenerListaProductosEnInventario() throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM productos WHERE id_producto IN (SELECT id_producto_inventariado FROM inventario)";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<Producto> productos = new ArrayList<>();
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                int idFactura = resultSet.getInt("id_factura");
+                String nombreProducto = resultSet.getString("nombre");
+                String descripcionProducto = resultSet.getString("descripcion");
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                int cantidadTotal = resultSet.getInt("cantidad_total");
+                int cantidadIngresada = resultSet.getInt("cantidad_ingresada");
+                int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
+                double precioUnitario = resultSet.getDouble("precio_unitario");
+                double subtotal = resultSet.getDouble("subtotal");
+
+                CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
+                Producto producto = new Producto(idProducto, idFactura, nombreProducto, descripcionProducto, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
+                productos.add(producto);
+            }
+
+            return productos;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de inventarios de la base de datos", e);
         }
     }
 }

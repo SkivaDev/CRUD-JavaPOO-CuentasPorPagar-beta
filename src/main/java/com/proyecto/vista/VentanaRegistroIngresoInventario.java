@@ -45,8 +45,8 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
         productosPendientesField.setEditable(false);
 
         controladorRegistroIngresoInventario.llenarComboBoxCategoriasProducto(categoryCBox);
-        
-        if(selectedProduct != null) {
+
+        if (selectedProduct != null) {
             categoryCBox.setSelectedItem(selectedProduct.getCategoriaProducto());
         }
     }
@@ -170,17 +170,11 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Nombre:");
 
-        nombreProductoField.setText("jTextField1");
-
-        categoriaPreviaField.setText("jTextField1");
-
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Categoría previa:");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Descripción:");
-
-        descripcionField.setText("jTextField1");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("CANTIDADES:");
@@ -194,16 +188,8 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel16.setText("Pendiente:");
 
-        productosTotalesField.setText("jTextField1");
-
-        productosPendientesField.setText("jTextField1");
-
-        productosEntregadosField.setText("jTextField1");
-
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setText("DEFINIR CANTIDAD PRODUCTOS:");
-
-        cantidadProductoParaIngresarField.setText("jTextField1");
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel20.setText("CATEGORIZAR:");
@@ -238,38 +224,41 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(bgLayout.createSequentialGroup()
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nombreProductoField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))
-                                .addGap(28, 28, 28)
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(categoriaPreviaField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel12)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(descripcionField)
-                            .addComponent(jLabel13)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
-                                    .addComponent(productosTotalesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(37, 37, 37)
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel16)
-                                    .addComponent(productosPendientesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(productosTotalesField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel15)
-                                    .addComponent(productosEntregadosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(productosPendientesField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16))
+                                .addGap(30, 30, 30)
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(productosEntregadosField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15)))
                             .addComponent(registrarFacturaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(cantidadProductoParaIngresarField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(jLabel20)
-                                .addGap(18, 18, 18)
-                                .addComponent(categoryCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(nombreProductoField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel1))
+                                        .addGap(28, 28, 28)
+                                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel11)
+                                            .addComponent(categoriaPreviaField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel13)
+                                    .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(cantidadProductoParaIngresarField, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addComponent(jLabel20)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(categoryCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(47, Short.MAX_VALUE))
                     .addGroup(bgLayout.createSequentialGroup()
                         .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -357,7 +346,7 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
         selectedProduct = productoSeleccionado;
 
         nombreProductoField.setText(selectedProduct.getNombre());
-        if(selectedProduct.getCategoriaProducto() == null) {
+        if (selectedProduct.getCategoriaProducto() == null) {
             categoriaPreviaField.setText("Ninguna");
         } else {
             categoriaPreviaField.setText(selectedProduct.getCategoriaProducto().getNombreCategoria());
@@ -402,10 +391,16 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
 
             try {
 
+                //VALICACION: cantidadProductosParaIngresarInt debe ser mayor a 0
+                int cantidadProductosParaIngresarInt = Integer.parseInt(cantidadProductosParaIngresarString);
+                if (cantidadProductosParaIngresarInt <= 0) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "La cantidad que desea ingresar debe ser mayor a 0. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    cantidadProductoParaIngresarField.requestFocus();
+                    return;
+                }
+
                 //VALICACION: el numero de productos a ingresar al inventario no debe superar el numero de productos pendientes.
                 int cantidadProductosPendientes = selectedProduct.getCantidadPendiente();
-                int cantidadProductosParaIngresarInt = Integer.parseInt(cantidadProductosParaIngresarString);
-
                 if (cantidadProductosParaIngresarInt > cantidadProductosPendientes) {
                     javax.swing.JOptionPane.showMessageDialog(this, "La cantidad que desea ingresar supera a la cantidad pendiente del producto elegido. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
                     cantidadProductoParaIngresarField.requestFocus();
@@ -413,7 +408,7 @@ public class VentanaRegistroIngresoInventario extends javax.swing.JPanel {
                 }
 
                 //CONFIRMACION: confirmar los datos a registrar.
-                boolean confirmarDatosIngresoInventario = controladorRegistroIngresoInventario.confirmarDatosIngresoInventario(selectedProduct, cantidadProductosParaIngresarInt);
+                boolean confirmarDatosIngresoInventario = controladorRegistroIngresoInventario.confirmarDatosIngresoInventario(selectedProduct, categoriaSeleccionadaRegistrar, cantidadProductosParaIngresarInt);
                 if (confirmarDatosIngresoInventario) {
                     controladorRegistroIngresoInventario.registrarIngresoInventario(selectedProduct, categoriaSeleccionadaRegistrar, cantidadProductosParaIngresarInt);
                 } else {
