@@ -191,24 +191,21 @@ public class VentanaRegistroCategoriaProducto extends javax.swing.JPanel {
             }
 
         } else { // codigo donde se edita
-            /*
+            
             try {
-                int idProveedor = supplierEdition.getIdProveedor();
+                int idCategoria = productCategoryEdition.getIdCategoriaProducto();
                 
-                boolean confirmarDatosProveedores = controladorRegistroProveedor.confirmarDatosProveedor(nombre, direccion, telefono, Double.valueOf(lineaCredito));
-
-                if (confirmarDatosProveedores) {
-                    controladorRegistroProveedor.editarProveedor(idProveedor, nombre, direccion, telefono, Double.valueOf(lineaCredito));
+                boolean confirmarDatosCategoriaProducto = controladorRegistroCategoriaProducto.confirmarDatosCategoriaProducto(nombreCategoria, descripcionCategoria);
+                if (confirmarDatosCategoriaProducto) {
+                    controladorRegistroCategoriaProducto.editarCategoriaProducto(idCategoria, nombreCategoria, descripcionCategoria);
                 } else {
                     return;
                 }
-
                 javax.swing.JOptionPane.showMessageDialog(this, "Proveedor " + successMsg + " exitosamente.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
-            */
         }
 
     }//GEN-LAST:event_registerButtonActionPerformed

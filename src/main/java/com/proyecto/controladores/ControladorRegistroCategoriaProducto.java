@@ -47,6 +47,13 @@ public class ControladorRegistroCategoriaProducto {
 
     }
 
+    public void editarCategoriaProducto(int idCategoria, String nombreCategoria, String descripcionCategoria) throws Exception {
+
+        productCategory = new CategoriaProducto(idCategoria, nombreCategoria, descripcionCategoria);
+        dao.modificarCategoriaProducto(productCategory);
+
+    }
+
     /*
     public void editarProveedor(int idProveedor, String nombre, String direccion, String telefono, Double lineaCredito) throws Exception {
         

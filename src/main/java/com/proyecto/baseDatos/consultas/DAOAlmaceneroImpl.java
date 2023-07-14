@@ -212,4 +212,19 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
             throw new SQLException("Error al registrar la categoria producto en la base de datos", e);
         }
     }
+
+    @Override
+    public void modificarCategoriaProducto(CategoriaProducto productCategory) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "UPDATE categorias_producto SET nombre_categoria = ?, descripcion_categoria = ? WHERE id_categoria_producto = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, productCategory.getNombreCategoria());
+            statement.setString(2, productCategory.getDescripcionCategoria());
+            statement.setInt(3, productCategory.getIdCategoriaProducto());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al editar la categoria de producto en la base de datos", e);
+        }
+    }
 }
