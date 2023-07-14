@@ -100,6 +100,8 @@ public interface DAOTesoreroInterfaz {
       public Cheque obtenerChequeRespaldoPagoProgramadoPorIdFactura(int invoiceId) throws Exception;
       public void modificarMontoChequeRespaldoProgramadoPorIdCheque(int checkId, double nuevoMontoCheque) throws Exception;
       
+      public List<MovimientoBancario> obtenerListaMovimientosBancarios(String bankName) throws Exception;
+      
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     

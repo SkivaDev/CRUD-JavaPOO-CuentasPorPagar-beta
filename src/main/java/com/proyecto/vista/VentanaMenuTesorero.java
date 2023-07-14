@@ -44,7 +44,7 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
         EstadoCuentasBtn = new javax.swing.JButton();
         pagarFacturasBtn = new javax.swing.JButton();
         expedienteProveedoresBtn = new javax.swing.JButton();
-        expedienteProveedoresBtn1 = new javax.swing.JButton();
+        movimientosBancariosBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -134,22 +134,22 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
         });
         add(expedienteProveedoresBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 270, 60));
 
-        expedienteProveedoresBtn1.setBackground(new java.awt.Color(255, 0, 51));
-        expedienteProveedoresBtn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        expedienteProveedoresBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        expedienteProveedoresBtn1.setText("Historial Movimientos Bancarios");
-        expedienteProveedoresBtn1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
-        expedienteProveedoresBtn1.setBorderPainted(false);
-        expedienteProveedoresBtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        expedienteProveedoresBtn1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        expedienteProveedoresBtn1.setIconTextGap(13);
-        expedienteProveedoresBtn1.setInheritsPopupMenu(true);
-        expedienteProveedoresBtn1.addActionListener(new java.awt.event.ActionListener() {
+        movimientosBancariosBtn.setBackground(new java.awt.Color(255, 0, 51));
+        movimientosBancariosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        movimientosBancariosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        movimientosBancariosBtn.setText("Historial Movimientos Bancarios");
+        movimientosBancariosBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        movimientosBancariosBtn.setBorderPainted(false);
+        movimientosBancariosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        movimientosBancariosBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        movimientosBancariosBtn.setIconTextGap(13);
+        movimientosBancariosBtn.setInheritsPopupMenu(true);
+        movimientosBancariosBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                expedienteProveedoresBtn1ActionPerformed(evt);
+                movimientosBancariosBtnActionPerformed(evt);
             }
         });
-        add(expedienteProveedoresBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
+        add(movimientosBancariosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -178,16 +178,17 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
         VentanaDashboard.ShowJPanelWindows(new VentanaGestorExpedienteProveedores(currentUser));
     }//GEN-LAST:event_expedienteProveedoresBtnActionPerformed
 
-    private void expedienteProveedoresBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expedienteProveedoresBtn1ActionPerformed
+    private void movimientosBancariosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movimientosBancariosBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_expedienteProveedoresBtn1ActionPerformed
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorMovimientosBancarios(currentUser));
+    }//GEN-LAST:event_movimientosBancariosBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton EstadoCuentasBtn;
     private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton expedienteProveedoresBtn;
-    private javax.swing.JButton expedienteProveedoresBtn1;
+    private javax.swing.JButton movimientosBancariosBtn;
     private javax.swing.JButton pagarFacturasBtn;
     private javax.swing.JButton principalBtn;
     // End of variables declaration//GEN-END:variables

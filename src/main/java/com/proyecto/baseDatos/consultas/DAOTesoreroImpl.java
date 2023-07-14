@@ -1325,4 +1325,32 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
+    @Override
+    public List<MovimientoBancario> obtenerListaMovimientosBancarios(String bankName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = bankName.isEmpty() ? "SELECT * FROM movimientos_bancarios" : "SELECT * FROM movimientos_bancarios WHERE id_cuenta IN (SELECT id_cuenta FROM cuentas_bancarias WHERE nombre_banco LIKE '%" + bankName + "%' )";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<MovimientoBancario> movimientosBancarios = new ArrayList<>();
+            while (resultSet.next()) {
+                int idMovimientoBancario = resultSet.getInt("id_movimiento");
+                int idCuentaBancaria = resultSet.getInt("id_cuenta");
+                String tipoMovimiento = resultSet.getString("tipo_movimiento");
+                double montoBancario = resultSet.getDouble("monto");
+                Date fechaMovimiento = resultSet.getDate("fecha_movimiento");
+
+                CuentaBancaria cuentaBancaria = obtenerCuentaBancariaPorId(idCuentaBancaria);
+                
+                MovimientoBancario movimientoBancario = new MovimientoBancario(idMovimientoBancario, cuentaBancaria, tipoMovimiento, montoBancario, fechaMovimiento);
+                movimientosBancarios.add(movimientoBancario);
+            }
+
+            return movimientosBancarios;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de movimientos de inventario de la base de datos", e);
+        }
+    }
+
 }
