@@ -43,8 +43,11 @@ public interface DAOAlmaceneroInterfaz {
     //public boolean supplierNameEnUso(String supplierName) throws Exception;
     public List<Inventario> obtenerListaInventarios(String productName) throws Exception;
     public Producto obtenerProductoPorId(int productId) throws Exception;
-     public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception;
-    
+    public CategoriaProducto obtenerCategoriaProductoPorId(int productCategoryId) throws Exception;
+    public List<CategoriaProducto> obtenerListaCategoriasProducto(String categoryName) throws Exception;
+    public boolean categoriaRegistradaEnUso(int productCategoryId) throws Exception;
+    public void eliminarCategoriaProducto(int productCategoryId) throws Exception;
+     
     //EXTRAS
     //publ2ic String buscarNombreProveedorPorFactura(int idFactura) throws Exception;
     

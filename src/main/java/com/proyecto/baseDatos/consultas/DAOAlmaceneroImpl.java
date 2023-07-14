@@ -73,10 +73,10 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
                 int cantidadPendiente = resultSet.getInt("cantidad_pendiente");
                 double precioUnitario = resultSet.getDouble("precio_unitario");
                 double subtotal = resultSet.getDouble("subtotal");
-                
+
                 CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
-                
-                producto = new Producto(idProducto, idFactura, nombreProducto, 
+
+                producto = new Producto(idProducto, idFactura, nombreProducto,
                         descripcionProducto, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
             }
 
@@ -114,4 +114,60 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
         }
     }
 
+    @Override
+    public List<CategoriaProducto> obtenerListaCategoriasProducto(String categoryName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = categoryName.isEmpty() ? "SELECT * FROM categorias_producto" : "SELECT * FROM categorias_producto WHERE nombre_categoria LIKE '%" + categoryName + "%';";
+            Statement statement = conexion.createStatement();
+            ResultSet resultSet = statement.executeQuery(consulta);
+
+            List<CategoriaProducto> categoriasProducto = new ArrayList<>();
+            while (resultSet.next()) {
+                int idCategoriaProducto = resultSet.getInt("id_categoria_producto");
+                String nombreCategoria = resultSet.getString("nombre_categoria");
+                String descripcionCategoria = resultSet.getString("descripcion_categoria");
+
+                CategoriaProducto categoriaProducto = new CategoriaProducto(idCategoriaProducto, nombreCategoria, descripcionCategoria);
+                categoriasProducto.add(categoriaProducto);
+            }
+
+            return categoriasProducto;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de cuentas bancarias de la base de datos", e);
+        }
+    }
+
+    @Override
+    public boolean categoriaRegistradaEnUso(int productCategoryId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT COUNT(*) AS total FROM productos WHERE id_categoria_producto = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, productCategoryId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int totalRegistros = resultSet.getInt("total");
+                return totalRegistros > 0;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            throw new SQLException("Error al verificar si la categoria de producto esta en uso, en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void eliminarCategoriaProducto(int productCategoryId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "DELETE FROM categorias_producto WHERE id_categoria_producto = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, productCategoryId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al eliminar la categoria de producto de la base de datos", e);
+        }
+    }
 }
