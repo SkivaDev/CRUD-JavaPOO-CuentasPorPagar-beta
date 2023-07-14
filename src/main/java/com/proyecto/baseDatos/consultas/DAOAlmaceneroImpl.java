@@ -170,4 +170,24 @@ public class DAOAlmaceneroImpl extends GestorBaseDatos implements DAOAlmaceneroI
             throw new SQLException("Error al eliminar la categoria de producto de la base de datos", e);
         }
     }
+
+    @Override
+    public boolean existeCategoriaProducto(String productCategoryName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT COUNT(*) AS total FROM categorias_producto WHERE nombre_categoria = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setString(1, productCategoryName);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int totalRegistros = resultSet.getInt("total");
+                return totalRegistros > 0;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            throw new SQLException("Error al verificar las categorias de producto en la base de datos", e);
+        }
+    }
 }

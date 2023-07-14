@@ -170,10 +170,10 @@ public class VentanaRegistroCategoriaProducto extends javax.swing.JPanel {
         } else if (!isEdition) { // codigo donde se agrega
             
             try {
-                //VALIDAR: El nombre de la nueva cuenta no debe estar registrado en la base de datos.
-                boolean nombreCategoriaEnUso = controladorRegistroCategoriaProducto.validarNombreCuentaBancariaEnUso(nombreCuenta);
+                //VALIDAR: El nombre de la nueva categoria no debe estar registrado en la base de datos.
+                boolean nombreCategoriaEnUso = controladorRegistroCategoriaProducto.validarNombreCategoriaProductoEnUso(nombreCategoria);
                 if(nombreCategoriaEnUso){
-                    javax.swing.JOptionPane.showMessageDialog(this, "Al parecer el nombre de la entidad bancaria: " + nombreCuenta 
+                    javax.swing.JOptionPane.showMessageDialog(this, "Al parecer el nombre de la categoria: " + nombreCategoria 
                             + " ya esta registrada.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
                     nombreCategoriaField.requestFocus();
                     return;

@@ -5,6 +5,7 @@
 package com.proyecto.controladores;
 
 import com.proyecto.baseDatos.consultas.DAOAdministradorImpl;
+import com.proyecto.baseDatos.consultas.DAOAlmaceneroImpl;
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.baseDatos.consultas.DAOJefeFinanzasImpl;
 import com.proyecto.entidades.Administrador;
@@ -25,11 +26,11 @@ import javax.swing.UIManager;
  */
 public class ControladorRegistroCategoriaProducto {
 
-    private DAOJefeFinanzasImpl dao;**
+    private DAOAlmaceneroImpl dao;
     private CuentaBancaria bankAccount;
 
     public ControladorRegistroCategoriaProducto() {
-        this.dao = new DAOJefeFinanzasImpl();
+        this.dao = new DAOAlmaceneroImpl();
     }
 
     public void registrarCuentaBancaria(String nombreCuenta, String tipoCuenta, double saldoInicial) throws Exception {
@@ -41,7 +42,7 @@ public class ControladorRegistroCategoriaProducto {
 
     public boolean validarNombreCategoriaProductoEnUso(String nombreCategoria) throws Exception {
 
-        return dao.existeEntidadBancaria(nombreCategoria);
+        return dao.existeCategoriaProducto(nombreCategoria);
 
     }
 
