@@ -109,6 +109,7 @@ public class VentanaDetalleExpedienteProveedor extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        expedienteProveedorTable.setShowGrid(true);
         jScrollPane1.setViewportView(expedienteProveedorTable);
 
         jLabel10.setText("PROVEEDOR");

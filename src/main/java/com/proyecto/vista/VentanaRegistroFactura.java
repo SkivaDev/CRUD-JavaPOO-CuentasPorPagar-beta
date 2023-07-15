@@ -234,6 +234,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        productosTable.setShowGrid(true);
         jScrollPane1.setViewportView(productosTable);
 
         jLabel10.setText("PRODUCTO");

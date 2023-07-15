@@ -112,6 +112,7 @@ public class VentanaGestorEstadoCuentas extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setShowGrid(true);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
