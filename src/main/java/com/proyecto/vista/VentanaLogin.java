@@ -31,6 +31,8 @@ public class VentanaLogin extends javax.swing.JFrame {
 
     private void InitStyles() {
         textLogin.putClientProperty("FlatLaf.style", "font: bold $h1.regular.font");
+        usernameField.putClientProperty("JTextField.placeholderText", "Username");
+        //userSearchField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
     
     /**
