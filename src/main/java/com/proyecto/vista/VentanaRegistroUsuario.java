@@ -48,7 +48,7 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
         if (isEdition) {
             title.setText("Editar Usuario");
             registerButton.setText("Guardar");
-            usernameField.setEditable(true);
+            usernameField.setEditable(false);
             passwordField.setEditable(true);
 
             if (userEdition != null) {
@@ -278,11 +278,27 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
             return;
         } else if (!isEdition) { // codigo donde se agrega
             try {
+
+                //VALIDACION: DNI debe tener exactamente 8 digitos
+                //VALIDACION: DNI solo puede empezar por 4, 7, 3, 0
+                if (!controladorRegistroUsuario.validarDNI(dni)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "DNI solo puede tener 8 digitos y debe comenzar por 4, 7, 3, 0.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    dniField.requestFocus();
+                    return;
+                }
+                //VALIDACION: Nro. Telefono debe tener 9 digitos y solo debe comenzar por el 9
+                if (!controladorRegistroUsuario.validarNumeroTelefono(telefono)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, " Nro. Telefono debe tener 9 digitos y solo debe comenzar por el 9.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    dniField.requestFocus();
+                    return;
+                }
+
                 String usernameGenerated;
                 usernameGenerated = controladorRegistroUsuario.generarUsernameUsuario(nombre, apP, apM, dni);
                 String passwordGenerated = controladorRegistroUsuario.generarPassword(usernameGenerated);
                 usernameField.setText(usernameGenerated);
                 passwordField.setText(passwordGenerated);
+
                 boolean confirmarDatosUsuarios = controladorRegistroUsuario.confirmarDatosUsuario(nombre, apP, apM, dni, telefono, usernameGenerated, passwordGenerated, rol);
                 if (confirmarDatosUsuarios) {
                     controladorRegistroUsuario.registrarUsuario(nombre, apP, apM, dni, telefono, usernameGenerated, passwordGenerated, rol);
@@ -297,6 +313,21 @@ public class VentanaRegistroUsuario extends javax.swing.JPanel {
 
         } else { // codigo donde se edita
             try {
+
+                //VALIDACION: DNI debe tener exactamente 8 digitos
+                //VALIDACION: DNI solo puede empezar por 4, 7, 3, 0
+                if (!controladorRegistroUsuario.validarDNI(dni)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "DNI solo puede tener 8 digitos y debe comenzar por 4, 7, 3, 0.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    dniField.requestFocus();
+                    return;
+                }
+                //VALIDACION: Nro. Telefono debe tener 9 digitos y solo debe comenzar por el 9
+                if (!controladorRegistroUsuario.validarNumeroTelefono(telefono)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, " Nro. Telefono debe tener 9 digitos y solo debe comenzar por el 9.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    dniField.requestFocus();
+                    return;
+                }
+
                 int idUsuario = userEdition.getIdUsuario();
                 boolean confirmarDatosUsuarios = controladorRegistroUsuario.confirmarDatosUsuario(nombre, apP, apM, dni, telefono, username, password, rol);
                 if (confirmarDatosUsuarios) {

@@ -74,6 +74,40 @@ public class ControladorRegistroUsuario {
         dao.modificarUsuario(user);
     }
 
+    public boolean validarDNI(String dni) {
+        if (dni.length() != 8) {
+            return false;
+        }
+
+        char primerDigito = dni.charAt(0);
+        if (primerDigito != '4' && primerDigito != '7' && primerDigito != '3' && primerDigito != '0') {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean validarNumeroTelefono(String numeroTelefono) {
+        if (numeroTelefono.length() != 9) {
+            return false;
+        }
+
+        char primerDigito = numeroTelefono.charAt(0);
+        if (primerDigito != '9') {
+            return false;
+        }
+
+        // Verificar si todos los caracteres restantes son dígitos
+        for (int i = 1; i < 9; i++) {
+            char digito = numeroTelefono.charAt(i);
+            if (!Character.isDigit(digito)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public String generarUsernameUsuario(String nombre, String apellidoPaterno, String apellidoMaterno, String dni) throws Exception {
         String initials = String.valueOf(nombre.charAt(0)) + String.valueOf(apellidoPaterno.charAt(0)) + String.valueOf(apellidoMaterno.charAt(0));
         String dniDigits = dni.substring(0, 3);
