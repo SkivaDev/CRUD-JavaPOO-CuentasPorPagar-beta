@@ -8,6 +8,7 @@ import com.proyecto.baseDatos.consultas.DAOAlmaceneroImpl;
 import com.proyecto.baseDatos.consultas.DAOEncargadoComprasImpl;
 import com.proyecto.baseDatos.consultas.DAOTesoreroImpl;
 import com.proyecto.entidades.Producto;
+import com.proyecto.entidades.Proveedor;
 import com.proyecto.entidades.Usuario;
 import com.proyecto.vista.VentanaDashboard;
 import com.proyecto.vista.VentanaBETAAAExpedienteProveedor;
@@ -32,24 +33,33 @@ public class ControladorGestorPagosFacturas {
         this.dao = new DAOTesoreroImpl();
     }
 
-    public DefaultTableModel listarMovimientosInventario(JTable table) {
+    public DefaultTableModel listarPagosFacturas(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
         table.setModel(model);
 
-        model.addColumn("IDMovimiento");
-        model.addColumn("Entidad Bancaria");
-        model.addColumn("Tipo de movimiento");
-        model.addColumn("Monto de movimiento");
-        model.addColumn("Fecha de movimiento");
+        model.addColumn("IDPago");
+        model.addColumn("IDFactura");
+        model.addColumn("Proveedor");
+        model.addColumn("Tipo de pago");
+        model.addColumn("Monto de pago");
+        model.addColumn("Fecha de pago");
 
         try {
             //DAOUsers dao = new DAOUsersImpl();
-            dao.obtenerListaMovimientosBancarios("").forEach((u) -> {
-                model.addRow(new Object[]{u.getIdMovimientoBancario(), u.getCuentaBancaria().getNombreBanco(), u.getTipoMovimiento(),
-                    u.getMontoMovimiento(), u.getFechaMovimiento()});
+            dao.obtenerListaPagosFacturas("").forEach((u) -> {
+                String nombreProveedor = "Ninguno";
+                try {
+                    Proveedor proveedor = dao.obtenerProveedorPorId(u.getFactura().getIdProveedor());
+                    nombreProveedor = proveedor.getNombre();
+                } catch (Exception ex) {
+                    Logger.getLogger(ControladorGestorPagosFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                model.addRow(new Object[]{u.getIdPagoFactura(), u.getFactura().getIdFactura(), nombreProveedor,
+                    u.getTipoPagoFactura(), u.getMontoPago(), u.getFechaPago()});
             });
             return model;
         } catch (Exception e) {
@@ -95,15 +105,23 @@ public class ControladorGestorPagosFacturas {
     }
     */
     
-    public DefaultTableModel buscarProductosInventario(JTable table, String name) {
+    public DefaultTableModel buscarProveedorPagosFacturas(JTable table, String name) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
         try {
-            dao.obtenerListaMovimientosBancarios(name).forEach((u) -> {
-                model.addRow(new Object[]{u.getIdMovimientoBancario(), u.getCuentaBancaria().getNombreBanco(), u.getTipoMovimiento(),
-                    u.getMontoMovimiento(), u.getFechaMovimiento()});
+            dao.obtenerListaPagosFacturas(name).forEach((u) -> {
+                String nombreProveedor = "Ninguno";
+                try {
+                    Proveedor proveedor = dao.obtenerProveedorPorId(u.getFactura().getIdProveedor());
+                    nombreProveedor = proveedor.getNombre();
+                } catch (Exception ex) {
+                    Logger.getLogger(ControladorGestorPagosFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                model.addRow(new Object[]{u.getIdPagoFactura(), u.getFactura().getIdFactura(), nombreProveedor,
+                    u.getTipoPagoFactura(), u.getMontoPago(), u.getFechaPago()});
             });
             return model;
         } catch (Exception e) {

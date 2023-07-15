@@ -45,6 +45,7 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
         pagarFacturasBtn = new javax.swing.JButton();
         expedienteProveedoresBtn = new javax.swing.JButton();
         movimientosBancariosBtn = new javax.swing.JButton();
+        historialPagosFacturasBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 0, 51));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -81,7 +82,7 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
                 cerrarSesionBtnActionPerformed(evt);
             }
         });
-        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 270, 60));
+        add(cerrarSesionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 270, 60));
 
         EstadoCuentasBtn.setBackground(new java.awt.Color(255, 0, 51));
         EstadoCuentasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -150,6 +151,23 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
             }
         });
         add(movimientosBancariosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 270, 60));
+
+        historialPagosFacturasBtn.setBackground(new java.awt.Color(255, 0, 51));
+        historialPagosFacturasBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        historialPagosFacturasBtn.setForeground(new java.awt.Color(255, 255, 255));
+        historialPagosFacturasBtn.setText("Historial Pagos de Facturas");
+        historialPagosFacturasBtn.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
+        historialPagosFacturasBtn.setBorderPainted(false);
+        historialPagosFacturasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        historialPagosFacturasBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        historialPagosFacturasBtn.setIconTextGap(13);
+        historialPagosFacturasBtn.setInheritsPopupMenu(true);
+        historialPagosFacturasBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                historialPagosFacturasBtnActionPerformed(evt);
+            }
+        });
+        add(historialPagosFacturasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 270, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void principalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_principalBtnActionPerformed
@@ -183,11 +201,17 @@ public class VentanaMenuTesorero extends javax.swing.JPanel {
         VentanaDashboard.ShowJPanelWindows(new VentanaGestorMovimientosBancarios(currentUser));
     }//GEN-LAST:event_movimientosBancariosBtnActionPerformed
 
+    private void historialPagosFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historialPagosFacturasBtnActionPerformed
+        // TODO add your handling code here:
+        VentanaDashboard.ShowJPanelWindows(new VentanaGestorPagosFacturas(currentUser));
+    }//GEN-LAST:event_historialPagosFacturasBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton EstadoCuentasBtn;
     private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton expedienteProveedoresBtn;
+    private javax.swing.JButton historialPagosFacturasBtn;
     private javax.swing.JButton movimientosBancariosBtn;
     private javax.swing.JButton pagarFacturasBtn;
     private javax.swing.JButton principalBtn;

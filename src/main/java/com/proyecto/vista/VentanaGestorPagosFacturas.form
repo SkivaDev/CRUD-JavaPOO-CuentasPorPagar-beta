@@ -83,7 +83,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="title">
           <Properties>
-            <Property name="text" type="java.lang.String" value="MOVIMIENTOS DE CUENTAS BANCARIAS"/>
+            <Property name="text" type="java.lang.String" value="HISTORIAL DE PAGOS DE FACTURAS"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="productSearchField">

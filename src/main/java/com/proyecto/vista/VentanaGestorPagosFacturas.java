@@ -6,6 +6,7 @@ package com.proyecto.vista;
 import com.proyecto.controladores.ControladorGestorInventario;
 import com.proyecto.controladores.ControladorGestorMovimientosBancarios;
 import com.proyecto.controladores.ControladorGestorMovimientosInventario;
+import com.proyecto.controladores.ControladorGestorPagosFacturas;
 import com.proyecto.controladores.ControladorGestorProveedores;
 import com.proyecto.controladores.ControladorGestorUsuarios;
 import com.proyecto.entidades.Usuario;
@@ -15,11 +16,11 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaGestorPagosFacturas extends javax.swing.JPanel {
 
     private Usuario currentUser;
-    private ControladorGestorMovimientosBancarios controladorGestorMovimientosBancarios;
+    private ControladorGestorPagosFacturas controladorGestorPagosFacturas;
     private DefaultTableModel modeloTabla;
 
     public VentanaGestorPagosFacturas(Usuario currentUser) {
-        this.controladorGestorMovimientosBancarios = new ControladorGestorMovimientosBancarios();
+        this.controladorGestorPagosFacturas = new ControladorGestorPagosFacturas();
         this.currentUser = currentUser;
         this.modeloTabla = new DefaultTableModel();
 
@@ -40,7 +41,7 @@ public class VentanaGestorPagosFacturas extends javax.swing.JPanel {
         modeloTabla.setRowCount(0);
         jTable1.setModel(modeloTabla);
 
-        modeloTabla = controladorGestorMovimientosBancarios.listarMovimientosInventario(jTable1);
+        modeloTabla = controladorGestorPagosFacturas.listarPagosFacturas(jTable1);
         jTable1.setModel(modeloTabla);
         
 
@@ -66,7 +67,7 @@ public class VentanaGestorPagosFacturas extends javax.swing.JPanel {
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("MOVIMIENTOS DE CUENTAS BANCARIAS");
+        title.setText("HISTORIAL DE PAGOS DE FACTURAS");
 
         searchButton.setBackground(new java.awt.Color(255, 0, 51));
         searchButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -163,7 +164,7 @@ public class VentanaGestorPagosFacturas extends javax.swing.JPanel {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         
-        modeloTabla = controladorGestorMovimientosBancarios.buscarProductosInventario(jTable1, productSearchField.getText());
+        modeloTabla = controladorGestorPagosFacturas.buscarProveedorPagosFacturas(jTable1, productSearchField.getText());
         jTable1.setModel(modeloTabla);
 
 

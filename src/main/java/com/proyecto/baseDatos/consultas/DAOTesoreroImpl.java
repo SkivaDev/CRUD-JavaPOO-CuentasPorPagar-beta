@@ -1342,7 +1342,7 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
                 Date fechaMovimiento = resultSet.getDate("fecha_movimiento");
 
                 CuentaBancaria cuentaBancaria = obtenerCuentaBancariaPorId(idCuentaBancaria);
-                
+
                 MovimientoBancario movimientoBancario = new MovimientoBancario(idMovimientoBancario, cuentaBancaria, tipoMovimiento, montoBancario, fechaMovimiento);
                 movimientosBancarios.add(movimientoBancario);
             }
@@ -1350,6 +1350,66 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
             return movimientosBancarios;
         } catch (SQLException e) {
             throw new SQLException("Error al obtener la lista de movimientos de inventario de la base de datos", e);
+        }
+    }
+
+    @Override
+    public List<PagoFactura> obtenerListaPagosFacturas(String supplierName) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = supplierName.isEmpty() ? "SELECT * FROM pagos_facturas" : "SELECT * FROM pagos_facturas WHERE id_factura IN ( SELECT id_factura FROM facturas WHERE id_proveedor IN ( SELECT id_proveedor FROM proveedores WHERE nombre LIKE '%" + supplierName + "%' ))";
+            //"SELECT * FROM pagos_facturas WHERE id_factura IN ( SELECT id_factura FROM facturas WHERE id_proveedor IN ( SELECT id_proveedor FROM proveedores WHERE nombre LIKE '%a%' ));"
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            ResultSet resultSet = statement.executeQuery();
+
+            List<PagoFactura> pagosFacturas = new ArrayList<>();
+            while (resultSet.next()) {
+                int idPagoFactura = resultSet.getInt("id_pago_factura");
+                int idFactura = resultSet.getInt("id_factura");
+                String tipoPago = resultSet.getString("tipo_pago");
+                int idSolicitud = resultSet.getInt("id_solicitud");
+                int idPagoProgramado = resultSet.getInt("id_pago_programado");
+                double montoPago = resultSet.getDouble("monto_pago");
+                Date fechaPago = resultSet.getDate("fecha_pago");
+
+                Factura factura = obtenerFacturaPorId(idFactura);
+                SolicitudPago solicitudPago = obtenerSolicitudPagoPorId(idSolicitud);
+                PagoProgramado pagoProgramado = obtenerPagoProgramadoPorId(idPagoProgramado);
+
+                PagoFactura pagoFactura = new PagoFactura(idPagoFactura, factura, tipoPago, solicitudPago, pagoProgramado, montoPago, fechaPago);
+
+                pagosFacturas.add(pagoFactura);
+            }
+
+            return pagosFacturas;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de movimientos de inventario de la base de datos", e);
+        }
+    }
+
+    @Override
+    public Proveedor obtenerProveedorPorId(int supplierId) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "SELECT * FROM proveedores WHERE id_proveedor = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setInt(1, supplierId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int idProveedor = resultSet.getInt("id_proveedor");
+                String nombre = resultSet.getString("nombre");
+                String direccion = resultSet.getString("direccion");
+                String telefono = resultSet.getString("telefono");
+                Double lineaCredito = resultSet.getDouble("linea_credito");
+
+                return new Proveedor(idProveedor, nombre, direccion, telefono, lineaCredito);
+            }
+
+            // Si no se encuentra el usuario, puedes lanzar una excepción o retornar null, según tu necesidad
+            throw new SQLException("No se encontró ningún proveedor con el ID proporcionado");
+        } catch (SQLException e) {
+            throw new SQLException("Error al consultar obtenerProveedorPorId la base de datos", e);
         }
     }
 
