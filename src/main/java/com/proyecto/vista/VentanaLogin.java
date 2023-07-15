@@ -6,8 +6,12 @@ package com.proyecto.vista;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import com.proyecto.controladores.ControladorLogin;
+import com.proyecto.cuentasporpagarbeta.Main;
+import java.awt.Image;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,8 +19,10 @@ import javax.swing.JOptionPane;
  * @author skiva
  */
 public class VentanaLogin extends javax.swing.JFrame {
+
     private ControladorLogin controladorLogin;
     private int intentosSesion;
+
     /**
      * Creates new form VentanaLogin
      */
@@ -32,9 +38,11 @@ public class VentanaLogin extends javax.swing.JFrame {
     private void InitStyles() {
         textLogin.putClientProperty("FlatLaf.style", "font: bold $h1.regular.font");
         usernameField.putClientProperty("JTextField.placeholderText", "Username");
-        //userSearchField.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
+        passwordField.putClientProperty("JTextField.placeholderText", "Password");
+
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,24 +55,24 @@ public class VentanaLogin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         textLogin = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
-        passwordField = new javax.swing.JTextField();
         btnSignUp = new javax.swing.JButton();
         recuperarContraseñaBtn = new javax.swing.JButton();
+        passwordField = new javax.swing.JPasswordField();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 600));
+        setPreferredSize(new java.awt.Dimension(700, 470));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(153, 0, 51));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         textLogin.setFont(new java.awt.Font("Trebuchet MS", 1, 36)); // NOI18N
-        textLogin.setForeground(new java.awt.Color(255, 255, 255));
+        textLogin.setForeground(new java.awt.Color(153, 0, 51));
         textLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        textLogin.setText("LOGIN");
+        textLogin.setText("INICIAR SESIÓN");
         textLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         usernameField.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
-        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         btnSignUp.setBackground(new java.awt.Color(255, 51, 51));
         btnSignUp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -83,49 +91,58 @@ public class VentanaLogin extends javax.swing.JFrame {
             }
         });
 
+        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                .addComponent(textLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(recuperarContraseñaBtn)
-                    .addComponent(usernameField)
-                    .addComponent(passwordField)
-                    .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usernameField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSignUp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                    .addComponent(passwordField))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(47, 47, 47)
                 .addComponent(textLogin)
-                .addGap(63, 63, 63)
-                .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(recuperarContraseñaBtn)
-                .addGap(43, 43, 43)
+                .addGap(40, 40, 40)
                 .addComponent(btnSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, -1));
+
+        jPanel2.setBackground(new java.awt.Color(153, 0, 51));
+        jPanel2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 470, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 300, 470));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -134,9 +151,9 @@ public class VentanaLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         String username = usernameField.getText();
         String password = passwordField.getText();
-        
+
         JOptionPane.showMessageDialog(null, "DATOS: " + username + " " + password);
-        
+
         // Validaciones para los campos
         if (username.isEmpty() || password.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -150,15 +167,15 @@ public class VentanaLogin extends javax.swing.JFrame {
             } catch (Exception ex) {
                 intentosSesion++;
                 JOptionPane.showMessageDialog(null, "No se encontró ningún usuario con las credenciales proporcionadas");
-                if(intentosSesion == 3) {
-                    JOptionPane.showMessageDialog(null, "Se ha superado el numero de intentos posibles" 
+                if (intentosSesion == 3) {
+                    JOptionPane.showMessageDialog(null, "Se ha superado el numero de intentos posibles"
                             + "\n" + "\nVuelve a intentar más tarde");
                     System.exit(0);
                 }
                 //Logger.getLogger(VentanaLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void recuperarContraseñaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recuperarContraseñaBtnActionPerformed
@@ -193,7 +210,7 @@ public class VentanaLogin extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VentanaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         FlatMaterialLighterIJTheme.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -204,11 +221,11 @@ public class VentanaLogin extends javax.swing.JFrame {
     }
 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSignUp;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField passwordField;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton recuperarContraseñaBtn;
     private javax.swing.JLabel textLogin;
     private javax.swing.JTextField usernameField;
