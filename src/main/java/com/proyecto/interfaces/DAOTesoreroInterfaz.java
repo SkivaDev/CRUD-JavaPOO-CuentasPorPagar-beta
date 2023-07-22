@@ -26,18 +26,8 @@ import java.util.List;
  * @author skiva
  */
 public interface DAOTesoreroInterfaz {
-    /*
-    public void registrarProveedor(Proveedor supplier) throws Exception;
-    
-    public void modificarProveedor(Proveedor supplier) throws Exception;
-    public void eliminarProveedor(int supplierId) throws Exception;
-    public List<Proveedor> obtenerListaProveedores(String name) throws Exception;
-    public Proveedor obtenerProveedorPorId(int supplierId) throws Exception;
-    public int buscarIdProveedorPorNombre(String nombreProveedor) throws Exception;
-   // public Users getUserById(int userId) throws Exception;
-    public boolean supplierNameEnUso(String supplierName) throws Exception;
-    //
-    */
+
+
     
    // public void registrarFactura(Factura invoice) throws Exception;
     //public void modificarFactura(Factura invoice) throws Exception;
@@ -45,14 +35,7 @@ public interface DAOTesoreroInterfaz {
       public List<Factura> obtenerListaFacturas(String name) throws Exception;
     //public List<Factura> obtenerListaFacturasPorIdProveedor(int supplierId) throws Exception;
       public Factura obtenerFacturaPorId(int invoiceId) throws Exception;
-    //
-   // public void registrarProducto(Producto product) throws Exception;
-   // public void modificarProducto(Producto product) throws Exception;
-   //public void eliminarProductosPorIdFactura(int idFactura) throws Exception;
-    //public List<Producto> obtenerListaProductosporFacturaId(int facturaId) throws Exception;
-    //public int obtenerUltimaFacturaRegistrada() throws Exception;
-   // public Users getUserById(int userId) throws Exception; 
-    //public boolean supplierNameEnUso(String supplierName) throws Exception;
+
     
       public List<Producto> obtenerListaProductosPorProveedorId(int supplierId) throws Exception;
       public List<Factura> obtenerListaFacturasPorProveedorId(int supplierId) throws Exception;
@@ -104,6 +87,8 @@ public interface DAOTesoreroInterfaz {
       public List<PagoFactura> obtenerListaPagosFacturas(String supplierName) throws Exception;
       public Proveedor obtenerProveedorPorId(int supplierId) throws Exception;
       
+      public double obtenerDeudaTotalPorProveedor(int idProveedor) throws Exception;
+      public List<PagoFactura> obtenerListaPagosFacturasPorIdProveedor (int supplierId) throws Exception;
     //EXTRAS
    public String buscarNombreProveedorPorFactura(int invoiceId) throws Exception;
     

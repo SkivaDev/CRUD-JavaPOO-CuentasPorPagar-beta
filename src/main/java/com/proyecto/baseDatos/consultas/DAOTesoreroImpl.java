@@ -1413,4 +1413,62 @@ public class DAOTesoreroImpl extends GestorBaseDatos implements DAOTesoreroInter
         }
     }
 
+    @Override
+    public double obtenerDeudaTotalPorProveedor(int idProveedor) throws Exception {
+        double deudaTotal = 0.0;
+
+        try {
+            this.Conectar();
+            String consulta = "SELECT SUM(monto_pendiente) AS deuda_total FROM facturas WHERE id_proveedor = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, idProveedor);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                deudaTotal = rs.getDouble("deuda_total");
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la deuda total del proveedor desde la base de datos", e);
+        } finally {
+            this.Cerrar();
+        }
+
+        return deudaTotal;
+    }
+
+    @Override
+    public List<PagoFactura> obtenerListaPagosFacturasPorIdProveedor(int supplierId) throws Exception {
+    try {
+        this.Conectar();
+        String consulta = "SELECT * FROM pagos_facturas WHERE id_factura IN (SELECT id_factura FROM facturas WHERE id_proveedor = ?)";
+        PreparedStatement statement = conexion.prepareStatement(consulta);
+        statement.setInt(1, supplierId);
+        ResultSet resultSet = statement.executeQuery();
+
+        List<PagoFactura> pagosFacturas = new ArrayList<>();
+        while (resultSet.next()) {
+            int idPagoFactura = resultSet.getInt("id_pago_factura");
+            int idFactura = resultSet.getInt("id_factura");
+            String tipoPago = resultSet.getString("tipo_pago");
+            int idSolicitud = resultSet.getInt("id_solicitud");
+            int idPagoProgramado = resultSet.getInt("id_pago_programado");
+            double montoPago = resultSet.getDouble("monto_pago");
+                Date fechaPago = resultSet.getDate("fecha_pago");
+
+                Factura factura = obtenerFacturaPorId(idFactura);
+                SolicitudPago solicitudPago = obtenerSolicitudPagoPorId(idSolicitud);
+                PagoProgramado pagoProgramado = obtenerPagoProgramadoPorId(idPagoProgramado);
+
+                PagoFactura pagoFactura = new PagoFactura(idPagoFactura, factura, tipoPago, solicitudPago, pagoProgramado, montoPago, fechaPago);
+
+                pagosFacturas.add(pagoFactura);
+            }
+
+            return pagosFacturas;
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener la lista de movimientos de inventario de la base de datos", e);
+        }
+    }
+
 }

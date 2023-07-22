@@ -30,11 +30,11 @@ public class ControladorDetalleExpedienteProveedor {
 
     public DefaultTableModel listarProductosProveedor(JTable table, int supplierId) {
         DefaultTableModel model = new DefaultTableModel();
-        
+
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
         table.setModel(model);
-        
+
         model.addColumn("IDProducto");
         model.addColumn("IDFactura");
         model.addColumn("Nombre");
@@ -54,9 +54,9 @@ public class ControladorDetalleExpedienteProveedor {
     }
 
     public DefaultTableModel listarFacturasPendientesProveedor(JTable table, int supplierId) {
-        
+
         DefaultTableModel model = new DefaultTableModel();
-        
+
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
         table.setModel(model);
@@ -90,5 +90,32 @@ public class ControladorDetalleExpedienteProveedor {
         return null;
     }
 
+    public DefaultTableModel listarHistorialPagosProveedor(JTable table, int supplierId) {
+        DefaultTableModel model = new DefaultTableModel();
 
+        // Limpiar el modelo de la tabla
+        model.setRowCount(0);
+        table.setModel(model);
+
+        model.addColumn("IDPago");
+        model.addColumn("IDFactura");
+        model.addColumn("Tipo de pago");
+        model.addColumn("Monto de pago");
+        model.addColumn("Fecha de pago");
+
+        try {
+            dao.obtenerListaPagosFacturasPorIdProveedor(supplierId).forEach((u) -> {
+                model.addRow(new Object[]{u.getIdPagoFactura(), u.getFactura().getIdFactura(),
+                    u.getTipoPagoFactura(), u.getMontoPago(), u.getFechaPago()});
+            });
+            return model;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public double obtenerDeudaTotalDeProveedor(int supplierId) throws Exception {
+        return dao.obtenerDeudaTotalPorProveedor(supplierId);
+    }
 }
