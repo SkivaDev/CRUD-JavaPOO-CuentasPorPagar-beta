@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -342,7 +343,13 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             statement.setInt(1, product.getIdFactura());
             statement.setString(2, product.getNombre());
             statement.setString(3, product.getDescripcion());
-            statement.setInt(4, product.getCategoriaProducto().getIdCategoriaProducto());
+            if (product.getCategoriaProducto() == null) {
+                // Si la categoría del producto es null, establece el valor de id_categoria_producto como null
+                statement.setNull(4, Types.INTEGER);
+            } else {
+                // Si la categoría no es null, establece el valor del id de la categoría
+                statement.setInt(4, product.getCategoriaProducto().getIdCategoriaProducto());
+            }
             statement.setInt(5, product.getCantidadTotal());
             statement.setInt(6, product.getCantidadIngresada());
             statement.setInt(7, product.getCantidadPendiente());
@@ -371,7 +378,13 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
             statement.setInt(1, product.getIdFactura());
             statement.setString(2, product.getNombre());
             statement.setString(3, product.getDescripcion());
-            statement.setInt(4, product.getCategoriaProducto().getIdCategoriaProducto());
+            if (product.getCategoriaProducto() == null) {
+                // Si la categoría del producto es null, establece el valor de id_categoria_producto como null
+                statement.setNull(4, Types.INTEGER);
+            } else {
+                // Si la categoría no es null, establece el valor del id de la categoría
+                statement.setInt(4, product.getCategoriaProducto().getIdCategoriaProducto());
+            }
             statement.setInt(5, product.getCantidadTotal());
             statement.setInt(6, product.getCantidadIngresada());
             statement.setInt(7, product.getCantidadPendiente());
@@ -398,6 +411,25 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
     }
 
     @Override
+    public void eliminarProductoPorId(int idProducto) throws Exception {
+        try {
+            this.Conectar();
+            String consulta = "DELETE FROM productos WHERE id_producto = ?";
+            PreparedStatement statement = this.conexion.prepareStatement(consulta);
+            statement.setInt(1, idProducto);
+            int filasEliminadas = statement.executeUpdate();
+
+            if (filasEliminadas == 0) {
+                throw new SQLException("El producto con el ID " + idProducto + " no fue encontrado en la base de datos");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al eliminar el producto de la base de datos", e);
+        } finally {
+            this.Cerrar();
+        }
+    }
+
+    @Override
     public List<Producto> obtenerListaProductosporFacturaId(int facturaId) throws Exception {
         try {
             this.Conectar();
@@ -419,7 +451,7 @@ public class DAOEncargadoComprasImpl extends GestorBaseDatos implements DAOEncar
                 double subtotal = resultSet.getDouble("subtotal");
 
                 CategoriaProducto categoriaProducto = obtenerCategoriaProductoPorId(idCategoriaProducto);
-                
+
                 Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, categoriaProducto, cantidadTotal, cantidadIngresada, cantidadPendiente, precioUnitario, subtotal);
                 productos.add(producto);
             }

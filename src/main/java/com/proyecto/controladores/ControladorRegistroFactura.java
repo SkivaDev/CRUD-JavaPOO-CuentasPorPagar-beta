@@ -49,16 +49,34 @@ public class ControladorRegistroFactura {
             System.out.println("Contrl RegisFacConProd Paso1.\nidProveedor :" + invoice.getIdProveedor() + "\nMontoTotal :" + invoice.getMontoTotal());
 
             dao.registrarFactura(invoice);
+            JOptionPane.showMessageDialog(null, "1) Se registro la factura: " + invoice);
 
             // Obtener la ID de la factura registrada
             int idFactura = dao.obtenerUltimaFacturaRegistrada();
+            JOptionPane.showMessageDialog(null, "2) IDFactura: " + idFactura);
 
             System.out.println("Contrl RegisFacConProd Paso2.\nUltima id Factura Recien registrada :" + idFactura);
 
             // Registrar los productos asociados a la factura
             for (Producto producto : productosTemporales) {
                 producto.setIdFactura(idFactura);
+                String message = "3) Lista, producto: ";
+                message += "\nIdFactura " + producto.getIdFactura();
+                message += "\nIdProducto " + producto.getIdProducto();
+                message += "\nNombre " + producto.getNombre();
+                message += "\nDes " + producto.getDescripcion();
+                message += "\n";
+                message += "\nIdCATEGORIA : " + (producto.getCategoriaProducto() != null ? producto.getCategoriaProducto().getIdCategoriaProducto() : "null carajo");
+                message += "\nCant Total " + producto.getCantidadTotal();
+                message += "\nCant Ingresada " + producto.getCantidadIngresada();
+                message += "\nCant Pendiente " + producto.getCantidadPendiente();
+                message += "\nPrecUnit " + producto.getPrecioUnitario();
+                message += "\nSub " + producto.getSubtotal();
+
+                JOptionPane.showMessageDialog(null, message);
+
                 dao.registrarProducto(producto);
+                JOptionPane.showMessageDialog(null, "3) Se registro el producto id: " + producto.getNombre());
             }
 
             System.out.println("Factura y productos registrados exitosamente.");
@@ -72,12 +90,15 @@ public class ControladorRegistroFactura {
             Double montoTotal, Double montoPagado, Double montoPendiente) throws Exception {
 
         try {
+
+            // Obtener la lista de productos asociados a la factura antes de modificarla
+            List<Producto> productosAnteriores = dao.obtenerListaProductosporFacturaId(idFactura);
+
             // Registrar la factura
             invoice = new Factura(idFactura, idProveedor, fechaRegistro, fechaVencimiento, descripcion, montoTotal, montoPagado, montoPendiente);
-            
+
             System.out.println("DATOS para ver: . \nIdFactura: " + invoice.getIdFactura() + "\nMontoTotal: " + invoice.getMontoTotal() + "\nMontoPendiente: " + invoice.getMontoPendiente());
-                    
-            
+
             dao.modificarFactura(invoice);
 
             // Registrar o editar los productos asociados a la factura
@@ -87,6 +108,20 @@ public class ControladorRegistroFactura {
                     dao.modificarProducto(producto);
                 } else {
                     dao.registrarProducto(producto);
+                }
+            }
+
+            // Eliminar los productos que ya no están en la lista productosTemporales
+            for (Producto productoAnterior : productosAnteriores) {
+                boolean encontrado = false;
+                for (Producto productoTemp : productosTemporales) {
+                    if (productoAnterior.getIdProducto() == productoTemp.getIdProducto()) {
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    dao.eliminarProductoPorId(productoAnterior.getIdProducto());
                 }
             }
 
@@ -173,6 +208,21 @@ public class ControladorRegistroFactura {
         double subtotal = (cantidadTotal * precioUnitario);
 
         Producto producto = new Producto(idProducto, idFactura, nombre, descripcion, null, cantidadTotal, 0, cantidadTotal, precioUnitario, subtotal);
+
+        String message = "newww, producto: ";
+        message += "\nIdFactura " + producto.getIdFactura();
+        message += "\nIdProducto " + producto.getIdProducto();
+        message += "\nNombre " + producto.getNombre();
+        message += "\nDes " + producto.getDescripcion();
+        message += "\nIdCatego " + producto.getCategoriaProducto() == null ? producto.getCategoriaProducto().getIdCategoriaProducto() : "null carajo";
+        message += "\nCant Total " + producto.getCantidadTotal();
+        message += "\nCant Ingresada " + producto.getCantidadIngresada();
+        message += "\nCant Pendiente " + producto.getCantidadPendiente();
+        message += "\nPrecUnit " + producto.getPrecioUnitario();
+        message += "\nSub " + producto.getSubtotal();
+
+        JOptionPane.showMessageDialog(null, message);
+
         productosTemporales.add(producto);
 
     }

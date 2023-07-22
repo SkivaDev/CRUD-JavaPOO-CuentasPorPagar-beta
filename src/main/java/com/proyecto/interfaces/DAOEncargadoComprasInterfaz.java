@@ -38,6 +38,7 @@ public interface DAOEncargadoComprasInterfaz {
     public void eliminarProductosPorIdFactura(int idFactura) throws Exception;
     public List<Producto> obtenerListaProductosporFacturaId(int facturaId) throws Exception;
     public int obtenerUltimaFacturaRegistrada() throws Exception;
+    public void eliminarProductoPorId(int idProducto) throws Exception;
    // public Users getUserById(int userId) throws Exception; 
     //public boolean supplierNameEnUso(String supplierName) throws Exception;
     

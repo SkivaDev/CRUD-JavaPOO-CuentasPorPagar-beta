@@ -10,6 +10,7 @@ import com.proyecto.entidades.Usuario;
 import java.awt.Color;
 import java.util.logging.Level;// VentanaGestorExpedienteProveedores
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaGestorFacturas extends javax.swing.JPanel {
@@ -223,10 +224,9 @@ public class VentanaGestorFacturas extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-        modeloTabla = controladorGestorFacturas.eliminarFacturas(jTable1);
-        jTable1.setModel(modeloTabla);
-
- 
+        //modeloTabla = controladorGestorFacturas.eliminarFacturas(jTable1);
+       // jTable1.setModel(modeloTabla);
+        JOptionPane.showMessageDialog(null, "No se puede eliminar facturas porque afectaria los datos de otros requerimientos");
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed

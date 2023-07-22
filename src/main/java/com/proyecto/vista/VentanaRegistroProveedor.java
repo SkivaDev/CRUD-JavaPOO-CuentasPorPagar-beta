@@ -201,13 +201,28 @@ public class VentanaRegistroProveedor extends javax.swing.JPanel {
 
         // Validaciones para los campos
         if (nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || lineaCredito.isEmpty()) {
-            
+
             javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             nameField.requestFocus();
-            
+
         } else if (!isEdition) { // codigo donde se agrega
-            
+
             try {
+
+                //VALIDACION: Nro. Telefono debe tener 9 digitos y solo debe comenzar por el 9
+                if (!controladorRegistroProveedor.validarNumeroTelefono(telefono)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, " Nro. Telefono debe tener 9 digitos y solo debe comenzar por el 9.\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    phoneField.requestFocus();
+                    return;
+                }
+
+                //VALIDAR: la linea credito no debe ser mayor a 25000
+                double lineaCreditoDouble = Double.parseDouble(lineaCredito);
+                if (lineaCreditoDouble > 25000) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "La linea de credito no debe ser mayor a 25000. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    nameField.requestFocus();
+                    return;
+                }
 
                 boolean confirmarDatosProveedores = controladorRegistroProveedor.confirmarDatosProveedor(nombre, direccion, telefono, Double.valueOf(lineaCredito));
                 if (confirmarDatosProveedores) {
@@ -221,10 +236,10 @@ public class VentanaRegistroProveedor extends javax.swing.JPanel {
             }
 
         } else { // codigo donde se edita
-            
+
             try {
                 int idProveedor = supplierEdition.getIdProveedor();
-                
+
                 boolean confirmarDatosProveedores = controladorRegistroProveedor.confirmarDatosProveedor(nombre, direccion, telefono, Double.valueOf(lineaCredito));
 
                 if (confirmarDatosProveedores) {
@@ -238,7 +253,7 @@ public class VentanaRegistroProveedor extends javax.swing.JPanel {
             } catch (Exception ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el proveedor. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
-            
+
         }
 
     }//GEN-LAST:event_registerButtonActionPerformed

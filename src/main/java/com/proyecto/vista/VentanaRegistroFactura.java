@@ -85,6 +85,7 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
             title.setText("Editar Factura");
             registrarFacturaBtn.setText("Guardar");
             fechaRegistroField.setEditable(true);
+            proveedorCBox.setEnabled(false);
 
             if (invoiceEdition != null) {
                 controladorRegistroFactura.agregarProductosArrayProductos(productosTemporales, invoiceEdition.getIdFactura());
@@ -477,8 +478,13 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
                 if (confirmarDatosFactura) {
                     JOptionPane.showMessageDialog(null, "ES EL ID PROVEEDOR: " + idProveedorSelecionado);
 
-                    controladorRegistroFactura.registrarFacturaConProductos(productosTemporales, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
-                            descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
+                    try {
+                        controladorRegistroFactura.registrarFacturaConProductos(productosTemporales, idProveedorSelecionado, fechaRegistroDate, fechaVencimientoDate,
+                                descripcion, Double.valueOf(montoTotal), Double.valueOf(montoPagado), Double.valueOf(montoPendiente));
+                    } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                        System.out.println(e.getMessage());
+                    }
                 } else {
                     return;
                 }
@@ -624,7 +630,6 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
         isProducEdition = true;
         agregarProdBtn.setText("EDITAR PRODUCTO");
 
-
         if (productosTable.getSelectedRow() > -1) {
             try {
                 String nombreProducto = (String) productosTable.getValueAt(productosTable.getSelectedRow(), 2); // Asumiendo que el nombre del producto está en la columna 2
@@ -647,7 +652,6 @@ public class VentanaRegistroFactura extends javax.swing.JPanel {
 
     private void borrarProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarProdBtnActionPerformed
         // TODO add your handling code here:
-
 
         if (productosTable.getSelectedRows().length < 1) {
             javax.swing.JOptionPane.showMessageDialog(null, "Debes seleccionar uno o más productos a eliminar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);

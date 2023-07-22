@@ -268,7 +268,22 @@ public class ControladorRegistroSolicitudPago {
         }
         return 0;
     }
-
+    
+    public int cantidadTotalDispinibleProducto2 (int idProducto, String categoriaProducto) {
+        try {
+            List<Producto> productosFiltrados = dao.obtenerListaProductosDisponiblesInventarioPorNombreCategoria(categoriaProducto);
+            for (Producto producto : productosFiltrados) {
+                if (producto.getIdProducto() == idProducto) {
+                    Inventario inventario = dao.obtenerInventarioPorIdProducto(producto.getIdProducto());
+                    return inventario.getCantidadProducto();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
     public boolean confirmarDatosSolicitudPagoPorCheque(String idFactura, String proveedor, String fechaRegistro,
             String fechaVencimiento, String montoTotal, String montoPagado, String montoPendiente,
             String cuentaBancaria, String saldoCuenta, String montoPagar) {

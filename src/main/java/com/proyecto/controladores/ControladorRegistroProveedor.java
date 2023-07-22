@@ -44,7 +44,26 @@ public class ControladorRegistroProveedor {
         
     }
 
+    public boolean validarNumeroTelefono(String numeroTelefono) {
+        if (numeroTelefono.length() != 9) {
+            return false;
+        }
 
+        char primerDigito = numeroTelefono.charAt(0);
+        if (primerDigito != '9') {
+            return false;
+        }
+
+        // Verificar si todos los caracteres restantes son dígitos
+        for (int i = 1; i < 9; i++) {
+            char digito = numeroTelefono.charAt(i);
+            if (!Character.isDigit(digito)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
     public boolean confirmarDatosProveedor(String nombre, String direccion, String telefono, Double lineaCredito) {
         String message;
         String title = "Confirmación";

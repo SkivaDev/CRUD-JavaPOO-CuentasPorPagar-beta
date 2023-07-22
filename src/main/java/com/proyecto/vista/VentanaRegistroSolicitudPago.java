@@ -516,22 +516,23 @@ public class VentanaRegistroSolicitudPago extends javax.swing.JPanel {
                 int intCantidadProductosSeleccionado = Integer.parseInt(cantidadProductosSeleccionado);
                 if (intCantidadProductosSeleccionado <= 0) {
                     javax.swing.JOptionPane.showMessageDialog(this, "La cantidad registrada debe ser mayor a 0. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-                    montoChequeField.requestFocus();
+                    cantidadProductosField.requestFocus();
                     return;
                 }
 
                 //VALIDACION: la cantidad de productos selecionado tiene que ser menor a la cantidad disponible en inventario
                 if (productoSeleccionado == null) {
                     javax.swing.JOptionPane.showMessageDialog(this, "Debe selecionar un producto valido. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-                    montoChequeField.requestFocus();
+                    productoCBox.requestFocus();
                     return;
                 }
 
                 //VALIDACION: la cantidad de productos selecionado tiene que ser menor a la cantidad disponible en inventario
-                int cantidadDispinibleProducto = controladorRegistroSolicitudPago.cantidadTotalDispinibleProducto(productoSeleccionado.getNombre(), categoriaProductoSeleccionado);
-                if (cantidadDispinibleProducto <= intCantidadProductosSeleccionado) {
+                //int cantidadDispinibleProducto = controladorRegistroSolicitudPago.cantidadTotalDispinibleProducto(productoSeleccionado.getNombre(), categoriaProductoSeleccionado);
+                int cantidadDispinibleProducto = controladorRegistroSolicitudPago.cantidadTotalDispinibleProducto2(productoSeleccionado.getIdProducto(), categoriaProductoSeleccionado);
+                if (cantidadDispinibleProducto < intCantidadProductosSeleccionado) {
                     javax.swing.JOptionPane.showMessageDialog(this, "La cantidad registrada supera al cantidad en inventario. \n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
-                    montoChequeField.requestFocus();
+                    cantidadProductosField.requestFocus();
                     return;
                 }
 
